@@ -33,6 +33,7 @@
 
   function go(tab) {
     runCleanups();
+    view.classList.remove('wide');
     currentTab = tab;
     setActiveTab(tab);
     const t = TABS[tab];
@@ -50,6 +51,7 @@
   function open(mod, id) {
     if (!MODULES[mod]) return;
     runCleanups();
+    view.classList.toggle('wide', mod === 'reading' || mod === 'listening');
     view.scrollTop = 0; window.scrollTo(0, 0);
     if (MOD_TITLES[mod]) tbTitle.textContent = MOD_TITLES[mod];
     view.innerHTML = '';

@@ -35,7 +35,11 @@
         <div class="faint mt8" id="lc"></div>
       </div>
     `);
-    wrap.appendChild(player);
+    // 双栏:左=播放器+原文,右=题目(宽屏同屏)
+    const split = el('<div class="split-layout"></div>');
+    const left = el('<div class="col-left"></div>');
+    left.appendChild(el('<div class="col-head">🎧 听力</div>'));
+    left.appendChild(player);
 
     // 原文(遮挡)
     const transWrap = el(`
@@ -48,12 +52,15 @@
     (l.lines || []).forEach(ln => {
       trans.appendChild(el(`<div class="script-line"><span class="spk">${esc(ln.speaker || '')}:</span> ${esc(ln.text)}</div>`));
     });
-    wrap.appendChild(transWrap);
+    left.appendChild(transWrap);
 
-    // 题目
-    wrap.appendChild(el(`<div class="section-title">题目 (${(l.questions || []).length})</div>`));
+    const right = el('<div class="col-right"></div>');
+    right.appendChild(el(`<div class="col-head">✍️ 题目 (${(l.questions || []).length})</div>`));
     const qbox = el('<div class="card"></div>');
-    wrap.appendChild(qbox);
+    right.appendChild(qbox);
+
+    split.appendChild(left); split.appendChild(right);
+    wrap.appendChild(split);
     view.appendChild(wrap);
 
     // 事件

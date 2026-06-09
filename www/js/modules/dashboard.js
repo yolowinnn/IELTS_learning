@@ -99,7 +99,7 @@
         <circle cx="52" cy="52" r="${r}" fill="none" stroke="url(#g)" stroke-width="9" stroke-linecap="round"
           stroke-dasharray="${c}" stroke-dashoffset="${off}"/>
         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#67e8f9"/><stop offset="1" stop-color="#a5b4fc"/>
+          <stop offset="0" stop-color="#d1fae5"/><stop offset="1" stop-color="#ffffff"/>
         </linearGradient></defs>
       </svg>
       <div class="ring-tx"><b>${pct}%</b><small>${label || '总进度'}</small></div>`;

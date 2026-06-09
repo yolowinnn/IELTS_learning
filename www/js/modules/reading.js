@@ -14,17 +14,23 @@
       </div>
     `));
 
-    // 文章
+    // 双栏:左文章 / 右题目(宽屏同屏,窄屏堆叠)
+    const split = el('<div class="split-layout"></div>');
+    const left = el('<div class="col-left"></div>');
+    left.appendChild(el('<div class="col-head">📖 阅读文章</div>'));
     const passage = el('<div class="card passage"></div>');
     (r.paras || []).forEach((p, i) => {
       passage.appendChild(el(`<p><span class="para-label">${String.fromCharCode(65 + i)}</span>${esc(p)}</p>`));
     });
-    wrap.appendChild(passage);
+    left.appendChild(passage);
 
-    // 题目
-    wrap.appendChild(el(`<div class="section-title">题目 (${(r.questions || []).length})</div>`));
+    const right = el('<div class="col-right"></div>');
+    right.appendChild(el(`<div class="col-head">✍️ 题目 (${(r.questions || []).length})</div>`));
     const qbox = el('<div class="card"></div>');
-    wrap.appendChild(qbox);
+    right.appendChild(qbox);
+
+    split.appendChild(left); split.appendChild(right);
+    wrap.appendChild(split);
     view.appendChild(wrap);
 
     Quiz.render(qbox, r.questions || [], {
