@@ -81,7 +81,7 @@
       const pushBtn = el('<button class="btn ghost sm" style="flex:1">立即同步</button>');
       const outBtn = el('<button class="btn ghost sm" style="flex:1">退出登录</button>');
       pushBtn.onclick = async () => { await Sync.pushNow(); Toast('已上传 ✅'); };
-      outBtn.onclick = () => Sync.signOut();
+      outBtn.onclick = () => { Store.remove('guestMode'); Sync.signOut(); };
       btns.appendChild(pushBtn); btns.appendChild(outBtn); c.appendChild(btns);
       const pill = c.querySelector('#syncPill');
       Sync.onStatus(s => { if (!pill || !pill.isConnected) return; const m = { syncing: ['同步中…', 'warn'], synced: ['已同步', 'good'], 'signed-in': ['已登录', 'good'], error: ['同步出错', 'warn'], local: ['本地', ''] }; const v = m[s] || [s, '']; pill.textContent = v[0]; pill.className = 'pill ' + (v[1] || ''); });

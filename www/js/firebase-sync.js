@@ -8,8 +8,10 @@
     'dailyNew', 'ttsRate', 'ttsVoice', 'autoSpeak', 'celebratedDate'];
   const SDK = '10.12.2';
   let app = null, auth = null, db = null, user = null;
-  let ready = false, pushTimer = null;
-  const authCbs = [], statusCbs = [];
+  let ready = false, pushTimer = null, authReady = false;
+  const authCbs = [], statusCbs = [], readyCbs = [];
+  function onReady(fn) { if (authReady) { try { fn(); } catch (e) {} } else readyCbs.push(fn); }
+  function fireReady() { if (authReady) return; authReady = true; readyCbs.forEach(fn => { try { fn(); } catch (e) {} }); readyCbs.length = 0; }
   let status = 'local'; // local | connecting | signed-in | syncing | synced | error
 
   function configured() { const c = window.FIREBASE_CONFIG || {}; return !!(c.apiKey && c.projectId); }
@@ -31,7 +33,7 @@
   }
 
   async function init() {
-    if (!configured()) { setStatus('local'); return; }
+    if (!configured()) { setStatus('local'); fireReady(); return; }
     setStatus('connecting');
     try {
       const ok = await loadSDK();
@@ -42,12 +44,13 @@
       ready = true;
       auth.onAuthStateChanged(async (u) => {
         user = u; authCbs.forEach(fn => { try { fn(u); } catch (e) {} });
-        if (u) { setStatus('signed-in'); await pullMergePush(u.uid); registerLocalHook(); }
+        fireReady();
+        if (u) { setStatus('signed-in'); registerLocalHook(); await pullMergePush(u.uid); }
         else setStatus('local');
       });
       // 切回前台拉取最新
       document.addEventListener('visibilitychange', () => { if (!document.hidden && user) pull(user.uid); });
-    } catch (e) { console.warn('Firebase init failed, 仅本地', e); setStatus('error'); }
+    } catch (e) { console.warn('Firebase init failed, 仅本地', e); setStatus('error'); fireReady(); }
   }
 
   async function signIn() {
@@ -136,5 +139,5 @@
   function mergeByDate(a, b) { a = a || {}; b = b || {}; const o = {}; new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => { const x = a[k], y = b[k]; if (!x) o[k] = y; else if (!y) o[k] = x; else o[k] = ((y.date || '') > (x.date || '')) ? y : x; }); return o; }
   function mergeMax(a, b) { a = a || {}; b = b || {}; const o = {}; new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => { o[k] = Math.max(a[k] || 0, b[k] || 0); }); return o; }
 
-  window.Sync = { init, signIn, signOut, onAuth, onStatus, currentUser, configured, pushNow, get status() { return status; } };
+  window.Sync = { init, signIn, signOut, onAuth, onStatus, onReady, currentUser, configured, pushNow, get status() { return status; }, get authReady() { return authReady; } };
 })();

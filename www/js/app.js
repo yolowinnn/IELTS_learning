@@ -118,8 +118,27 @@
   // 启动
   Store.startDate();          // 确保起始日已设
   Store.Streak.recompute();
-  go('today');
 
-  // 云同步(已配置 Firebase 则启用,否则仅本地)
-  if (window.Sync) Sync.init();
+  // 登录门禁:已登录 / 游客 / 未配置云 → 进 App;否则显示登录封面
+  function enterApp() { if (window.Cover) Cover.hide(); go('today'); }
+  function gate() {
+    const signedIn = window.Sync && Sync.currentUser && Sync.currentUser();
+    const guest = Store.get('guestMode', false);
+    const noCloud = !window.Sync || !Sync.configured();
+    if (signedIn || guest || noCloud) enterApp();
+    else if (window.Cover) Cover.render();
+    else enterApp();
+  }
+  window.App.enterApp = enterApp;
+  window.App.gate = gate;
+
+  if (window.Sync && Sync.configured()) {
+    Sync.init();
+    if (Sync.authReady) gate();
+    else { if (window.Cover) Cover.splash(); Sync.onReady(gate); setTimeout(() => { if (!Sync.authReady) gate(); }, 6000); }
+    Sync.onAuth(() => { if (Sync.authReady) gate(); });
+  } else {
+    if (window.Sync) Sync.init();
+    gate();
+  }
 })();
