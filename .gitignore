@@ -1,0 +1,26 @@
+# 依赖
+node_modules/
+
+# Vercel
+.vercel/
+www/.vercel/
+
+# Android 构建产物(保留源码,排除生成物)
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/captures/
+android/.idea/
+android/app/release/
+*.iml
+*.hprof
+
+# 构建出来的安装包(可由 build_apk.sh 重新生成)
+*.apk
+
+# 系统/临时
+.DS_Store
+*.log
+.idea/
+.vscode/
