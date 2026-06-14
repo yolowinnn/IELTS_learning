@@ -18,8 +18,8 @@
     const gp = s.gemini_prompt || defaultGeminiPrompt(s);
     const gcard = el(`
       <div class="card" style="background:linear-gradient(135deg,#1e293b,#164e3b);border-color:#10b981">
-        <div class="card-title mb8">🤖 和 Gemini 对练(推荐)</div>
-        <div class="faint mb8">点下面按钮,自动复制"考官提示词"并打开 Gemini。在 Gemini 里粘贴发送,它就会当你的雅思口语考官。建议用 Gemini 的语音/Live 模式。</div>
+        <div class="card-title mb8">🔗 或:跳转 Gemini App 对练(备用)</div>
+        <div class="faint mb8">没有麦克风/想用手机 Gemini 时:点按钮复制"考官提示词"并打开 Gemini,粘贴发送即可。</div>
         <div class="row" style="gap:8px">
           <button class="btn good" id="gemini" style="flex:1">复制提示词并打开 Gemini</button>
           <button class="btn ghost" id="copyOnly">仅复制</button>
@@ -27,6 +27,7 @@
         <details class="mt8"><summary class="faint">查看提示词</summary><div class="phrase mt8">${esc(gp)}</div></details>
       </div>
     `);
+    wrap.appendChild(liveCard(s));
     wrap.appendChild(gcard);
 
     // Part 1
@@ -107,6 +108,71 @@
       Store.update('scores', {}, mp => { (mp.speaking = mp.speaking || []).push({ id: s.id, date: Store.todayStr() }); return mp; });
       App.refreshStreak(); Toast('口语完成 ✅'); App.go('today');
     };
+  }
+
+  // 实时 AI 对练:语音识别 → /api/gemini(Vertex Gemini 考官)→ 朗读
+  function liveCard(s) {
+    const topic = s.topic || s.title || '';
+    const conv = [];
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const card = el(`
+      <div class="card" style="background:linear-gradient(135deg,#064e3b,#065f46);border:1px solid #34d399;color:#eafff5">
+        <div class="card-title mb8" style="color:#fff">🎙️ 实时 AI 对练 · Gemini 考官</div>
+        <div class="faint" style="color:#a7f3d0">点「开始」考官用英语提问 → 点麦克风说出回答 → 它实时追问。想要评分就点"结束并评分"。</div>
+        <div id="liveLog" class="live-log"></div>
+        <div class="row mt12" style="gap:8px">
+          <button class="btn good" id="liveStart" style="flex:1">▶ 开始对话</button>
+          <button class="btn" id="liveMic" style="flex:1;display:none">🎤 点击说话</button>
+          <button class="btn ghost" id="liveFb" style="display:none">结束并评分</button>
+        </div>
+        <div class="faint mt8" id="liveStatus" style="color:#a7f3d0"></div>
+      </div>
+    `);
+    const logEl = card.querySelector('#liveLog');
+    const startBtn = card.querySelector('#liveStart');
+    const micBtn = card.querySelector('#liveMic');
+    const fbBtn = card.querySelector('#liveFb');
+    const setStatus = (t) => { card.querySelector('#liveStatus').textContent = t || ''; };
+    const addLog = (who, text, me) => { logEl.appendChild(el(`<div class="lv-msg ${me ? 'lv-me' : 'lv-ex'}"><b>${esc(who)}</b>${esc(text)}</div>`)); logEl.scrollTop = logEl.scrollHeight; };
+
+    let busy = false;
+    async function ask() {
+      if (busy) return; busy = true; micBtn.disabled = true; setStatus('考官思考中…');
+      try {
+        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic, messages: conv }) });
+        const j = await r.json();
+        if (r.ok && j.text) { conv.push({ role: 'assistant', text: j.text }); addLog('考官', j.text, false); setStatus('🔊 朗读中…'); speakReply(j.text, () => setStatus('轮到你 — 点麦克风回答')); }
+        else { setStatus('出错:' + (j.error || j.detail || r.status) + ' · 可用下方跳转 Gemini'); }
+      } catch (e) { setStatus('网络错误:' + e.message); }
+      busy = false; micBtn.disabled = false;
+    }
+    function speakReply(text, done) {
+      try {
+        if (window.TTS && TTS.supported) { TTS.cancel(); TTS.speak(text, { voice: TTS.pickVoice('en-GB'), rate: 1.0 }).then(done); }
+        else done && done();
+      } catch (e) { done && done(); }
+    }
+    startBtn.onclick = () => {
+      startBtn.style.display = 'none'; micBtn.style.display = ''; fbBtn.style.display = '';
+      addLog('提示', '雅思口语模拟开始,考官将先提问。', true);
+      ask();
+    };
+    fbBtn.onclick = () => { if (busy) return; conv.push({ role: 'user', text: 'Please end the test now and give me my IELTS band scores (Fluency, Lexical, Grammar, Pronunciation) and 3 specific tips.' }); addLog('你', '(请求评分)', true); ask(); };
+    if (!SR) {
+      startBtn.onclick = () => setStatus('此浏览器不支持语音识别,请用 Chrome;或用下方"跳转 Gemini App"。');
+    } else {
+      micBtn.onclick = () => {
+        if (busy) return;
+        const rec = new SR(); rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
+        setStatus('🎤 请用英语说…'); micBtn.classList.add('rec');
+        rec.onresult = (e) => { const t = e.results[0][0].transcript; conv.push({ role: 'user', text: t }); addLog('你', t, true); ask(); };
+        rec.onerror = (e) => { setStatus('没听清(' + e.error + '),再点一次'); micBtn.classList.remove('rec'); };
+        rec.onend = () => micBtn.classList.remove('rec');
+        try { rec.start(); } catch (e) { setStatus('麦克风启动失败,再试'); }
+      };
+    }
+    if (window.App && App.onLeave) App.onLeave(() => { try { if (window.TTS) TTS.cancel(); } catch (e) {} });
+    return card;
   }
 
   function section(title, lines) {

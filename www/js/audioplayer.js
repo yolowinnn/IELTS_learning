@@ -41,20 +41,22 @@
         if (!seqActive) break;
         opts.onIndex && opts.onIndex(i + 1, n);
         const a = new Audio('audio/listening/' + id + '/' + i + '.mp3'); cur = a; a.playbackRate = opts.rate || 1.0;
+        if (opts.onProgress) a.ontimeupdate = () => { const frac = a.duration ? (i + a.currentTime / a.duration) / n : i / n; opts.onProgress(Math.min(1, frac)); };
         const ok = await new Promise(r => { a.onended = () => r(true); a.onerror = () => r(false); a.play().catch(() => r(false)); });
         if (!ok && window.TTS) await TTS.speak(((l.lines || [])[i] || {}).text || '', { rate: opts.rate });
+        opts.onProgress && opts.onProgress((i + 1) / n);
         if (!seqActive) break;
         await new Promise(r => setTimeout(r, 260));
       }
-      seqActive = false; opts.onEnd && opts.onEnd(); return;
+      seqActive = false; opts.onProgress && opts.onProgress(1); opts.onEnd && opts.onEnd(); return;
     }
     // 无内置音频 → 全退回 TTS
     if (window.TTS) {
       TTS.startSeq();
       let k = 0; const total = (l.lines || []).length;
-      for (const ln of (l.lines || [])) { if (!seqActive) break; opts.onIndex && opts.onIndex(++k, total); await TTS.speak(ln.text, { rate: opts.rate }); await new Promise(r => setTimeout(r, 220)); }
+      for (const ln of (l.lines || [])) { if (!seqActive) break; opts.onIndex && opts.onIndex(++k, total); await TTS.speak(ln.text, { rate: opts.rate }); opts.onProgress && opts.onProgress(k / total); await new Promise(r => setTimeout(r, 220)); }
     }
-    seqActive = false; opts.onEnd && opts.onEnd();
+    seqActive = false; opts.onProgress && opts.onProgress(1); opts.onEnd && opts.onEnd();
   }
 
   function isPlaying() { return seqActive || (cur && !cur.paused); }

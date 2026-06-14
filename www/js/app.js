@@ -21,6 +21,7 @@
   };
 
   let currentTab = 'today';
+  let inSubView = false;   // 是否在子页面(阅读/听力/写作/口语详情)
 
   // 页面离开时的清理(定时器、录音等),防止泄漏
   let cleanups = [];
@@ -33,6 +34,7 @@
 
   function go(tab) {
     runCleanups();
+    inSubView = false;
     view.classList.remove('wide');
     currentTab = tab;
     setActiveTab(tab);
@@ -51,6 +53,7 @@
   function open(mod, id) {
     if (!MODULES[mod]) return;
     runCleanups();
+    inSubView = true;
     view.classList.toggle('wide', mod === 'reading' || mod === 'listening');
     view.scrollTop = 0; window.scrollTo(0, 0);
     if (MOD_TITLES[mod]) tbTitle.textContent = MOD_TITLES[mod];
@@ -100,7 +103,7 @@
     setTimeout(() => { if (box) box.innerHTML = ''; }, 3400);
   }
 
-  window.App = { go, open, back, refreshStreak, el, onLeave: registerCleanup, currentTab: () => currentTab };
+  window.App = { go, open, back, refreshStreak, el, onLeave: registerCleanup, currentTab: () => currentTab, isSubView: () => inSubView };
   window.Toast = toast;
   window.Celebrate = celebrate;
   window.el = el;

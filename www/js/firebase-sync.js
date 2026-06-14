@@ -111,7 +111,14 @@
   }
 
   function parse(d) { try { return d && d.json ? JSON.parse(d.json) : (d || {}); } catch (e) { return {}; } }
-  function refreshUI() { try { if (window.App && App.currentTab) App.go(App.currentTab()); } catch (e) {} }
+  function refreshUI() {
+    try {
+      if (!window.App) return;
+      App.refreshStreak && App.refreshStreak();
+      // 仅当安全地停在今日页(非子页面)时才刷新,避免把用户从听力/单词等弹回首页
+      if (App.currentTab && App.currentTab() === 'today' && (!App.isSubView || !App.isSubView())) App.go('today');
+    } catch (e) {}
+  }
 
   // ---------- 合并逻辑(跨设备安全) ----------
   function mergeData(a, b) {

@@ -32,7 +32,8 @@
             </select>
           </label>
         </div>
-        <div class="faint mt8" id="lc"></div>
+        <div class="bar mt16" style="height:8px"><i id="pbar" style="width:0%"></i></div>
+        <div class="faint mt8" id="lc">点播放开始听</div>
       </div>
     `);
     // 双栏:左=播放器+原文,右=题目(宽屏同屏)
@@ -66,21 +67,23 @@
     // 事件
     const playBtn = wrap.querySelector('#play');
     const lc = wrap.querySelector('#lc');
+    const pbar = wrap.querySelector('#pbar');
     const rateSel = wrap.querySelector('#rate'); rateSel.value = String(rate);
     rateSel.onchange = () => Store.set('ttsRate', parseFloat(rateSel.value));
 
     const setBtn = (icon, label) => { playBtn.innerHTML = icon + '<small style="font-size:12px;font-weight:600">' + label + '</small>'; };
     function play() {
-      if (playing) { AudioFX.stop(); playing = false; setBtn('▶', '播放'); lc.textContent = ''; return; }
-      playing = true; setBtn('⏸', '停止');
+      if (playing) { AudioFX.stop(); playing = false; setBtn('▶', '播放'); lc.textContent = '已暂停'; return; }
+      playing = true; setBtn('⏸', '停止'); pbar.style.width = '0%';
       AudioFX.playListening(l, {
         rate: parseFloat(rateSel.value),
-        onIndex: (i, n) => { lc.textContent = `播放中 ${i}/${n}`; },
-        onEnd: () => { playing = false; setBtn('▶', '重播'); if ((lc.textContent || '').indexOf('播放中') === 0) lc.textContent = '播放完毕'; }
+        onIndex: (i, n) => { lc.textContent = `播放中 ${i}/${n} 句`; },
+        onProgress: (f) => { pbar.style.width = Math.round(f * 100) + '%'; },
+        onEnd: () => { playing = false; setBtn('▶', '重播'); pbar.style.width = '100%'; if ((lc.textContent || '').indexOf('播放中') === 0) lc.textContent = '播放完毕 ✓'; }
       });
     }
     playBtn.onclick = play;
-    wrap.querySelector('#replay').onclick = () => { AudioFX.stop(); playing = false; play(); };
+    wrap.querySelector('#replay').onclick = () => { AudioFX.stop(); playing = false; pbar.style.width = '0%'; play(); };
     wrap.querySelector('#toggleT').onclick = (e) => {
       trans.classList.toggle('hidden');
       e.target.textContent = trans.classList.contains('hidden') ? '显示原文' : '隐藏原文';
