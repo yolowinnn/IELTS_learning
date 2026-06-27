@@ -53,11 +53,22 @@
     } catch (e) { console.warn('Firebase init failed, 仅本地', e); setStatus('error'); fireReady(); }
   }
 
+  let signingIn = false;
   async function signIn() {
+    if (signingIn) return;            // 防连点导致 cancelled-popup-request
     if (!ready) { await init(); }
     if (!auth) { Toast && Toast('云同步未配置'); return; }
-    try { const provider = new firebase.auth.GoogleAuthProvider(); await auth.signInWithPopup(provider); }
-    catch (e) { console.warn(e); Toast && Toast('登录失败:' + (e.code || e.message)); }
+    signingIn = true;
+    try {
+      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    } catch (e) {
+      const code = e.code || e.message || '';
+      // 弹窗被拦/被打断 → 退回重定向方式(更稳,自动化/移动端友好)
+      if (/popup|cancelled-popup|operation-not-supported/i.test(code)) {
+        try { await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); return; }
+        catch (e2) { Toast && Toast(friendlyAuthErr(e2.code || e2.message)); }
+      } else { console.warn(e); Toast && Toast(friendlyAuthErr(code)); }
+    } finally { signingIn = false; }
   }
   async function signOut() { if (auth) { try { await auth.signOut(); Toast && Toast('已退出登录'); } catch (e) {} } }
 
@@ -88,6 +99,9 @@
       'auth/missing-password': '请输入密码',
       'auth/too-many-requests': '尝试过多,请稍后再试',
       'auth/operation-not-allowed': '邮箱登录未启用(需在 Firebase 控制台开启)',
+      'auth/unauthorized-domain': '本网址未在 Firebase 授权域名中(请在控制台加上本站域名)',
+      'auth/popup-closed-by-user': '登录弹窗被关闭了,请重试',
+      'auth/cancelled-popup-request': '弹窗被打断,请只点一次或改用邮箱登录',
       'auth/network-request-failed': '网络错误,请检查连接'
     };
     return m[code] || ('登录失败:' + code);
