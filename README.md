@@ -28,3 +28,5 @@ node tools/gen_audio.mjs
 # 打包安卓
 bash build_apk.sh
 ```
+
+<!-- redeploy: enable VERTEX_SA_KEY for /api/gemini -->
