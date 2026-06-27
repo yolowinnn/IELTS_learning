@@ -113,65 +113,125 @@
   // 实时 AI 对练:语音识别 → /api/gemini(Vertex Gemini 考官)→ 朗读
   function liveCard(s) {
     const topic = s.topic || s.title || '';
-    const conv = [];
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const conv = [];      // {role:'user'|'assistant', text}  (text history)
+    const audios = [];    // {data(base64), mimeType, url}    (for replay + scoring)
+    let busy = false, recorder = null, stream = null, chunks = [], recTimer = null, recStart = 0;
+
     const card = el(`
       <div class="card" style="background:linear-gradient(135deg,#064e3b,#065f46);border:1px solid #34d399;color:#eafff5">
-        <div class="card-title mb8" style="color:#fff">🎙️ 实时 AI 对练 · Gemini 考官</div>
-        <div class="faint" style="color:#a7f3d0">点「开始」考官用英语提问 → 点麦克风说出回答 → 它实时追问。想要评分就点"结束并评分"。</div>
+        <div class="card-title mb8" style="color:#fff">🎙️ Live AI Examiner · Gemini</div>
+        <div class="faint" style="color:#a7f3d0">A real IELTS-style mock: the examiner speaks, you answer out loud, and it scores your real voice & pronunciation.</div>
         <div id="liveLog" class="live-log"></div>
-        <div class="row mt12" style="gap:8px">
-          <button class="btn good" id="liveStart" style="flex:1">▶ 开始对话</button>
-          <button class="btn" id="liveMic" style="flex:1;display:none">🎤 点击说话</button>
-          <button class="btn ghost" id="liveFb" style="display:none">结束并评分</button>
-        </div>
+        <div id="liveControls" class="mt12"></div>
         <div class="faint mt8" id="liveStatus" style="color:#a7f3d0"></div>
       </div>
     `);
     const logEl = card.querySelector('#liveLog');
-    const startBtn = card.querySelector('#liveStart');
-    const micBtn = card.querySelector('#liveMic');
-    const fbBtn = card.querySelector('#liveFb');
-    const setStatus = (t) => { card.querySelector('#liveStatus').textContent = t || ''; };
-    const addLog = (who, text, me) => { logEl.appendChild(el(`<div class="lv-msg ${me ? 'lv-me' : 'lv-ex'}"><b>${esc(who)}</b>${esc(text)}</div>`)); logEl.scrollTop = logEl.scrollHeight; };
+    const controls = card.querySelector('#liveControls');
+    const setStatus = (t) => { card.querySelector('#liveStatus').innerHTML = t || ''; };
+    function addLog(who, text, me, audioUrl) {
+      const m = el(`<div class="lv-msg ${me ? 'lv-me' : 'lv-ex'}"><b>${esc(who)}</b><span>${esc(text)}</span></div>`);
+      if (audioUrl) { const b = el(`<button class="lv-replay">▶</button>`); b.onclick = () => { const a = new Audio(audioUrl); a.play(); }; m.appendChild(b); }
+      logEl.appendChild(m); logEl.scrollTop = logEl.scrollHeight; return m;
+    }
+    function speak(text, done) {
+      try { if (window.TTS && TTS.supported) { TTS.cancel(); TTS.speak(text, { voice: TTS.pickVoice('en-GB'), rate: 0.98 }).then(done); } else done && done(); }
+      catch (e) { done && done(); }
+    }
 
-    let busy = false;
-    async function ask() {
-      if (busy) return; busy = true; micBtn.disabled = true; setStatus('考官思考中…');
+    // 控制区:不同阶段不同按钮
+    function showStart() { controls.innerHTML = ''; const b = el('<button class="btn good block">▶ Start mock test</button>'); b.onclick = begin; controls.appendChild(b); }
+    function showAnswer() {
+      controls.innerHTML = '';
+      const rec = el('<button class="btn block" id="recBtn">🎤 Record your answer</button>');
+      const fin = el('<button class="btn ghost block mt8" id="finBtn">Finish & get my score</button>');
+      rec.onclick = toggleRecord; fin.onclick = finishScore;
+      controls.appendChild(rec); controls.appendChild(fin);
+    }
+
+    async function begin() {
+      controls.innerHTML = '';
+      speak('Let\'s begin.');   // 用户手势内解锁 TTS
+      let n = 3; setStatus('<b style="font-size:28px;color:#fff">' + n + '</b>');
+      const t = setInterval(() => { n--; if (n > 0) setStatus('<b style="font-size:28px;color:#fff">' + n + '</b>'); else { clearInterval(t); setStatus(''); ask(); } }, 1000);
+    }
+
+    // 调考官(可带音频)。audioMsg: {data,mimeType} 或 null
+    async function ask(audioMsg) {
+      if (busy) return; busy = true;
+      setStatus('🤔 Examiner is thinking…');
+      const msgs = audioMsg ? conv.concat([{ role: 'user', audio: audioMsg }]) : conv.slice();
       try {
-        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic, messages: conv }) });
+        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'chat', topic, messages: msgs }) });
         const j = await r.json();
-        if (r.ok && j.text) { conv.push({ role: 'assistant', text: j.text }); addLog('考官', j.text, false); setStatus('🔊 朗读中…'); speakReply(j.text, () => setStatus('轮到你 — 点麦克风回答')); }
-        else { setStatus('出错:' + (j.error || j.detail || r.status) + ' · 可用下方跳转 Gemini'); }
-      } catch (e) { setStatus('网络错误:' + e.message); }
-      busy = false; micBtn.disabled = false;
+        if (!r.ok) { setStatus('Error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
+        if (audioMsg) {
+          const tr = (j.transcript || '').trim();
+          if (tr) { conv.push({ role: 'user', text: tr }); const last = logEl.lastElementChild; if (last && last.querySelector('span')) last.querySelector('span').textContent = tr; }
+          const reply = (j.reply || '').trim();
+          conv.push({ role: 'assistant', text: reply });
+          addLog('Examiner', reply, false);
+          setStatus('🔊 Speaking…'); speak(reply, () => { setStatus(''); showAnswer(); });
+        } else {
+          const reply = (j.text || j.reply || '').trim();
+          conv.push({ role: 'assistant', text: reply });
+          addLog('Examiner', reply, false);
+          setStatus('🔊 Speaking…'); speak(reply, () => { setStatus(''); showAnswer(); });
+        }
+      } catch (e) { setStatus('Network error: ' + e.message); showAnswer(); }
+      busy = false;
     }
-    function speakReply(text, done) {
+
+    async function toggleRecord() {
+      const recBtn = controls.querySelector('#recBtn');
+      if (recorder && recorder.state === 'recording') { recorder.stop(); return; }
       try {
-        if (window.TTS && TTS.supported) { TTS.cancel(); TTS.speak(text, { voice: TTS.pickVoice('en-GB'), rate: 1.0 }).then(done); }
-        else done && done();
-      } catch (e) { done && done(); }
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        let mime = 'audio/webm;codecs=opus';
+        if (!(window.MediaRecorder && MediaRecorder.isTypeSupported(mime))) mime = (window.MediaRecorder && MediaRecorder.isTypeSupported('audio/webm')) ? 'audio/webm' : '';
+        recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+        chunks = [];
+        recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+        recorder.onstop = onRecStop;
+        recorder.start();
+        recStart = Date.now();
+        recBtn.classList.add('rec'); recBtn.innerHTML = '⏹ Stop & send <span id="recT">0:00</span>';
+        recTimer = setInterval(() => { const s = Math.floor((Date.now() - recStart) / 1000); const el2 = controls.querySelector('#recT'); if (el2) el2.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }, 500);
+        setStatus('🔴 Recording… speak your answer, then tap stop. (Take your time — minutes are fine.)');
+      } catch (e) { setStatus('Mic blocked. Allow microphone access and retry.'); }
     }
-    startBtn.onclick = () => {
-      startBtn.style.display = 'none'; micBtn.style.display = ''; fbBtn.style.display = '';
-      addLog('提示', '雅思口语模拟开始,考官将先提问。', true);
-      ask();
-    };
-    fbBtn.onclick = () => { if (busy) return; conv.push({ role: 'user', text: 'Please end the test now and give me my IELTS band scores (Fluency, Lexical, Grammar, Pronunciation) and 3 specific tips.' }); addLog('你', '(请求评分)', true); ask(); };
-    if (!SR) {
-      startBtn.onclick = () => setStatus('此浏览器不支持语音识别,请用 Chrome;或用下方"跳转 Gemini App"。');
-    } else {
-      micBtn.onclick = () => {
-        if (busy) return;
-        const rec = new SR(); rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
-        setStatus('🎤 请用英语说…'); micBtn.classList.add('rec');
-        rec.onresult = (e) => { const t = e.results[0][0].transcript; conv.push({ role: 'user', text: t }); addLog('你', t, true); ask(); };
-        rec.onerror = (e) => { setStatus('没听清(' + e.error + '),再点一次'); micBtn.classList.remove('rec'); };
-        rec.onend = () => micBtn.classList.remove('rec');
-        try { rec.start(); } catch (e) { setStatus('麦克风启动失败,再试'); }
-      };
+    function onRecStop() {
+      clearInterval(recTimer);
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      const type = (recorder && recorder.mimeType) || 'audio/webm';
+      const blob = new Blob(chunks, { type });
+      const url = URL.createObjectURL(blob);
+      const mime = type.split(';')[0];           // Gemini 用裸 mime
+      addLog('You', '…', true, url);             // 先占位,转写回来再填
+      const rd = new FileReader();
+      rd.onload = () => { const b64 = String(rd.result).split(',')[1]; audios.push({ data: b64, mimeType: mime, url }); controls.innerHTML = ''; ask({ data: b64, mimeType: mime }); };
+      rd.readAsDataURL(blob);
     }
-    if (window.App && App.onLeave) App.onLeave(() => { try { if (window.TTS) TTS.cancel(); } catch (e) {} });
+
+    async function finishScore() {
+      if (busy) return; busy = true;
+      controls.innerHTML = ''; setStatus('📝 Scoring your real voice…');
+      try {
+        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'score', topic, messages: conv, audios: audios.slice(-4).map(a => ({ data: a.data, mimeType: a.mimeType })) }) });
+        const j = await r.json();
+        if (!r.ok || !j.text) { setStatus('Score error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
+        Store.markTask('speaking', true); App.refreshStreak();
+        setStatus('');
+        const md = esc(j.text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+        const sc = el(`<div class="card" style="background:#fff;color:var(--tx)"><div class="card-title mb8">🏅 Your IELTS Speaking Report</div><div style="font-size:14px;line-height:1.6">${md}</div><button class="btn ghost block mt12" id="again">Practise again</button></div>`);
+        sc.querySelector('#again').onclick = () => { conv.length = 0; audios.length = 0; logEl.innerHTML = ''; showStart(); sc.remove(); };
+        controls.parentElement.insertBefore(sc, controls.nextSibling);
+      } catch (e) { setStatus('Network error: ' + e.message); showAnswer(); }
+      busy = false;
+    }
+
+    showStart();
+    if (window.App && App.onLeave) App.onLeave(() => { try { if (window.TTS) TTS.cancel(); if (recorder && recorder.state === 'recording') recorder.stop(); if (stream) stream.getTracks().forEach(t => t.stop()); } catch (e) {} });
     return card;
   }
 

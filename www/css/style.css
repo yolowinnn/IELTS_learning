@@ -396,3 +396,9 @@ body.cover-mode #view { padding: 0; max-width: none; }
 .cover-or::before, .cover-or::after { content:""; flex:1; height:1px; background:var(--line); }
 .cover-input { width:100%; box-sizing:border-box; background:#fff; color:var(--tx); border:1.5px solid var(--line-strong); border-radius:13px; padding:13px 14px; font-size:15px; }
 .cover-input:focus { outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(16,185,129,.15); }
+
+/* ===== 口语实时对练 v2(录音/回放)===== */
+.lv-replay { margin-left: 6px; background: rgba(0,0,0,.18); border: none; color: inherit; border-radius: 8px; padding: 1px 8px; cursor: pointer; font-size: 12px; vertical-align: middle; }
+.lv-me .lv-replay { background: rgba(6,78,59,.15); }
+#recBtn.rec { animation: recpulse 1s ease-in-out infinite; }
+#recBtn #recT { font-weight: 700; opacity: .9; }
