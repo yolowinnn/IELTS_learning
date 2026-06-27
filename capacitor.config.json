@@ -1,5 +1,11 @@
 {
   "appId": "com.ielts.study",
   "appName": "IELTS 7.5",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "FirebaseAuthentication": {
+      "skipNativeAuth": true,
+      "providers": ["google.com"]
+    }
+  }
 }

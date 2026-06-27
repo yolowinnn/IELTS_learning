@@ -53,6 +53,9 @@
     } catch (e) { console.warn('Firebase init failed, 仅本地', e); setStatus('error'); fireReady(); }
   }
 
+  function isNative() { try { return !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); } catch (e) { return false; } }
+  function nativeFA() { try { return (isNative() && window.Capacitor.Plugins && window.Capacitor.Plugins.FirebaseAuthentication) || null; } catch (e) { return null; } }
+
   let signingIn = false;
   async function signIn() {
     if (signingIn) return;            // 防连点导致 cancelled-popup-request
@@ -60,11 +63,25 @@
     if (!auth) { Toast && Toast('Cloud sync is not configured'); return; }
     signingIn = true;
     try {
-      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const FA = nativeFA();
+      if (FA) {
+        // App(原生):用系统 Google 账号选择器拿 idToken → 再用 JS SDK 登录(沿用现有 Firestore 同步与合并)
+        const res = await FA.signInWithGoogle();
+        const idToken = res && res.credential && res.credential.idToken;
+        if (!idToken) throw new Error('google-no-credential');
+        const cred = firebase.auth.GoogleAuthProvider.credential(idToken);
+        await auth.signInWithCredential(cred);
+      } else {
+        await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      }
     } catch (e) {
       const code = e.code || e.message || '';
-      // 弹窗被拦/被打断 → 退回重定向方式(更稳,自动化/移动端友好)
-      if (/popup|cancelled-popup|operation-not-supported/i.test(code)) {
+      if (isNative()) {
+        // 原生失败(多为未配置 google-services.json / SHA-1 未注册):提示并建议先用邮箱
+        if (/cancel|12501|abort/i.test(code)) { /* 用户取消,静默 */ }
+        else { console.warn('native google sign-in', e); Toast && Toast('Google sign-in unavailable here — please use email, or finish app setup'); }
+      } else if (/popup|cancelled-popup|operation-not-supported/i.test(code)) {
+        // 网页:弹窗被拦/被打断 → 退回重定向方式
         try { await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); return; }
         catch (e2) { Toast && Toast(friendlyAuthErr(e2.code || e2.message)); }
       } else { console.warn(e); Toast && Toast(friendlyAuthErr(code)); }
