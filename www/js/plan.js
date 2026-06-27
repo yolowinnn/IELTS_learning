@@ -26,12 +26,12 @@
     const speaking = pick(pool('speaking'), day);
 
     const list = [
-      { key: 'vocab', ic: '🗂️', label: '背单词', sub: '复习到期 + 学新词', est: '15 分钟', tab: 'vocab' },
+      { key: 'vocab', ic: '🗂️', label: 'Vocabulary', sub: 'Review due + learn new', est: '15 min', tab: 'vocab' },
     ];
-    if (reading)   list.push({ key: 'reading',   ic: '📖', label: '阅读', sub: reading.title,   est: '20 分钟', open: { mod: 'reading', id: reading.id } });
-    if (listening) list.push({ key: 'listening', ic: '🎧', label: '听力', sub: listening.title, est: '15 分钟', open: { mod: 'listening', id: listening.id } });
-    if (writing)   list.push({ key: 'writing',   ic: '✍️', label: '写作', sub: (writing.task === 1 ? 'Task 1 · ' : 'Task 2 · ') + writing.title, est: '20 分钟', open: { mod: 'writing', id: writing.id } });
-    if (speaking)  list.push({ key: 'speaking',  ic: '🗣️', label: '口语', sub: speaking.title, est: '10 分钟', open: { mod: 'speaking', id: speaking.id } });
+    if (reading)   list.push({ key: 'reading',   ic: '📖', label: 'Reading', sub: reading.title,   est: '20 min', open: { mod: 'reading', id: reading.id } });
+    if (listening) list.push({ key: 'listening', ic: '🎧', label: 'Listening', sub: listening.title, est: '15 min', open: { mod: 'listening', id: listening.id } });
+    if (writing)   list.push({ key: 'writing',   ic: '✍️', label: 'Writing', sub: (writing.task === 1 ? 'Task 1 · ' : 'Task 2 · ') + writing.title, est: '20 min', open: { mod: 'writing', id: writing.id } });
+    if (speaking)  list.push({ key: 'speaking',  ic: '🗣️', label: 'Speaking', sub: speaking.title, est: '10 min', open: { mod: 'speaking', id: speaking.id } });
     return list;
   }
 

@@ -1,12 +1,17 @@
-/* practice.js — 题库:按技能浏览全部内容,自由练习 */
+/* practice.js — Practice library: browse all content by skill & day */
 (function () {
   const TABS = [
-    { key: 'reading', ic: '📖', label: '阅读', mod: 'reading' },
-    { key: 'listening', ic: '🎧', label: '听力', mod: 'listening' },
-    { key: 'writing', ic: '✍️', label: '写作', mod: 'writing' },
-    { key: 'speaking', ic: '🗣️', label: '口语', mod: 'speaking' },
+    { key: 'reading', ic: '📖', label: 'Reading', mod: 'reading' },
+    { key: 'listening', ic: '🎧', label: 'Listening', mod: 'listening' },
+    { key: 'writing', ic: '✍️', label: 'Writing', mod: 'writing' },
+    { key: 'speaking', ic: '🗣️', label: 'Speaking', mod: 'speaking' },
   ];
-  let active = 'reading';
+  let active = 'listening';
+
+  function dateForDay(day) {
+    const dt = new Date(Store.startDate() + 'T00:00:00'); dt.setDate(dt.getDate() + (day - 1));
+    try { return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); } catch (e) { return (dt.getMonth() + 1) + '/' + dt.getDate(); }
+  }
 
   function render(view) {
     view.innerHTML = '';
@@ -19,27 +24,31 @@
       bar.appendChild(b);
     });
     wrap.appendChild(bar);
+    wrap.appendChild(el(`<div class="faint mb8" style="margin-left:4px">Pick any day to practise — by date & topic.</div>`));
 
     const list = el('<div></div>');
     const data = window.IELTS_DATA[active] || [];
     const scores = Store.get('scores', {})[active] || [];
     const doneIds = new Set(scores.map(x => x.id));
 
-    if (!data.length) {
-      list.appendChild(el(`<div class="empty"><div class="big">📭</div><p>该模块内容正在持续补充中</p></div>`));
-    }
+    if (!data.length) list.appendChild(el(`<div class="empty"><div class="big">📭</div><p>More ${active} content coming soon</p></div>`));
+
     data.forEach((item, i) => {
       const tab = TABS.find(t => t.key === active);
+      const day = i + 1;
       const title = active === 'writing' ? `Task ${item.task} · ${item.title}` : item.title;
-      const sub = active === 'reading' ? `${item.topic || ''} · ${item.words || '?'}词`
+      const meta = active === 'reading' ? `${item.topic || ''} · ${item.words || '?'} words`
         : active === 'listening' ? (item.section || '')
         : active === 'writing' ? (item.type || '')
         : (item.topic || '');
       const li = el(`
         <div class="list-item">
           <div class="li-ic">${tab.ic}</div>
-          <div class="li-main"><b>${esc(title)}</b><div class="faint">${esc(sub)}</div></div>
-          ${doneIds.has(item.id) ? '<span class="pill good">已练</span>' : ''}
+          <div class="li-main">
+            <b>${esc(title)}</b>
+            <div class="faint">Day ${day} · ${dateForDay(day)}${meta ? ' · ' + esc(meta) : ''}</div>
+          </div>
+          ${doneIds.has(item.id) ? '<span class="pill good">done</span>' : ''}
           <div class="li-arrow">›</div>
         </div>
       `);

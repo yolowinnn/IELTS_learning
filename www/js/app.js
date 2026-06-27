@@ -6,10 +6,10 @@
   const streakNum = document.getElementById('streak-num');
 
   const TABS = {
-    today:    { title: '今日学习', render: () => Dashboard.render(view) },
-    vocab:    { title: '单词 · SRS', render: () => Vocab.render(view) },
-    practice: { title: '题库练习', render: () => Practice.render(view) },
-    me:       { title: '我的进度', render: () => Me.render(view) },
+    today:    { title: 'Today', render: () => Dashboard.render(view) },
+    vocab:    { title: 'Vocabulary', render: () => Vocab.render(view) },
+    practice: { title: 'Practice', render: () => Practice.render(view) },
+    me:       { title: 'Profile', render: () => Me.render(view) },
   };
 
   // 子页面注册表(从题库/今日进入)
@@ -47,7 +47,7 @@
     refreshStreak();
   }
 
-  const MOD_TITLES = { reading: '阅读练习', listening: '听力练习', writing: '写作练习', speaking: '口语练习' };
+  const MOD_TITLES = { reading: 'Reading', listening: 'Listening', writing: 'Writing', speaking: 'Speaking' };
 
   // 打开子页面(模块详情)
   function open(mod, id) {
