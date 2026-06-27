@@ -1,7 +1,7 @@
 /* listening_b6.js — IELTS Section 3-4 原创 */
 window.IELTS_DATA.listening.push(
-  { id:"l016", title:"Designing a Community Garden Survey", section:"Section 3 · 学术讨论",
-    scenario:"环境科学课上,导师与两名学生讨论一份关于社区花园的问卷调查项目。",
+  { id:"l016", title:"Designing a Community Garden Survey", section:"Section 3 · Academic discussion",
+    scenario:"In an environmental-science class, a tutor and two students discuss a questionnaire survey on community gardens.",
     lines:[
       { speaker:"Tutor", text:"So, Maya and Tom, you've chosen to look at community gardens for your fieldwork project. Where have you got to so far?" },
       { speaker:"Maya", text:"We've drafted a questionnaire for residents, but we're not sure the sample is big enough. We were planning to ask about thirty people." },
@@ -25,16 +25,16 @@ window.IELTS_DATA.listening.push(
       { speaker:"Tom", text:"Thanks. I think we've got a much clearer plan now." }
     ],
     questions:[
-      { type:"mc", q:"What sample size does the tutor recommend?", options:["About thirty people","At least fifty people","At least eighty people","Around one hundred people"], answer:2, explanation:"导师说 'I'd push for at least eighty',故选 C。" },
-      { type:"mc", q:"Why does the tutor warn against only surveying people at the garden?", options:["They are too busy to answer","Their views are likely to be overly positive","They may not understand the questions","They live too far away"], answer:1, explanation:"导师指出花园里的人多为爱好者,结果会偏向正面 'skewed towards positive views',故选 B。" },
-      { type:"gap", q:"For the wellbeing questions, the tutor suggests using a rating ____ from one to five.", answer:["scale"], explanation:"原文 'A scale works well',答案 scale。" },
-      { type:"tfng", q:"The tutor advises recording respondents' exact ages.", answer:"FALSE", explanation:"导师说用年龄段 'in bands rather than exact figures',与陈述相反,故 FALSE。" },
-      { type:"gap", q:"The best season to collect responses is late ____.", answer:["spring"], explanation:"原文 'Late spring is ideal',答案 spring。" },
-      { type:"tfng", q:"The students originally found tables too dull for presenting their results.", answer:"TRUE", explanation:"Tom 说 'Tables felt a bit dry to us',与陈述一致,故 TRUE。" }
+      { type:"mc", q:"What sample size does the tutor recommend?", options:["About thirty people","At least fifty people","At least eighty people","Around one hundred people"], answer:2, explanation: "The tutor says 'I'd push for at least eighty', so C is the answer." },
+      { type:"mc", q:"Why does the tutor warn against only surveying people at the garden?", options:["They are too busy to answer","Their views are likely to be overly positive","They may not understand the questions","They live too far away"], answer:1, explanation: "The tutor notes that most people in the garden are enthusiasts, so results will be 'skewed towards positive views'; thus, B is the answer." },
+      { type:"gap", q:"For the wellbeing questions, the tutor suggests using a rating ____ from one to five.", answer:["scale"], explanation: "The text states 'A scale works well', so the answer is 'scale'." },
+      { type:"tfng", q:"The tutor advises recording respondents' exact ages.", answer:"FALSE", explanation: "The tutor says to use age 'in bands rather than exact figures', which contradicts the statement, so it's FALSE." },
+      { type:"gap", q:"The best season to collect responses is late ____.", answer:["spring"], explanation: "The text states 'Late spring is ideal', so the answer is 'spring'." },
+      { type:"tfng", q:"The students originally found tables too dull for presenting their results.", answer:"TRUE", explanation: "Tom says 'Tables felt a bit dry to us', which matches the statement, so it's TRUE." }
     ] },
 
-  { id:"l017", title:"Planning a Group Presentation on Renewable Energy", section:"Section 3 · 学术讨论",
-    scenario:"工程系三名学生与导师讨论一个关于可再生能源的小组报告分工与时间安排。",
+  { id:"l017", title:"Planning a Group Presentation on Renewable Energy", section:"Section 3 · Academic discussion",
+    scenario:"Three engineering students and their tutor discuss roles and a schedule for a group report on renewable energy.",
     lines:[
       { speaker:"Tutor", text:"Right, the three of you are presenting on renewable energy next month. Have you decided how to split the topic?" },
       { speaker:"Student A", text:"We thought I'd take wind power, Priya would do solar, and Daniel would cover the storage problem — batteries and so on." },
@@ -58,16 +58,16 @@ window.IELTS_DATA.listening.push(
       { speaker:"Student B", text:"Great. We'll book a practice room and send you the date." }
     ],
     questions:[
-      { type:"mc", q:"Which storage technology does Daniel decide to focus on?", options:["Lithium batteries","Pumped hydro","Hydrogen fuel cells","Compressed air"], answer:1, explanation:"Student B (Daniel) 说 'I was leaning towards focusing on pumped hydro',故选 B。" },
-      { type:"mc", q:"For the wind section, the tutor suggests spending most time on which type of turbine?", options:["Onshore","Offshore","Small rooftop","Floating prototypes"], answer:1, explanation:"导师说 'spend most of your time on offshore',故选 B。" },
-      { type:"gap", q:"Each student should speak for ____ minutes, leaving time for questions.", answer:["five","5"], explanation:"原文 'Allow five minutes each',答案 five/5。" },
-      { type:"tfng", q:"The tutor recommends that each student prepare a separate slide deck.", answer:"FALSE", explanation:"导师说 'One shared deck, definitely',与陈述相反,故 FALSE。" },
-      { type:"tfng", q:"Full reference details should appear on the handout rather than the slides.", answer:"TRUE", explanation:"导师说幻灯片只放简短引用,'Keep the full reference list for your handout',故 TRUE。" },
-      { type:"gap", q:"The tutor wants to see a rehearsal the week ____ the presentation.", answer:["before"], explanation:"原文 'Bring me a run-through the week before',答案 before。" }
+      { type:"mc", q:"Which storage technology does Daniel decide to focus on?", options:["Lithium batteries","Pumped hydro","Hydrogen fuel cells","Compressed air"], answer:1, explanation: "Student B (Daniel) says 'I was leaning towards focusing on pumped hydro', so B is the answer." },
+      { type:"mc", q:"For the wind section, the tutor suggests spending most time on which type of turbine?", options:["Onshore","Offshore","Small rooftop","Floating prototypes"], answer:1, explanation: "The tutor says 'spend most of your time on offshore', so B is the answer." },
+      { type:"gap", q:"Each student should speak for ____ minutes, leaving time for questions.", answer:["five","5"], explanation: "The text states 'Allow five minutes each', so the answer is 'five/5'." },
+      { type:"tfng", q:"The tutor recommends that each student prepare a separate slide deck.", answer:"FALSE", explanation: "The tutor says 'One shared deck, definitely', which contradicts the statement, so it's FALSE." },
+      { type:"tfng", q:"Full reference details should appear on the handout rather than the slides.", answer:"TRUE", explanation: "The tutor said to only include brief quotes on slides, stating 'Keep the full reference list for your handout', hence TRUE." },
+      { type:"gap", q:"The tutor wants to see a rehearsal the week ____ the presentation.", answer:["before"], explanation: "The original text states 'Bring me a run-through the week before', so the answer is 'before'." }
     ] },
 
-  { id:"l018", title:"The Migration of the Arctic Tern", section:"Section 4 · 学术讲座",
-    scenario:"生物学讲座:主讲人介绍北极燕鸥惊人的长距离迁徙及其导航机制。",
+  { id:"l018", title:"The Migration of the Arctic Tern", section:"Section 4 · Academic lecture",
+    scenario:"A biology lecture: the Arctic tern's astonishing long-distance migration and how it navigates.",
     lines:[
       { speaker:"Lecturer", text:"Good morning. Today I want to talk about a small seabird that performs one of the most remarkable journeys in the animal kingdom: the Arctic tern." },
       { speaker:"Lecturer", text:"The Arctic tern breeds in the far north, around the Arctic Circle, during the northern summer. But when autumn arrives, it does something astonishing." },
@@ -89,16 +89,16 @@ window.IELTS_DATA.listening.push(
       { speaker:"Lecturer", text:"In your reading this week, I'd like you to compare its strategy with that of the bar-tailed godwit, which takes an entirely different approach to long-distance flight." }
     ],
     questions:[
-      { type:"mc", q:"What did tracking with geolocators reveal about the tern's migration?", options:["The journey was shorter than thought","The journey was about forty thousand kilometres","The journey was far longer than earlier estimates","The birds flew in straight lines"], answer:2, explanation:"原文说追踪后发现实际距离更大,约七万公里 'far greater',故选 C。" },
-      { type:"gap", q:"During the day, the tern works out direction using the sun and an internal body ____.", answer:["clock"], explanation:"原文 'combined with an internal body clock',答案 clock。" },
-      { type:"tfng", q:"There is evidence that Arctic terns can navigate using the stars at night.", answer:"TRUE", explanation:"原文 'evidence suggests the birds can read patterns of stars',故 TRUE。" },
-      { type:"mc", q:"Why is the Arctic tern described as a useful indicator species?", options:["It eats a wide variety of foods","Its numbers reflect the health of the marine food web","It is easy to count from land","It rarely changes its route"], answer:1, explanation:"原文说数量下降反映海洋食物网出问题,故选 B。" },
-      { type:"gap", q:"Some terns mistake floating ____ for prey and feed it to their chicks.", answer:["plastic"], explanation:"原文讲塑料污染,terns mistake floating fragments(plastic)for prey,答案 plastic。" },
-      { type:"tfng", q:"The lecturer claims the bar-tailed godwit migrates in the same way as the Arctic tern.", answer:"FALSE", explanation:"原文说 godwit 采取 'an entirely different approach',与陈述相反,故 FALSE。" }
+      { type:"mc", q:"What did tracking with geolocators reveal about the tern's migration?", options:["The journey was shorter than thought","The journey was about forty thousand kilometres","The journey was far longer than earlier estimates","The birds flew in straight lines"], answer:2, explanation: "Tracking revealed the actual distance was 'far greater', approximately 70,000 km, so C is the answer." },
+      { type:"gap", q:"During the day, the tern works out direction using the sun and an internal body ____.", answer:["clock"], explanation: "The original text is 'combined with an internal body clock', so the answer is 'clock'." },
+      { type:"tfng", q:"There is evidence that Arctic terns can navigate using the stars at night.", answer:"TRUE", explanation: "The original text states 'evidence suggests the birds can read patterns of stars', hence TRUE." },
+      { type:"mc", q:"Why is the Arctic tern described as a useful indicator species?", options:["It eats a wide variety of foods","Its numbers reflect the health of the marine food web","It is easy to count from land","It rarely changes its route"], answer:1, explanation: "The text states that the decline in numbers reflects issues with the marine food web, so B is the answer." },
+      { type:"gap", q:"Some terns mistake floating ____ for prey and feed it to their chicks.", answer:["plastic"], explanation: "The text discusses plastic pollution, where terns 'mistake floating fragments' (plastic) 'for prey', so the answer is 'plastic'." },
+      { type:"tfng", q:"The lecturer claims the bar-tailed godwit migrates in the same way as the Arctic tern.", answer:"FALSE", explanation: "The text states the godwit takes 'an entirely different approach', which contradicts the statement, hence FALSE." }
     ] },
 
-  { id:"l019", title:"The Rise of the Coffee House in 17th-Century Europe", section:"Section 4 · 学术讲座",
-    scenario:"历史讲座:主讲人讲述十七世纪欧洲咖啡馆的兴起及其对社会与思想生活的影响。",
+  { id:"l019", title:"The Rise of the Coffee House in 17th-Century Europe", section:"Section 4 · Academic lecture",
+    scenario:"A history lecture: the rise of 17th-century European coffee houses and their impact on social and intellectual life.",
     lines:[
       { speaker:"Lecturer", text:"This week we turn to an unlikely engine of social change in early modern Europe: the humble coffee house." },
       { speaker:"Lecturer", text:"Coffee itself reached Europe from the Ottoman world in the early sixteen hundreds, first arriving in port cities through trade with the eastern Mediterranean." },
@@ -120,11 +120,11 @@ window.IELTS_DATA.listening.push(
       { speaker:"Lecturer", text:"For your seminar, consider this question: was the coffee house genuinely democratic, or merely a private club dressed up as a public space?" }
     ],
     questions:[
-      { type:"mc", q:"Where is England's first coffee house generally said to have opened?", options:["London","Oxford","Bristol","Cambridge"], answer:1, explanation:"原文 'The first coffee house in England is generally said to have opened in Oxford',故选 B。" },
-      { type:"gap", q:"Because of their low entry cost, coffee houses were nicknamed 'penny ____'.", answer:["universities"], explanation:"原文 'earned the nickname penny universities',答案 universities。" },
-      { type:"tfng", q:"King Charles the Second's attempt to close the coffee houses lasted several years.", answer:"FALSE", explanation:"原文说禁令只持续几天 'lasted only a matter of days',与陈述相反,故 FALSE。" },
-      { type:"mc", q:"The coffee house run by Lloyd became associated with which activity?", options:["Poetry readings","Ship insurance","Newspaper printing","The wool trade"], answer:1, explanation:"原文说 Lloyd 的咖啡馆成为 'those dealing in ship insurance' 的聚会地,故选 B。" },
-      { type:"tfng", q:"Women were generally excluded as customers from these coffee houses.", answer:"TRUE", explanation:"原文 'women were largely excluded as customers',故 TRUE。" },
-      { type:"gap", q:"Some historians argue the debate in coffee houses helped prepare the ground for the ____.", answer:["enlightenment"], explanation:"原文 'helped lay the groundwork for the Enlightenment',答案 enlightenment。" }
+      { type:"mc", q:"Where is England's first coffee house generally said to have opened?", options:["London","Oxford","Bristol","Cambridge"], answer:1, explanation: "The original text states 'The first coffee house in England is generally said to have opened in Oxford', so B is the answer." },
+      { type:"gap", q:"Because of their low entry cost, coffee houses were nicknamed 'penny ____'.", answer:["universities"], explanation: "The original text is 'earned the nickname penny universities', so the answer is 'universities'." },
+      { type:"tfng", q:"King Charles the Second's attempt to close the coffee houses lasted several years.", answer:"FALSE", explanation: "The original text states the ban 'lasted only a matter of days', which contradicts the statement, so FALSE." },
+      { type:"mc", q:"The coffee house run by Lloyd became associated with which activity?", options:["Poetry readings","Ship insurance","Newspaper printing","The wool trade"], answer:1, explanation: "The original text states Lloyd's coffee house became a meeting place for 'those dealing in ship insurance', so B is the answer." },
+      { type:"tfng", q:"Women were generally excluded as customers from these coffee houses.", answer:"TRUE", explanation: "The original text states 'women were largely excluded as customers', so TRUE." },
+      { type:"gap", q:"Some historians argue the debate in coffee houses helped prepare the ground for the ____.", answer:["enlightenment"], explanation: "The original text 'helped lay the groundwork for the Enlightenment', so the answer is enlightenment." }
     ] }
 );

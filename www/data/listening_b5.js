@@ -1,6 +1,6 @@
 /* listening_b5.js — IELTS Section 1-2 原创 */
 window.IELTS_DATA.listening.push(
-  { id:"l012", title:"Booking a Pottery Studio Membership", section:"Section 1 · 对话", scenario:"来访者打电话给陶艺工作室咨询会员与课程",
+  { id:"l012", title:"Booking a Pottery Studio Membership", section:"Section 1 · Conversation", scenario:"A caller phones a pottery studio to ask about membership and classes.",
     lines:[
       { speaker:"Receptionist (woman)", text:"Good morning, Riverside Pottery Studio, this is Megan speaking. How can I help you?" },
       { speaker:"Caller (man)", text:"Hi there. I saw a leaflet about your studio and I am thinking of joining. Could you tell me a bit about the membership options?" },
@@ -20,15 +20,15 @@ window.IELTS_DATA.listening.push(
       { speaker:"Caller (man)", text:"Good to know. I will see you on Sunday then. Thanks for your help, Megan." }
     ],
     questions:[
-      { type:"mc", q:"What is the main extra benefit of the premium membership?", options:["A larger bag of clay","Use of the kiln for firing","A discount on classes","Free parking at the studio"], answer:1, explanation:"高级会员额外包含使用窑炉烧制作品(use of the kiln for firing your pieces),选 B。" },
-      { type:"gap", q:"The standard membership costs £____ per month.", answer:["40","forty"], explanation:"原文标准会员每月四十英镑(forty pounds a month)。" },
-      { type:"tfng", q:"Members must bring their own clay to the very first session.", answer:"FALSE", explanation:"第一次工作室免费提供一小袋黏土(a small starter bag of clay free of charge),所以为 FALSE。" },
-      { type:"gap", q:"There is a refundable deposit of £____ when signing up.", answer:["50","fifty"], explanation:"原文有可退还押金五十英镑(refundable deposit of fifty pounds)。" },
-      { type:"mc", q:"Which session does Daniel finally book?", options:["Saturday morning","Sunday at ten","Sunday at two","Saturday afternoon"], answer:2, explanation:"周六上午已满,Daniel 最终选周日下午两点(the two o'clock one),选 C。" },
-      { type:"tfng", q:"Sandals are not permitted in the studio.", answer:"TRUE", explanation:"出于安全原因不允许穿凉鞋(we do not allow sandals),为 TRUE。" }
+      { type:"mc", q:"What is the main extra benefit of the premium membership?", options:["A larger bag of clay","Use of the kiln for firing","A discount on classes","Free parking at the studio"], answer:1, explanation: "Premium membership additionally includes 'use of the kiln for firing your pieces', making B the correct option." },
+      { type:"gap", q:"The standard membership costs £____ per month.", answer:["40","forty"], explanation: "The original text states standard membership is 'forty pounds a month'." },
+      { type:"tfng", q:"Members must bring their own clay to the very first session.", answer:"FALSE", explanation: "The first workshop provides 'a small starter bag of clay free of charge', therefore it is FALSE." },
+      { type:"gap", q:"There is a refundable deposit of £____ when signing up.", answer:["50","fifty"], explanation: "The original text mentions a 'refundable deposit of fifty pounds'." },
+      { type:"mc", q:"Which session does Daniel finally book?", options:["Saturday morning","Sunday at ten","Sunday at two","Saturday afternoon"], answer:2, explanation: "Saturday morning is full; Daniel chose Sunday afternoon at two o'clock (the two o'clock one). Answer C." },
+      { type:"tfng", q:"Sandals are not permitted in the studio.", answer:"TRUE", explanation: "Sandals are not allowed for safety reasons (we do not allow sandals). TRUE." }
     ] },
 
-  { id:"l013", title:"Reporting a Lost Bag at a Train Station", section:"Section 1 · 对话", scenario:"乘客在火车站失物招领处报告丢失的背包",
+  { id:"l013", title:"Reporting a Lost Bag at a Train Station", section:"Section 1 · Conversation", scenario:"A passenger reports a lost backpack at a station's lost-property office.",
     lines:[
       { speaker:"Officer (man)", text:"Hello, lost property office. What can I do for you?" },
       { speaker:"Passenger (woman)", text:"Hi, I think I left my backpack on the train this morning. I was hoping someone might have handed it in." },
@@ -48,15 +48,15 @@ window.IELTS_DATA.listening.push(
       { speaker:"Passenger (woman)", text:"Wonderful. Thank you so much for your help." }
     ],
     questions:[
-      { type:"gap", q:"The passenger was on the ____ service from Greenford.", answer:["8.15","eight fifteen","8:15","815"], explanation:"原文是八点十五分那班车(the eight fifteen service)。" },
-      { type:"mc", q:"What colour is the missing backpack?", options:["Black","Dark green","Brown","Navy blue"], answer:1, explanation:"乘客描述背包是深绿色(dark green),选 B。" },
-      { type:"tfng", q:"The backpack contained a laptop.", answer:"TRUE", explanation:"乘客说里面主要有笔记本电脑(Mainly my laptop),为 TRUE。" },
-      { type:"gap", q:"The make of the laptop inside the bag is ____ .", answer:["halcom"], explanation:"乘客确认电脑品牌是 Halcom。" },
-      { type:"mc", q:"What does the officer ask the passenger to provide as identification?", options:["A bank card","A driving licence or passport","A student card","A train ticket"], answer:1, explanation:"工作人员要求驾照或护照(driving licence or passport),选 B。" },
-      { type:"tfng", q:"The passenger has to pay a storage charge today.", answer:"FALSE", explanation:"包当天送来,无需支付仓储费(there is nothing to pay),为 FALSE。" }
+      { type:"gap", q:"The passenger was on the ____ service from Greenford.", answer:["8.15","eight fifteen","8:15","815"], explanation: "The original text refers to the 8:15 service (the eight fifteen service)." },
+      { type:"mc", q:"What colour is the missing backpack?", options:["Black","Dark green","Brown","Navy blue"], answer:1, explanation: "The passenger described the backpack as dark green (dark green). Answer B." },
+      { type:"tfng", q:"The backpack contained a laptop.", answer:"TRUE", explanation: "The passenger said it mainly contained a laptop (Mainly my laptop). TRUE." },
+      { type:"gap", q:"The make of the laptop inside the bag is ____ .", answer:["halcom"], explanation: "The passenger confirmed the computer brand is Halcom." },
+      { type:"mc", q:"What does the officer ask the passenger to provide as identification?", options:["A bank card","A driving licence or passport","A student card","A train ticket"], answer:1, explanation: "The staff member requested a driving licence or passport (driving licence or passport). Answer B." },
+      { type:"tfng", q:"The passenger has to pay a storage charge today.", answer:"FALSE", explanation: "The bag was delivered the same day, so no storage fee was required (there is nothing to pay). FALSE." }
     ] },
 
-  { id:"l014", title:"Welcome Talk at a City Farm", section:"Section 2 · 半独白", scenario:"城市农场工作人员向访客介绍设施与活动安排",
+  { id:"l014", title:"Welcome Talk at a City Farm", section:"Section 2 · Semi-monologue", scenario:"A city-farm staff member tells visitors about the facilities and activities.",
     lines:[
       { speaker:"Guide (woman)", text:"Good afternoon, everyone, and a warm welcome to Hilltop City Farm. My name is Sandra, and I will be giving you a quick overview before you explore on your own." },
       { speaker:"Guide (woman)", text:"First, a little background. The farm opened twelve years ago on land that used to be an old factory site. It is run entirely by volunteers, and entry is completely free, though we do welcome donations at the gate." },
@@ -71,15 +71,15 @@ window.IELTS_DATA.listening.push(
       { speaker:"Guide (woman)", text:"That is everything from me. The toilets are behind the cafe, and I will be around all afternoon if you have any questions. Do enjoy your visit, and thank you for coming." }
     ],
     questions:[
-      { type:"tfng", q:"There is an entry fee to visit the city farm.", answer:"FALSE", explanation:"入场完全免费(entry is completely free),只接受捐款,为 FALSE。" },
-      { type:"mc", q:"What is the city farm built on?", options:["A former school","An old factory site","A disused railway","A public park"], answer:1, explanation:"农场建在旧工厂用地上(an old factory site),选 B。" },
-      { type:"gap", q:"Visitors may only feed the animals with special feed bought from the ____ .", answer:["shop","farm shop"], explanation:"只能用从商店购买的专用饲料(buy from the shop)。" },
-      { type:"mc", q:"When are the gardening workshops held?", options:["Every Monday morning","Every Wednesday afternoon","Every weekend","Every July"], answer:1, explanation:"园艺工作坊每周三下午(every Wednesday afternoon),选 B。" },
-      { type:"gap", q:"The annual Harvest Day takes place on the ____ of July.", answer:["3rd","third","3"], explanation:"丰收日在 7 月 3 日(the third of July)。" },
-      { type:"tfng", q:"The pond area is open for visitors to walk around.", answer:"FALSE", explanation:"池塘区被围起来不对公众开放(fenced off and not open to the public),为 FALSE。" }
+      { type:"tfng", q:"There is an entry fee to visit the city farm.", answer:"FALSE", explanation: "Entry is completely free (entry is completely free); only donations are accepted. FALSE." },
+      { type:"mc", q:"What is the city farm built on?", options:["A former school","An old factory site","A disused railway","A public park"], answer:1, explanation: "The farm was built on an old factory site (an old factory site). Answer B." },
+      { type:"gap", q:"Visitors may only feed the animals with special feed bought from the ____ .", answer:["shop","farm shop"], explanation: "Only use special feed bought from the shop." },
+      { type:"mc", q:"When are the gardening workshops held?", options:["Every Monday morning","Every Wednesday afternoon","Every weekend","Every July"], answer:1, explanation: "Gardening workshop every Wednesday afternoon, select B." },
+      { type:"gap", q:"The annual Harvest Day takes place on the ____ of July.", answer:["3rd","third","3"], explanation: "Harvest Festival is on 3rd July." },
+      { type:"tfng", q:"The pond area is open for visitors to walk around.", answer:"FALSE", explanation: "The pond area is fenced off and not open to the public, FALSE." }
     ] },
 
-  { id:"l015", title:"Notice About Changes to the Local Library", section:"Section 2 · 独白", scenario:"图书馆经理通过广播通知翻修期间的服务变动",
+  { id:"l015", title:"Notice About Changes to the Local Library", section:"Section 2 · Monologue", scenario:"A library manager announces service changes during renovation over the PA.",
     lines:[
       { speaker:"Manager (man)", text:"Good morning, everyone. This is Tom Bradley, the manager of Eastgate Public Library, with some important news about the building works starting next week." },
       { speaker:"Manager (man)", text:"As many of you know, the library is undergoing a major refurbishment to make it more comfortable and easier to use. The work is expected to last for around eight weeks, finishing by the end of August." },
@@ -93,11 +93,11 @@ window.IELTS_DATA.listening.push(
       { speaker:"Manager (man)", text:"We are very grateful for your patience. If you have any questions, please speak to a member of staff at the desk, or check the updates on our website. Thank you, and we look forward to welcoming you to the new and improved library." }
     ],
     questions:[
-      { type:"gap", q:"The refurbishment is expected to last about ____ weeks.", answer:["8","eight"], explanation:"翻修预计持续约八周(around eight weeks)。" },
-      { type:"tfng", q:"The library will close completely during the building works.", answer:"FALSE", explanation:"经理保证图书馆不会完全关闭(will not close completely),为 FALSE。" },
-      { type:"mc", q:"Which part of the library will be closed during the works?", options:["The ground floor","The upper floor","The entrance hall","The computer area"], answer:1, explanation:"楼上(参考区和自习室)将被关闭(the upper floor ... will be closed off),选 B。" },
-      { type:"mc", q:"What time will the library close in the evening during the works?", options:["Five o'clock","Six o'clock","Seven o'clock","Eight o'clock"], answer:1, explanation:"翻修期间提前到六点关门(we will close at six),选 B。" },
-      { type:"tfng", q:"All current loans will be extended automatically.", answer:"TRUE", explanation:"所有借阅自动延期四周(automatically extending all loans by four weeks),为 TRUE。" },
-      { type:"gap", q:"When the work is finished, there will be a new reading ____ at the back of the library.", answer:["garden"], explanation:"完工后后方会有全新的阅读花园(a brand-new reading garden)。" }
+      { type:"gap", q:"The refurbishment is expected to last about ____ weeks.", answer:["8","eight"], explanation: "Renovations are expected to last around eight weeks." },
+      { type:"tfng", q:"The library will close completely during the building works.", answer:"FALSE", explanation: "The manager guaranteed the library will not close completely, FALSE." },
+      { type:"mc", q:"Which part of the library will be closed during the works?", options:["The ground floor","The upper floor","The entrance hall","The computer area"], answer:1, explanation: "The upper floor (reference section and study rooms) will be closed off, select B." },
+      { type:"mc", q:"What time will the library close in the evening during the works?", options:["Five o'clock","Six o'clock","Seven o'clock","Eight o'clock"], answer:1, explanation: "During renovations, we will close early at six o'clock, select B." },
+      { type:"tfng", q:"All current loans will be extended automatically.", answer:"TRUE", explanation: "All loans are automatically extended by four weeks, TRUE." },
+      { type:"gap", q:"When the work is finished, there will be a new reading ____ at the back of the library.", answer:["garden"], explanation: "After completion, there will be a brand-new reading garden at the back." }
     ] }
 );

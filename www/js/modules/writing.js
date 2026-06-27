@@ -12,28 +12,28 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>Task ${w.task} · ${esc(w.title)}</h2><div class="faint">${esc(w.type || '')} · 建议 ${w.task === 1 ? '20' : '40'} 分钟 · ≥${minW} 词</div></div>
+        <div><h2>Task ${w.task} · ${esc(w.title)}</h2><div class="faint">${esc(w.type || '')} · ${w.task === 1 ? '20' : '40'} min · ≥${minW} words</div></div>
       </div>
     `));
 
     // 题目
-    wrap.appendChild(el(`<div class="card"><div class="card-title mb8">📋 题目</div><div>${esc(w.prompt)}</div></div>`));
+    wrap.appendChild(el(`<div class="card"><div class="card-title mb8">📋 Prompt</div><div>${esc(w.prompt)}</div></div>`));
 
     // 结构模板
     if (w.outline && w.outline.length) {
-      const o = el(`<div class="card"><div class="spread"><div class="card-title">🧱 写作结构</div><button class="btn ghost sm" id="toO">展开</button></div><div id="oBody" class="hidden mt12"></div></div>`);
+      const o = el(`<div class="card"><div class="spread"><div class="card-title">🧱 Structure</div><button class="btn ghost sm" id="toO">Expand</button></div><div id="oBody" class="hidden mt12"></div></div>`);
       const body = o.querySelector('#oBody');
       w.outline.forEach(step => body.appendChild(el(`<div class="phrase">${esc(step)}</div>`)));
-      o.querySelector('#toO').onclick = (e) => { body.classList.toggle('hidden'); e.target.textContent = body.classList.contains('hidden') ? '展开' : '收起'; };
+      o.querySelector('#toO').onclick = (e) => { body.classList.toggle('hidden'); e.target.textContent = body.classList.contains('hidden') ? 'Expand' : 'Collapse'; };
       wrap.appendChild(o);
     }
 
     // 句型
     if (w.useful_phrases && w.useful_phrases.length) {
-      const p = el(`<div class="card"><div class="spread"><div class="card-title">💡 实用句型</div><button class="btn ghost sm" id="toP">展开</button></div><div id="pBody" class="hidden mt12"></div></div>`);
+      const p = el(`<div class="card"><div class="spread"><div class="card-title">💡 Useful phrases</div><button class="btn ghost sm" id="toP">Expand</button></div><div id="pBody" class="hidden mt12"></div></div>`);
       const body = p.querySelector('#pBody');
       w.useful_phrases.forEach(ph => body.appendChild(el(`<div class="phrase">${esc(ph.en || ph)}${ph.zh ? `<span class="ph-zh">${esc(ph.zh)}</span>` : ''}</div>`)));
-      p.querySelector('#toP').onclick = (e) => { body.classList.toggle('hidden'); e.target.textContent = body.classList.contains('hidden') ? '展开' : '收起'; };
+      p.querySelector('#toP').onclick = (e) => { body.classList.toggle('hidden'); e.target.textContent = body.classList.contains('hidden') ? 'Expand' : 'Collapse'; };
       wrap.appendChild(p);
     }
 
@@ -41,25 +41,25 @@
     const drafts = Store.get('writingDrafts', {});
     const editor = el(`
       <div class="card">
-        <div class="spread mb8"><div class="card-title">✍️ 我的作文</div><div class="faint" id="timer">⏱️ 00:00</div></div>
-        <textarea class="input" id="essay" placeholder="在这里写作文…">${esc(drafts[w.id]?.text || '')}</textarea>
-        <div class="wordcount"><span id="wc">0</span> 词 / 目标 ≥${minW}</div>
-        <button class="btn good block mt8" id="aigrade">🤖 用 Gemini AI 批改作文</button>
+        <div class="spread mb8"><div class="card-title">✍️ Your essay</div><div class="faint" id="timer">⏱️ 00:00</div></div>
+        <textarea class="input" id="essay" placeholder="Write your essay here…">${esc(drafts[w.id]?.text || '')}</textarea>
+        <div class="wordcount"><span id="wc">0</span> words / target ≥${minW}</div>
+        <button class="btn good block mt8" id="aigrade">🤖 Grade with Gemini AI</button>
         <div class="row mt8" style="gap:8px">
-          <button class="btn" id="save" style="flex:1">保存并完成</button>
-          <button class="btn ghost" id="model" style="flex:1">查看范文</button>
+          <button class="btn" id="save" style="flex:1">Save & finish</button>
+          <button class="btn ghost" id="model" style="flex:1">View model answer</button>
         </div>
       </div>
     `);
     wrap.appendChild(editor);
 
     // 范文(隐藏)
-    const modelCard = el(`<div class="card hidden" id="modelCard"><div class="card-title mb8">📕 参考范文(Band 8+)</div><div class="passage">${(w.model_answer || '').split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('')}</div>${w.band_tips ? `<div class="explain mt8"><b>提分点</b><br>${esc(w.band_tips)}</div>` : ''}</div>`);
+    const modelCard = el(`<div class="card hidden" id="modelCard"><div class="card-title mb8">📕 Model answer (Band 8+)</div><div class="passage">${(w.model_answer || '').split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('')}</div>${w.band_tips ? `<div class="explain mt8"><b>How to score higher</b><br>${esc(w.band_tips)}</div>` : ''}</div>`);
     wrap.appendChild(modelCard);
 
     // 自查清单
     if (w.checklist && w.checklist.length) {
-      const c = el(`<div class="card"><div class="card-title mb8">✅ 评分自查(对照四项评分标准)</div><div id="cl"></div></div>`);
+      const c = el(`<div class="card"><div class="card-title mb8">✅ Self-check (against the 4 criteria)</div><div id="cl"></div></div>`);
       const cl = c.querySelector('#cl');
       w.checklist.forEach((item, i) => {
         const row = el(`<label class="row" style="padding:8px 0;cursor:pointer"><input type="checkbox" style="width:20px;height:20px"/> <span>${esc(item)}</span></label>`);
@@ -88,19 +88,19 @@
       Store.markTask('writing', true);
       App.refreshStreak();
       cleanup();
-      Toast('已保存,写作完成 ✅');
+      Toast('Saved — writing done ✅');
     };
     wrap.querySelector('#model').onclick = (e) => {
       modelCard.classList.toggle('hidden');
-      e.target.textContent = modelCard.classList.contains('hidden') ? '查看范文' : '收起范文';
+      e.target.textContent = modelCard.classList.contains('hidden') ? 'View model answer' : 'Hide model answer';
       if (!modelCard.classList.contains('hidden')) modelCard.scrollIntoView({ behavior: 'smooth' });
     };
 
     wrap.querySelector('#aigrade').onclick = async () => {
       const text = ta.value.trim();
-      if (text.length < 20) { Toast('先写一点内容再批改'); ta.focus(); return; }
+      if (text.length < 20) { Toast('Write a little more first'); ta.focus(); return; }
       await copyText(gradePrompt(w, text));
-      Toast('作文+批改提示词已复制,正在打开 Gemini');
+      Toast('Essay + grading prompt copied, opening Gemini');
       openGemini();
     };
   }
@@ -117,7 +117,7 @@
     try { window.open('https://gemini.google.com/app', '_blank'); } catch (e) {}
   }
 
-  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">✍️</div><p>暂无写作题目</p><button class="btn" onclick="App.go('today')">返回</button></div>`; }
+  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">✍️</div><p>No writing prompt yet</p><button class="btn" onclick="App.go('today')">Back</button></div>`; }
 
   window.Writing = { render };
 })();

@@ -1,7 +1,7 @@
 /* writing_b2.js — 写作进阶题(Task1 折线/表格 + Task2 观点/问题对策)+ 范文 + 结构 + 句型 + 自查 */
 window.IELTS_DATA.writing.push(
   {
-    id: "w005", task: 1, type: "折线图描述", title: "Electricity Production by Source", min_words: 150,
+    id: "w005", task: 1, type: "Line graph description", title: "Electricity Production by Source", min_words: 150,
     prompt: "The line graph below shows the amount of electricity generated from three different sources (coal, natural gas and renewables) in a European country between 2000 and 2020, measured in terawatt-hours (TWh). Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
     outline: [
       "开头:改写题目(paraphrase),说明图表内容、三个数据源与时间跨度、单位",
@@ -18,7 +18,7 @@ window.IELTS_DATA.writing.push(
       { en: "Over the same period, gas remained relatively stable, fluctuating around...", zh: "同期,天然气保持相对稳定,在……上下波动。" }
     ],
     model_answer: "The line graph illustrates how much electricity was produced from coal, natural gas and renewable sources in one European country over the two decades from 2000 to 2020, with output measured in terawatt-hours.\n\nOverall, it is clear that the country shifted away from coal towards cleaner energy: while coal generation fell dramatically across the period, electricity from renewables soared, eventually becoming the leading source. Natural gas, by contrast, remained comparatively steady throughout.\n\nIn 2000, coal was by far the dominant source, generating approximately 180 TWh, more than three times the output of renewables, which stood at only around 50 TWh. Gas occupied an intermediate position at roughly 90 TWh. Over the following decade, coal use declined gradually, whereas renewable generation climbed steadily, narrowing the gap between the two.\n\nThe most striking change occurred after 2012, when renewables overtook coal for the first time. From this point onwards, the contrast became increasingly pronounced: renewable output continued to rise, reaching a peak of about 200 TWh by 2020, while coal plummeted to a mere 40 TWh. Gas, meanwhile, fluctuated only slightly around the 100 TWh mark, ending the period as the second-largest source.",
-    band_tips: "折线图高分关键:1)必须有不含具体数字的总体趋势概述(Overview);2)准确使用过去时与多样趋势词(soared / plummeted / fluctuated / remained stable);3)突出交叉点与峰值等关键转折,并做横向与纵向比较;4)数据有取舍,绝不写个人评价。",
+    band_tips: "Line graph high score key: 1) Must include an overall trend overview without specific figures; 2) Accurately use past tense and varied trend vocabulary (\"soared / plummeted / fluctuated / remained stable\"); 3) Highlight key turning points like intersections and peaks, and make horizontal and vertical comparisons; 4) Select data carefully; never include personal opinions.",
     checklist: [
       "有改写题目的开头句(含时间跨度与单位)",
       "有不含细节数字的总体趋势概述(Overview)",
@@ -29,7 +29,7 @@ window.IELTS_DATA.writing.push(
     ]
   },
   {
-    id: "w006", task: 1, type: "表格对比描述", title: "Household Spending in Three Countries", min_words: 150,
+    id: "w006", task: 1, type: "Table comparison description", title: "Household Spending in Three Countries", min_words: 150,
     prompt: "The table below shows the percentage of household income spent on five categories (food, housing, transport, leisure and others) in three countries (Japan, the UK and Mexico) in a single year. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
     outline: [
       "开头:改写题目,说明表格内容(三国、五个支出类别、以收入百分比计)",
@@ -46,7 +46,7 @@ window.IELTS_DATA.writing.push(
       { en: "Spending on...was broadly similar across all three countries.", zh: "三国在……上的支出大体相近。" }
     ],
     model_answer: "The table compares how households in Japan, the UK and Mexico divided their income among five spending categories — food, housing, transport, leisure and others — in a particular year, with all figures given as percentages.\n\nOverall, housing and food together absorbed the greatest share of income in every country, though the balance between them differed markedly. Most notably, Mexican households spent proportionally far more on food, whereas spending on housing was highest in the UK.\n\nIn Mexico, food was by far the largest expense, accounting for around 35 per cent of income, almost double the equivalent figure in the UK and Japan, where food represented roughly 18 and 20 per cent respectively. Housing, on the other hand, took the biggest share in the UK at about 30 per cent, compared with 25 per cent in Japan and only 15 per cent in Mexico.\n\nThe remaining categories revealed smaller but clear contrasts. British and Japanese households allocated a comparable proportion to transport, at approximately 15 per cent each, while Mexicans spent slightly less. Leisure spending was noticeably higher in Japan and the UK, at around 12 per cent, than in Mexico, where it stood at just 8 per cent. The 'others' category was broadly similar across all three nations, hovering around 10 per cent.",
-    band_tips: "表格题高分关键:1)Overview 要提炼总体规律(哪类开支最大、哪国哪项突出),而非逐格念数;2)以横向国家对比为主线,搭配 highest/lowest/double/comparable 等比较结构;3)数据精选,聚焦最大值、最小值与最显著差距;4)不做主观推测。",
+    band_tips: "Table task high score key: 1) The Overview should summarise general patterns (e.g., which category has the largest expenditure, which country excels in which item), not list numbers cell by cell; 2) Focus on horizontal comparisons between countries, using comparative structures like \"highest/lowest/double/comparable\"; 3) Select data carefully, focusing on maximums, minimums, and the most significant differences; 4) Avoid subjective speculation.",
     checklist: [
       "改写了题目并说明单位为百分比",
       "Overview 提炼了总体规律而非罗列数字",
@@ -57,7 +57,7 @@ window.IELTS_DATA.writing.push(
     ]
   },
   {
-    id: "w007", task: 2, type: "观点类(同意/不同意)", title: "Public Money for the Arts", min_words: 250,
+    id: "w007", task: 2, type: "Opinion (agree / disagree)", title: "Public Money for the Arts", min_words: 250,
     prompt: "Some people think that governments should spend money on supporting the arts, such as museums, theatres and music, rather than on improving roads and public services. To what extent do you agree or disagree?",
     outline: [
       "引言:改写题目 + 明确表态(本范文采取部分不同意/平衡偏向公共服务的立场)",
@@ -74,7 +74,7 @@ window.IELTS_DATA.writing.push(
       { en: "On balance, I would argue that...outweighs...", zh: "总体而言,我认为……比……更重要。" }
     ],
     model_answer: "It is sometimes argued that public funds would be better directed towards the arts — museums, theatres and music — than towards roads and essential public services. While I recognise the cultural importance of the arts, I largely disagree, as I believe basic services that affect citizens' daily welfare must take precedence.\n\nThose who favour funding the arts make a reasonable case. Cultural institutions preserve a nation's heritage, enrich education and provide spaces in which people can think creatively. Furthermore, a vibrant arts scene can be economically valuable: world-famous galleries and concert halls attract millions of tourists each year, generating jobs and revenue. London's theatres and museums, for instance, draw visitors from across the globe and contribute significantly to the local economy.\n\nNevertheless, I find the opposing view more persuasive. Roads, hospitals and public transport directly determine people's safety, health and ability to earn a living, and these needs are surely more urgent than cultural enrichment. A crumbling road network causes accidents and delays that harm both individuals and businesses, whereas an underfunded health system can cost lives. When resources are limited, it seems irresponsible to prioritise entertainment over necessities that the entire population depends upon every day.\n\nThis is not to say that the arts should be abandoned. Rather, governments ought to guarantee a reliable standard of essential services first and then allocate any remaining funds to cultural projects, perhaps alongside private sponsorship. Such an approach protects public welfare without allowing a country's cultural life to wither.\n\nIn conclusion, although the arts undoubtedly bring cultural and economic benefits, I believe that spending on roads and public services should generally come first, since these underpin the safety and livelihoods of all citizens.",
-    band_tips: "观点类(To what extent)7.5+ 关键:1)引言必须明确表态且全文立场一致;2)即便偏向一方,也应有让步段以体现思辨;3)每段遵循 PEEL(观点-解释-例子-小结);4)连接词与句式多样(让步状语、虚拟、被动、名词化),用词精准。",
+    band_tips: "Opinion essay (\"To what extent\") 7.5+ key: 1) The introduction must state a clear position, and maintain a consistent stance throughout the essay; 2) Even if leaning towards one side, include a concession paragraph to show critical thinking; 3) Each paragraph should follow PEEL (Point-Explanation-Example-Link); 4) Use varied linking words and sentence structures (e.g., concessive clauses, conditionals, passive voice, nominalisation), and precise vocabulary.",
     checklist: [
       "引言改写题目并明确表明同意程度",
       "有让步段承认对立观点的合理之处",
@@ -85,7 +85,7 @@ window.IELTS_DATA.writing.push(
     ]
   },
   {
-    id: "w008", task: 2, type: "问题与对策类", title: "Traffic Congestion in Cities", min_words: 250,
+    id: "w008", task: 2, type: "Problems and solutions", title: "Traffic Congestion in Cities", min_words: 250,
     prompt: "Traffic congestion is becoming a serious problem in many large cities around the world. What are the main causes of this problem, and what measures can be taken to solve it?",
     outline: [
       "引言:改写题目,点明城市交通拥堵日益严重,预告下文将分析成因与对策",
@@ -102,7 +102,7 @@ window.IELTS_DATA.writing.push(
       { en: "This would not only ease congestion but also reduce air pollution.", zh: "这不仅能缓解拥堵,还能减少空气污染。" }
     ],
     model_answer: "Traffic congestion has become an increasingly pressing issue in major cities worldwide, bringing daily frustration and economic loss. This essay will first examine the principal causes of the problem and then suggest several practical measures to address it.\n\nThere are several factors behind growing congestion. The most fundamental is the dramatic rise in private car ownership: as incomes increase, more and more families buy vehicles, and the road infrastructure simply cannot expand quickly enough to cope. A second cause is the inadequacy of public transport in many cities; where bus and rail networks are unreliable or overcrowded, commuters feel they have little choice but to drive. Poor urban planning compounds the situation, since concentrating offices in a single central district forces huge numbers of people to travel to the same place at the same time, as is the case in cities such as Bangkok and São Paulo.\n\nFortunately, a number of measures can ease the problem if they target these causes directly. Above all, governments should invest heavily in fast, affordable public transport, since reliable metro and bus systems give people a genuine alternative to the car. In addition, congestion charges, like those in London, can deter unnecessary driving in city centres while raising funds for further improvements. Encouraging flexible and remote working would also help by spreading journeys throughout the day rather than concentrating them in rush hours. Together, such steps would not only reduce traffic but also lower harmful emissions.\n\nIn conclusion, urban congestion stems mainly from rising car use, weak public transport and centralised planning. By improving public transport, introducing congestion charges and promoting flexible working, cities can make significant progress towards smoother and cleaner traffic.",
-    band_tips: "问题对策类 7.5+ 关键:1)结构清晰——原因段与对策段分明,且对策要呼应原因形成逻辑闭环;2)用条件句与结果句说明对策效果(If...would...; This would...);3)论点配真实城市例子提升说服力;4)连接词多样,用词精准并适度名词化。",
+    band_tips: "Problem-solution essay 7.5+ key: 1) Clear structure: distinct paragraphs for causes and solutions, with solutions logically addressing the causes; 2) Use conditional and result clauses to explain the effect of solutions (\"If...would...; This would...\"); 3) Support arguments with real-world city examples to enhance persuasiveness; 4) Use varied linking words, precise vocabulary, and appropriate nominalisation.",
     checklist: [
       "引言改写题目并预告\"原因+对策\"结构",
       "原因段给出至少两到三个具体成因",

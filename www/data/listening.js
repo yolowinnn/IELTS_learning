@@ -1,7 +1,7 @@
 /* listening.js — 听力脚本 + 题目(TTS 朗读)。lines:[{speaker,text}] */
 window.IELTS_DATA.listening = [
   {
-    id: 'l001', title: 'Booking a Language Course', section: 'Section 1 · 生活对话', scenario: '电话咨询报名',
+    id: 'l001', title: 'Booking a Language Course', section: 'Section 1 · Everyday conversation', scenario: 'Phone enquiry and enrolment',
     lines: [
       { speaker: 'Receptionist', text: 'Good morning, Cambridge Language Centre. How can I help you?' },
       { speaker: 'Caller', text: 'Hi, I would like to enrol in an English evening course. Could you give me some details?' },
@@ -18,16 +18,16 @@ window.IELTS_DATA.listening = [
       { speaker: 'Receptionist', text: 'Certainly. May I take your full name and a contact number?' }
     ],
     questions: [
-      { type: 'mc', q: 'Which level does the caller choose?', options: ['Elementary', 'Intermediate', 'Advanced', 'Beginner'], answer: 1, explanation: '来电者选 intermediate。' },
-      { type: 'gap', q: 'The class meets on Tuesday and ________.', answer: ['Thursday'], explanation: '周二和周四。' },
-      { type: 'gap', q: 'With the student discount, the course costs £________.', answer: ['290', 'two hundred and ninety'], explanation: '学生优惠后 290 镑。' },
-      { type: 'mc', q: 'When does the course start?', options: ['5th September', '15th September', '15th October', '50th September'], answer: 1, explanation: '9 月 15 日开课。' },
-      { type: 'gap', q: 'The course lasts for ________ weeks.', answer: ['10', 'ten'], explanation: '持续 10 周。' },
-      { type: 'tfng', q: 'The student must buy the textbook separately.', answer: 'FALSE', explanation: '课本免费提供(free of charge)。' }
+      { type: 'mc', q: 'Which level does the caller choose?', options: ['Elementary', 'Intermediate', 'Advanced', 'Beginner'], answer: 1, explanation: "Caller chose intermediate." },
+      { type: 'gap', q: 'The class meets on Tuesday and ________.', answer: ['Thursday'], explanation: "Tuesday and Thursday." },
+      { type: 'gap', q: 'With the student discount, the course costs £________.', answer: ['290', 'two hundred and ninety'], explanation: "£290 after student discount." },
+      { type: 'mc', q: 'When does the course start?', options: ['5th September', '15th September', '15th October', '50th September'], answer: 1, explanation: "Starts on 15 September." },
+      { type: 'gap', q: 'The course lasts for ________ weeks.', answer: ['10', 'ten'], explanation: "Lasts 10 weeks." },
+      { type: 'tfng', q: 'The student must buy the textbook separately.', answer: 'FALSE', explanation: "Textbooks are free of charge." }
     ]
   },
   {
-    id: 'l002', title: 'The History of Tea', section: 'Section 4 · 学术讲座', scenario: '课堂讲座',
+    id: 'l002', title: 'The History of Tea', section: 'Section 4 · Academic lecture', scenario: 'Classroom lecture',
     lines: [
       { speaker: 'Lecturer', text: 'Good afternoon, everyone. Today we will look at the surprising history of one of the world\'s most popular drinks: tea.' },
       { speaker: 'Lecturer', text: 'According to legend, tea was discovered in China nearly five thousand years ago, when leaves accidentally blew into a pot of boiling water.' },
@@ -39,12 +39,12 @@ window.IELTS_DATA.listening = [
       { speaker: 'Lecturer', text: 'Interestingly, the way tea is prepared varies enormously. In some cultures it is served with milk and sugar, while in others adding anything to it would be unthinkable.' }
     ],
     questions: [
-      { type: 'gap', q: 'According to legend, tea was discovered in ________ about 5,000 years ago.', answer: ['China'], explanation: '传说茶起源于中国。' },
-      { type: 'tfng', q: 'Tea was originally valued only as a drink, never as a medicine.', answer: 'FALSE', explanation: '它也被当作药物。' },
-      { type: 'mc', q: 'When did tea reach Europe?', options: ['5th century', '15th century', '17th century', '19th century'], answer: 2, explanation: '17 世纪传入欧洲。' },
-      { type: 'gap', q: 'The British grew tea in India, especially in the region of ________.', answer: ['Assam'], explanation: '印度阿萨姆地区。' },
-      { type: 'mc', q: 'Which two countries are the largest tea producers today?', options: ['Britain and India', 'China and India', 'China and Japan', 'India and Kenya'], answer: 1, explanation: '中国和印度。' },
-      { type: 'tfng', q: 'Tea is prepared in the same way across all cultures.', answer: 'FALSE', explanation: '不同文化做法差异很大。' }
+      { type: 'gap', q: 'According to legend, tea was discovered in ________ about 5,000 years ago.', answer: ['China'], explanation: "Tea is said to have originated in China." },
+      { type: 'tfng', q: 'Tea was originally valued only as a drink, never as a medicine.', answer: 'FALSE', explanation: "It was also used as medicine." },
+      { type: 'mc', q: 'When did tea reach Europe?', options: ['5th century', '15th century', '17th century', '19th century'], answer: 2, explanation: "Introduced to Europe in the 17th century." },
+      { type: 'gap', q: 'The British grew tea in India, especially in the region of ________.', answer: ['Assam'], explanation: "Assam region of India." },
+      { type: 'mc', q: 'Which two countries are the largest tea producers today?', options: ['Britain and India', 'China and India', 'China and Japan', 'India and Kenya'], answer: 1, explanation: "China and India." },
+      { type: 'tfng', q: 'Tea is prepared in the same way across all cultures.', answer: 'FALSE', explanation: "Different cultural practices vary greatly." }
     ]
   }
 ];

@@ -10,7 +10,7 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>口语 · ${esc(s.title)}</h2><div class="faint">主题:${esc(s.topic || '')}</div></div>
+        <div><h2>Speaking · ${esc(s.title)}</h2><div class="faint">Topic: ${esc(s.topic || '')}</div></div>
       </div>
     `));
 
@@ -18,13 +18,13 @@
     const gp = s.gemini_prompt || defaultGeminiPrompt(s);
     const gcard = el(`
       <div class="card" style="background:linear-gradient(135deg,#1e293b,#164e3b);border-color:#10b981">
-        <div class="card-title mb8">🔗 或:跳转 Gemini App 对练(备用)</div>
-        <div class="faint mb8">没有麦克风/想用手机 Gemini 时:点按钮复制"考官提示词"并打开 Gemini,粘贴发送即可。</div>
+        <div class="card-title mb8">🔗 Or: practise in the Gemini app (backup)</div>
+        <div class="faint mb8">No mic, or prefer Gemini on your phone? Copy the examiner prompt, open Gemini, paste and send.</div>
         <div class="row" style="gap:8px">
-          <button class="btn good" id="gemini" style="flex:1">复制提示词并打开 Gemini</button>
-          <button class="btn ghost" id="copyOnly">仅复制</button>
+          <button class="btn good" id="gemini" style="flex:1">Copy prompt & open Gemini</button>
+          <button class="btn ghost" id="copyOnly">Copy only</button>
         </div>
-        <details class="mt8"><summary class="faint">查看提示词</summary><div class="phrase mt8">${esc(gp)}</div></details>
+        <details class="mt8"><summary class="faint">View prompt</summary><div class="phrase mt8">${esc(gp)}</div></details>
       </div>
     `);
     wrap.appendChild(liveCard(s));
@@ -32,19 +32,19 @@
 
     // Part 1
     if (s.intro_questions && s.intro_questions.length) {
-      wrap.appendChild(section('🗣️ Part 1 · 热身问答', s.intro_questions.map(q => qLine(q))));
+      wrap.appendChild(section('🗣️ Part 1 · Warm-up', s.intro_questions.map(q => qLine(q))));
     }
 
     // Part 2 题卡
     if (s.cue_card) {
       const cc = el(`
         <div class="card">
-          <div class="card-title mb8">🎴 Part 2 · 题卡</div>
+          <div class="card-title mb8">🎴 Part 2 · Cue card</div>
           <div style="font-weight:600">${esc(s.cue_card.prompt)}</div>
           <div class="mt8">${(s.cue_card.bullets || []).map(b => `<div class="phrase">• ${esc(b)}</div>`).join('')}</div>
           <div class="row mt12" style="gap:8px">
-            <button class="btn ghost" id="prep" style="flex:1">⏱️ 1分钟准备</button>
-            <button class="btn" id="talk" style="flex:1">🎙️ 2分钟陈述</button>
+            <button class="btn ghost" id="prep" style="flex:1">⏱️ 1-min prep</button>
+            <button class="btn" id="talk" style="flex:1">🎙️ 2-min talk</button>
           </div>
           <div class="center mt8 faint" id="cueTimer"></div>
         </div>
@@ -54,7 +54,7 @@
 
     // Part 3
     if (s.part3_questions && s.part3_questions.length) {
-      wrap.appendChild(section('💬 Part 3 · 深入讨论', s.part3_questions.map(q => qLine(q))));
+      wrap.appendChild(section('💬 Part 3 · Discussion', s.part3_questions.map(q => qLine(q))));
     }
 
     // 录音回放
@@ -62,7 +62,7 @@
 
     // 实用句型
     if (s.useful_phrases && s.useful_phrases.length) {
-      const p = el(`<div class="card"><div class="card-title mb8">💡 高分句型</div><div></div></div>`);
+      const p = el(`<div class="card"><div class="card-title mb8">💡 High-scoring phrases</div><div></div></div>`);
       const body = p.querySelector('div:last-child');
       s.useful_phrases.forEach(ph => body.appendChild(el(`<div class="phrase">${esc(ph.en || ph)}${ph.zh ? `<span class="ph-zh">${esc(ph.zh)}</span>` : ''}</div>`)));
       wrap.appendChild(p);
@@ -70,13 +70,13 @@
 
     // 范例
     if (s.sample_answer) {
-      const m = el(`<div class="card"><div class="spread"><div class="card-title">⭐ 参考范例</div><button class="btn ghost sm" id="sm">显示</button></div><div id="smBody" class="hidden mt12 passage">${s.sample_answer.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('')}</div></div>`);
-      m.querySelector('#sm').onclick = (e) => { const b = m.querySelector('#smBody'); b.classList.toggle('hidden'); e.target.textContent = b.classList.contains('hidden') ? '显示' : '隐藏'; };
+      const m = el(`<div class="card"><div class="spread"><div class="card-title">⭐ Sample answer</div><button class="btn ghost sm" id="sm">Show</button></div><div id="smBody" class="hidden mt12 passage">${s.sample_answer.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('')}</div></div>`);
+      m.querySelector('#sm').onclick = (e) => { const b = m.querySelector('#smBody'); b.classList.toggle('hidden'); e.target.textContent = b.classList.contains('hidden') ? 'Show' : 'Hide'; };
       wrap.appendChild(m);
     }
 
     // 完成
-    wrap.appendChild(el(`<button class="btn block mt8" id="done">标记口语完成 ✅</button>`));
+    wrap.appendChild(el(`<button class="btn block mt8" id="done">Mark speaking done ✅</button>`));
     view.appendChild(wrap);
 
     // ---- 事件 ----
@@ -84,10 +84,10 @@
 
     wrap.querySelector('#gemini').onclick = async () => {
       await copy(gp);
-      Toast('提示词已复制,正在打开 Gemini');
+      Toast('Prompt copied, opening Gemini');
       openGemini();
     };
-    wrap.querySelector('#copyOnly').onclick = async () => { await copy(gp); Toast('提示词已复制 ✅'); };
+    wrap.querySelector('#copyOnly').onclick = async () => { await copy(gp); Toast('Prompt copied ✅'); };
 
     // 题卡计时
     if (s.cue_card) {
@@ -96,17 +96,17 @@
       App.onLeave(() => clearInterval(timerId));
       const run = (secs, label, after) => {
         clearInterval(timerId); let r = secs;
-        const tick = () => { ct.textContent = `${label} ${String(Math.floor(r / 60)).padStart(2, '0')}:${String(r % 60).padStart(2, '0')}`; if (r-- <= 0) { clearInterval(timerId); ct.textContent = label + ' 结束 ✅'; after && after(); } };
+        const tick = () => { ct.textContent = `${label} ${String(Math.floor(r / 60)).padStart(2, '0')}:${String(r % 60).padStart(2, '0')}`; if (r-- <= 0) { clearInterval(timerId); ct.textContent = label + ' done ✅'; after && after(); } };
         tick(); timerId = setInterval(tick, 1000);
       };
-      wrap.querySelector('#prep').onclick = () => run(60, '准备中', () => Toast('开始陈述!'));
-      wrap.querySelector('#talk').onclick = () => run(120, '陈述中');
+      wrap.querySelector('#prep').onclick = () => run(60, 'Prep', () => Toast('Start talking!'));
+      wrap.querySelector('#talk').onclick = () => run(120, 'Talking');
     }
 
     wrap.querySelector('#done').onclick = () => {
       Store.markTask('speaking', true);
       Store.update('scores', {}, mp => { (mp.speaking = mp.speaking || []).push({ id: s.id, date: Store.todayStr() }); return mp; });
-      App.refreshStreak(); Toast('口语完成 ✅'); App.go('today');
+      App.refreshStreak(); Toast('Speaking done ✅'); App.go('today');
     };
   }
 
@@ -249,12 +249,12 @@
   function recorderCard() {
     const c = el(`
       <div class="card">
-        <div class="card-title mb8">🎙️ 录音自评(录下来听自己说)</div>
+        <div class="card-title mb8">🎙️ Self-record (hear yourself)</div>
         <div class="row" style="gap:8px">
-          <button class="btn" id="rec" style="flex:1">● 开始录音</button>
+          <button class="btn" id="rec" style="flex:1">● Start recording</button>
         </div>
         <audio id="pb" controls class="hidden" style="width:100%;margin-top:10px"></audio>
-        <div class="faint mt8" id="recHint">录完可回放,自查发音、流利度、连贯性。</div>
+        <div class="faint mt8" id="recHint">Play it back to check pronunciation, fluency and coherence.</div>
       </div>
     `);
     let mediaRec = null, chunks = [], recording = false, activeStream = null;
@@ -271,10 +271,10 @@
           const blob = new Blob(chunks, { type: chunks[0]?.type || 'audio/webm' });
           pb.src = URL.createObjectURL(blob); pb.classList.remove('hidden');
           stream.getTracks().forEach(t => t.stop());
-          recording = false; btn.textContent = '● 重新录音'; btn.classList.remove('bad');
+          recording = false; btn.textContent = '● Re-record'; btn.classList.remove('bad');
         };
-        mediaRec.start(); recording = true; btn.textContent = '■ 停止录音'; btn.classList.add('bad'); hint.textContent = '录音中…';
-      } catch (e) { Toast('无法访问麦克风,请在手机上授权'); }
+        mediaRec.start(); recording = true; btn.textContent = '■ Stop'; btn.classList.add('bad'); hint.textContent = 'Recording…';
+      } catch (e) { Toast('Cannot access microphone — please allow access'); }
     };
     return c;
   }
@@ -296,7 +296,7 @@
     }
   }
 
-  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">🗣️</div><p>暂无口语主题</p><button class="btn" onclick="App.go('today')">返回</button></div>`; }
+  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">🗣️</div><p>No speaking topic yet</p><button class="btn" onclick="App.go('today')">Back</button></div>`; }
 
   window.Speaking = { render };
 })();

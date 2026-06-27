@@ -3,8 +3,8 @@ window.IELTS_DATA.listening.push(
   {
     id:"l020",
     title:"Switching a Lab Section",
-    section:"TOEFL · 校园对话",
-    scenario:"一名学生去找化学课助教,想把自己的实验课时间从周二换到别的时段,因为和另一门必修课冲突。注意听冲突原因、可选时段、名额限制和需要办理的手续。",
+    section:"TOEFL · Campus conversation",
+    scenario:"A student asks the chemistry TA to move their lab from Tuesday because it clashes with another required course. Listen for the reason, the available slots, place limits and the steps to arrange it.",
     lines:[
       { speaker:"Student", text:"Hi, are you the teaching assistant for General Chemistry? I think I have a scheduling problem with the lab." },
       { speaker:"TA", text:"Yes, that's me. Have a seat. What seems to be the issue?" },
@@ -30,19 +30,19 @@ window.IELTS_DATA.listening.push(
       { speaker:"TA", text:"No problem. See you in Thursday's lab, hopefully." }
     ],
     questions:[
-      { type:"mc", q:"Why does the student come to see the teaching assistant?", options:["To ask for help with a difficult experiment","To request a change to his lab section time","To complain about another student in the lab","To drop the chemistry course entirely"], answer:1, explanation:"学生开头就说实验课时间和必修课冲突,想换时段。" },
-      { type:"mc", q:"What prevents the student from keeping his original lab time?", options:["He has a part-time job on Tuesdays","A required statistics course meets at the same time","The Tuesday lab has been cancelled","He finds the Tuesday TA unhelpful"], answer:1, explanation:"周二二到四点有唯一开设的概率课,无法移动,与实验课冲突。" },
-      { type:"gap", q:"Each lab section is limited to ________ students because of the number of workstations.", answer:["24","twenty-four","twenty four"], explanation:"TA 明说每个实验课名额上限 24 人(workstations 数量决定)。" },
-      { type:"mc", q:"Which section does the student decide to move into, and why?", options:["Wednesday morning, because it is taught by the professor","Friday morning, because it is the least crowded","Thursday afternoon, because it has the most open seats","Tuesday evening, because it has no overlap"], answer:2, explanation:"周三只剩 1 个、周五没有,周四约有 5 个空位,所以周四最稳。" },
-      { type:"tfng", q:"The different lab sections cover different sets of experiments.", answer:"FALSE", explanation:"TA 说每个 section 的实验顺序完全相同,唯一区别是带课的助教不同。" },
-      { type:"gap", q:"Because the online add-drop window has closed, the student now needs a signed ________ from the instructor to change sections.", answer:["form","section-change form","section change form"], explanation:"网上增退选已截止,改 section 需要授课老师签字的表格(form)。" }
+      { type:"mc", q:"Why does the student come to see the teaching assistant?", options:["To ask for help with a difficult experiment","To request a change to his lab section time","To complain about another student in the lab","To drop the chemistry course entirely"], answer:1, explanation: "The student immediately states the lab time clashes with a compulsory course and wishes to change slots." },
+      { type:"mc", q:"What prevents the student from keeping his original lab time?", options:["He has a part-time job on Tuesdays","A required statistics course meets at the same time","The Tuesday lab has been cancelled","He finds the Tuesday TA unhelpful"], answer:1, explanation: "The only probability class is on Tuesday from 2 to 4 pm, cannot be moved, and clashes with the lab." },
+      { type:"gap", q:"Each lab section is limited to ________ students because of the number of workstations.", answer:["24","twenty-four","twenty four"], explanation: "The TA explicitly states each lab session has a maximum of 24 students (determined by the number of workstations)." },
+      { type:"mc", q:"Which section does the student decide to move into, and why?", options:["Wednesday morning, because it is taught by the professor","Friday morning, because it is the least crowded","Thursday afternoon, because it has the most open seats","Tuesday evening, because it has no overlap"], answer:2, explanation: "Only 1 spot remains on Wednesday, none on Friday, and approximately 5 on Thursday, making Thursday the most stable option." },
+      { type:"tfng", q:"The different lab sections cover different sets of experiments.", answer:"FALSE", explanation: "The TA says the experiment order is identical for every section; the only difference is the teaching assistant." },
+      { type:"gap", q:"Because the online add-drop window has closed, the student now needs a signed ________ from the instructor to change sections.", answer:["form","section-change form","section change form"], explanation: "Online add/drop has closed; changing sections requires a form signed by the lecturer." }
     ]
   },
   {
     id:"l021",
     title:"Tracking Down a Conference Paper",
-    section:"TOEFL · 校园对话",
-    scenario:"一名研究生在图书馆求助馆员,想找一篇较旧的会议论文,但学校数据库里查不到。注意听论文为何难找、馆员建议的几种获取途径,以及馆际互借的时间和费用。",
+    section:"TOEFL · Campus conversation",
+    scenario:"A postgraduate asks a librarian to help find an older conference paper missing from the database. Listen for why it's hard to find, the routes suggested, and the time and cost of inter-library loans.",
     lines:[
       { speaker:"Student", text:"Excuse me, I'm hoping you can help. I've been trying to find a paper for my thesis, and I'm completely stuck." },
       { speaker:"Librarian", text:"That's what I'm here for. What's the paper, and where have you looked so far?" },
@@ -68,19 +68,19 @@ window.IELTS_DATA.listening.push(
       { speaker:"Librarian", text:"My pleasure. Good luck with the thesis." }
     ],
     questions:[
-      { type:"mc", q:"What is the student's main problem?", options:["She cannot locate an old conference paper she needs","She has lost her library borrowing privileges","She does not know the title of the paper she wants","She owes a fine on an overdue book"], answer:0, explanation:"学生要为论文找一篇 1998 年的会议论文,但数据库查不到。" },
-      { type:"mc", q:"According to the librarian, why doesn't the paper appear in a full-text search?", options:["The student misspelled the authors' names","Many older conference proceedings were never digitized","The paper was retracted by the conference","The database only covers journals, not robotics"], answer:1, explanation:"馆员说那个年代很多旧会议论文集没被数字化,所以全文检索查不到。" },
-      { type:"gap", q:"The librarian suggests searching for the whole ________ volume instead of the individual paper.", answer:["proceedings","proceedings volume","conference proceedings"], explanation:"会议把当年所有论文合订成一本 proceedings(论文集),应按论文集来查。" },
-      { type:"tfng", q:"The library owns the 1998 volume of the symposium proceedings.", answer:"FALSE", explanation:"馆员查目录后说他们只藏 2003 年以后的,1998 年那卷不在馆藏。" },
-      { type:"gap", q:"For enrolled graduate students, the first ________ interlibrary loan requests each term are free.", answer:["10","ten"], explanation:"馆员说研究生每学期前 10 次馆际互借免费。" },
-      { type:"mc", q:"What does the librarian recommend the student try first?", options:["Buying the volume from an online bookstore","Filing the interlibrary loan request immediately","Emailing the lead author for a copy of the paper","Visiting the conference organizers in person"], answer:2, explanation:"馆员说更快的办法是先直接给第一作者发邮件要论文,作者常会直接发给你。" }
+      { type:"mc", q:"What is the student's main problem?", options:["She cannot locate an old conference paper she needs","She has lost her library borrowing privileges","She does not know the title of the paper she wants","She owes a fine on an overdue book"], answer:0, explanation: "The student needed a 1998 conference paper for their thesis but couldn't find it in the database." },
+      { type:"mc", q:"According to the librarian, why doesn't the paper appear in a full-text search?", options:["The student misspelled the authors' names","Many older conference proceedings were never digitized","The paper was retracted by the conference","The database only covers journals, not robotics"], answer:1, explanation: "The librarian explained that many old conference proceedings from that era hadn't been digitised, so full-text searches wouldn't find them." },
+      { type:"gap", q:"The librarian suggests searching for the whole ________ volume instead of the individual paper.", answer:["proceedings","proceedings volume","conference proceedings"], explanation: "The conference bound all papers from that year into a single volume of \"proceedings\", which should be searched for." },
+      { type:"tfng", q:"The library owns the 1998 volume of the symposium proceedings.", answer:"FALSE", explanation: "After checking the catalogue, the librarian stated they only held volumes from 2003 onwards, and the 1998 volume was not in their collection." },
+      { type:"gap", q:"For enrolled graduate students, the first ________ interlibrary loan requests each term are free.", answer:["10","ten"], explanation: "The librarian mentioned that postgraduate students receive their first 10 interlibrary loans free each semester." },
+      { type:"mc", q:"What does the librarian recommend the student try first?", options:["Buying the volume from an online bookstore","Filing the interlibrary loan request immediately","Emailing the lead author for a copy of the paper","Visiting the conference organizers in person"], answer:2, explanation: "The librarian suggested a quicker method was to email the first author directly to request the paper, as authors often send it straight away." }
     ]
   },
   {
     id:"l022",
     title:"How Desert Plants Survive Drought",
-    section:"TOEFL · 学术讲座",
-    scenario:"一节环境科学/植物学讲座,教授讲解沙漠植物在极端干旱下生存的几种策略,包括逃避型、储水型和耐旱型,并以仙人掌的特殊光合作用机制为例。注意听各类策略的定义、对比和具体例子。",
+    section:"TOEFL · Academic lecture",
+    scenario:"A botany lecture on how desert plants survive drought — escaping, water-storing and drought-tolerant strategies — using the cactus's special photosynthesis as an example. Listen for each strategy's definition, contrasts and examples.",
     lines:[
       { speaker:"Professor", text:"Good morning. Today I want to tackle a question that sounds simple but has a remarkably complex answer: how do plants survive in deserts, where it may not rain for months, or in extreme cases, years?" },
       { speaker:"Professor", text:"The first thing to understand is that there isn't one single solution. Desert plants have evolved at least three broad strategies, and it's worth keeping them separate in your mind." },
@@ -103,19 +103,19 @@ window.IELTS_DATA.listening.push(
       { speaker:"Professor", text:"For Thursday, I'd like you to read the chapter on water relations and come prepared to discuss why the CAM pathway, efficient as it is, also makes cacti grow extremely slowly. There's an important trade-off there." }
     ],
     questions:[
-      { type:"mc", q:"What is the lecture mainly about?", options:["Why deserts receive so little rainfall","Different strategies plants use to survive desert drought","How to grow cacti as houseplants","The history of desert exploration"], answer:1, explanation:"教授开篇即问沙漠植物如何生存,全篇围绕三种生存策略展开。" },
-      { type:"mc", q:"How do drought-escaping desert wildflowers survive long dry periods?", options:["They store large amounts of water in their roots","Their seeds stay dormant and they complete their life cycle quickly after rain","They photosynthesize only at night","They drop all their leaves and turn brown"], answer:1, explanation:"逃避型植物种子可休眠多年,一场大雨后几周内完成发芽、开花、结种。" },
-      { type:"gap", q:"In cacti, the leaves have been reduced to ________, which lose almost no water and deter animals.", answer:["spines","spine"], explanation:"教授说仙人掌把叶片退化成刺(spines),几乎不失水还能驱赶动物。" },
-      { type:"gap", q:"Cacti use the ________ pathway, keeping their stomata closed during the day and opening them only at night.", answer:["CAM","C.A.M."], explanation:"教授强调今天的核心是 CAM 光合途径——白天关气孔、夜间开气孔。" },
-      { type:"tfng", q:"The CAM pathway allows cacti to take in carbon dioxide during the hottest part of the day.", answer:"FALSE", explanation:"恰相反:CAM 让仙人掌白天关闭气孔,只在凉爽湿润的夜间吸入二氧化碳。" },
-      { type:"mc", q:"What makes resurrection plants (the drought-tolerance strategy) unusual?", options:["They can lose nearly all their water, appear dead, then revive after rain","They produce flowers every single day of the year","They survive by growing extremely tall to reach groundwater","They are the fastest-growing plants in the desert"], answer:0, explanation:"耐旱型的复活植物可失去几乎全部水分、看似枯死数月,雨后一两天又复绿。" }
+      { type:"mc", q:"What is the lecture mainly about?", options:["Why deserts receive so little rainfall","Different strategies plants use to survive desert drought","How to grow cacti as houseplants","The history of desert exploration"], answer:1, explanation: "The professor began by asking how desert plants survive, and the entire lecture revolved around three survival strategies." },
+      { type:"mc", q:"How do drought-escaping desert wildflowers survive long dry periods?", options:["They store large amounts of water in their roots","Their seeds stay dormant and they complete their life cycle quickly after rain","They photosynthesize only at night","They drop all their leaves and turn brown"], answer:1, explanation: "Escape-type plant seeds can remain dormant for years, germinating, flowering, and setting seed within weeks of a heavy rain." },
+      { type:"gap", q:"In cacti, the leaves have been reduced to ________, which lose almost no water and deter animals.", answer:["spines","spine"], explanation: "The professor explained that cacti have degenerated their leaves into \"spines\", which minimise water loss and deter animals." },
+      { type:"gap", q:"Cacti use the ________ pathway, keeping their stomata closed during the day and opening them only at night.", answer:["CAM","C.A.M."], explanation: "The professor emphasised that today's core topic was the CAM photosynthesis pathway – where stomata close during the day and open at night." },
+      { type:"tfng", q:"The CAM pathway allows cacti to take in carbon dioxide during the hottest part of the day.", answer:"FALSE", explanation: "Conversely, CAM allows cacti to close their stomata during the day, only absorbing carbon dioxide at night when it's cool and humid." },
+      { type:"mc", q:"What makes resurrection plants (the drought-tolerance strategy) unusual?", options:["They can lose nearly all their water, appear dead, then revive after rain","They produce flowers every single day of the year","They survive by growing extremely tall to reach groundwater","They are the fastest-growing plants in the desert"], answer:0, explanation: "Drought-tolerant resurrection plants can lose almost all their water, appearing dead for months, but turn green again within a day or two after rain." }
     ]
   },
   {
     id:"l023",
     title:"Reading the Light from Distant Stars",
-    section:"TOEFL · 学术讲座",
-    scenario:"一节天文学讲座,教授讲解天文学家如何仅凭恒星的光来推断其成分、温度和运动。重点是光谱学:吸收谱线如何揭示元素,谱线的红移与蓝移如何揭示恒星朝向或远离我们的运动。注意听各类信息的来源和具体原理。",
+    section:"TOEFL · Academic lecture",
+    scenario:"An astronomy lecture on inferring a star's composition, temperature and motion from its light. The focus is spectroscopy: how absorption lines reveal elements, and how redshift and blueshift reveal a star's motion towards or away from us.",
     lines:[
       { speaker:"Professor", text:"Here's something that should strike you as almost impossible. We will never travel to a star outside our solar system; even the nearest one is over four light-years away. And yet astronomers can tell you what stars are made of, how hot they are, and how fast they're moving. How?" },
       { speaker:"Professor", text:"The answer is that starlight itself carries an extraordinary amount of information, if you know how to decode it. The tool we use to decode it is called spectroscopy, and that's our subject today." },
@@ -137,12 +137,12 @@ window.IELTS_DATA.listening.push(
       { speaker:"Professor", text:"For next week, I want you to bring one question about what spectroscopy cannot tell us, because there are real limits, and thinking about the gaps is just as instructive as celebrating the successes." }
     ],
     questions:[
-      { type:"mc", q:"What is the main purpose of the lecture?", options:["To describe a planned mission to a nearby star","To explain how astronomers learn about stars by analyzing their light","To argue that space travel will soon be possible","To compare the brightness of different galaxies"], answer:1, explanation:"教授开篇就问:从未到过恒星,却能知道其成分、温度、运动,靠的就是分析星光(光谱学)。" },
-      { type:"gap", q:"The thin dark gaps in a star's spectrum, where specific colors are missing, are called ________ lines.", answer:["absorption"], explanation:"恒星外层较冷气体吸收特定颜色,形成光谱中的吸收线(absorption lines)。" },
-      { type:"mc", q:"How do astronomers determine which elements a star contains?", options:["By measuring how bright the star appears","Each element absorbs a unique pattern of colors, like a fingerprint","By detecting sound waves coming from the star","By comparing the star's size to the Sun"], answer:1, explanation:"每种元素吸收一组独特颜色,像指纹;暗线出现在哪个波长就说明含哪种元素。" },
-      { type:"tfng", q:"According to the professor, a blue star is cooler than a red star.", answer:"FALSE", explanation:"恰相反:蓝光能量更高,蓝色恒星其实更热,红色恒星更冷,教授特别提醒别搞反。" },
-      { type:"gap", q:"When a star is moving away from us, its absorption lines shift toward the red end of the spectrum, an effect called a ________.", answer:["redshift","red shift","red-shift"], explanation:"远离时光波被拉伸,谱线向红端移动,称为红移(redshift)。" },
-      { type:"mc", q:"Why was the discovery that distant galaxies show a redshift historically important?", options:["It proved stars are made of unknown elements","It became key evidence that the universe is expanding","It showed that the Doppler effect does not apply to light","It allowed astronomers to measure a star's exact size"], answer:1, explanation:"1920 年代发现几乎所有远星系都红移(都在远离),成为宇宙膨胀的核心证据之一。" }
+      { type:"mc", q:"What is the main purpose of the lecture?", options:["To describe a planned mission to a nearby star","To explain how astronomers learn about stars by analyzing their light","To argue that space travel will soon be possible","To compare the brightness of different galaxies"], answer:1, explanation: "The professor began by asking how we know the composition, temperature, and movement of stars without ever visiting them; the answer is by analysing starlight (spectroscopy)." },
+      { type:"gap", q:"The thin dark gaps in a star's spectrum, where specific colors are missing, are called ________ lines.", answer:["absorption"], explanation: "Cooler gases in a star's outer layers absorb specific colours, creating 'absorption lines' in the spectrum." },
+      { type:"mc", q:"How do astronomers determine which elements a star contains?", options:["By measuring how bright the star appears","Each element absorbs a unique pattern of colors, like a fingerprint","By detecting sound waves coming from the star","By comparing the star's size to the Sun"], answer:1, explanation: "Each element absorbs a unique set of colours, like a fingerprint; the wavelength of the dark lines indicates which element is present." },
+      { type:"tfng", q:"According to the professor, a blue star is cooler than a red star.", answer:"FALSE", explanation: "Conversely, blue light has higher energy, so blue stars are actually hotter and red stars are cooler; the professor specifically warned not to confuse this." },
+      { type:"gap", q:"When a star is moving away from us, its absorption lines shift toward the red end of the spectrum, an effect called a ________.", answer:["redshift","red shift","red-shift"], explanation: "As objects move away, their light waves are stretched and spectral lines shift towards the red end of the spectrum, a phenomenon called 'redshift'." },
+      { type:"mc", q:"Why was the discovery that distant galaxies show a redshift historically important?", options:["It proved stars are made of unknown elements","It became key evidence that the universe is expanding","It showed that the Doppler effect does not apply to light","It allowed astronomers to measure a star's exact size"], answer:1, explanation: "In the 1920s, it was discovered that almost all distant galaxies show 'redshift' (moving away), which became one of the core pieces of evidence for the expanding universe." }
     ]
   }
 );

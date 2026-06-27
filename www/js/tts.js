@@ -34,7 +34,7 @@
   let speaking = false;
 
   function speak(text, opts = {}) {
-    if (!synth) { Toast && Toast('当前环境不支持语音合成'); return Promise.resolve(); }
+    if (!synth) { Toast && Toast('Speech synthesis is not supported here'); return Promise.resolve(); }
     return new Promise((resolve) => {
       const u = new SpeechSynthesisUtterance(text);
       const v = opts.voice || pickVoice();

@@ -1,7 +1,7 @@
 /* writing.js — 写作题目(Task1/Task2)+ 范文 + 结构 + 句型 + 自查 */
 window.IELTS_DATA.writing = [
   {
-    id: 'w001', task: 1, type: '柱状图描述', title: 'Coffee vs Tea Consumption', min_words: 150,
+    id: 'w001', task: 1, type: 'Bar chart description', title: 'Coffee vs Tea Consumption', min_words: 150,
     prompt: 'The bar chart below shows the consumption of coffee and tea in four countries (the UK, the USA, China and Brazil) in 2020, measured in cups per person per day. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.',
     outline: [
       '开头:改写题目(paraphrase),说明图表内容与单位',
@@ -18,11 +18,11 @@ window.IELTS_DATA.writing = [
       { en: 'The figure for X stood at around...', zh: 'X 的数值约为……' }
     ],
     model_answer: 'The bar chart compares how many cups of coffee and tea people drank per day in four countries — the UK, the USA, China and Brazil — in 2020.\n\nOverall, it is clear that tea was the preferred drink in the UK and China, whereas coffee was far more popular in the USA and Brazil. The largest single figure was for tea consumption in China.\n\nIn the UK, people drank around three cups of tea a day, more than double their coffee consumption of roughly one and a half cups. The pattern in China was even more pronounced: tea consumption reached about four cups per person, while coffee was almost negligible at well under one cup.\n\nThe situation was reversed in the two American countries. In the USA, coffee dominated at approximately three cups daily, compared with just one cup of tea. Brazilians showed a similar preference, consuming about two and a half cups of coffee but only half a cup of tea.\n\nIn short, hot-drink preferences divided the four nations sharply, with the two traditionally tea-drinking countries on one side and the two coffee-drinking nations on the other.',
-    band_tips: '小作文高分关键:1)必须有清晰 Overview;2)数据有取舍、突出对比;3)用多样的比较结构与趋势词;4)不写主观评价。',
+    band_tips: "Keys to a high score in report writing: 1) Must have a clear Overview; 2) Select data and highlight comparisons; 3) Use varied comparative structures and trend words; 4) Avoid subjective evaluation.",
     checklist: ['有改写题目的开头句', '有不含细节数字的总体概述(Overview)', '主体段做了国家之间的比较', '用了至少3种不同的比较/数据表达', '没有出现个人观点', '词数 ≥150']
   },
   {
-    id: 'w002', task: 1, type: '流程图描述', title: 'How Paper is Recycled', min_words: 150,
+    id: 'w002', task: 1, type: 'Process diagram description', title: 'How Paper is Recycled', min_words: 150,
     prompt: 'The diagram below shows the process by which waste paper is recycled. Summarise the information by selecting and reporting the main features.',
     outline: [
       '开头:改写题目,说明这是一个由若干阶段组成的流程',
@@ -39,11 +39,11 @@ window.IELTS_DATA.writing = [
       { en: 'At this stage, the X is + 过去分词', zh: '在此阶段,X 被……' }
     ],
     model_answer: 'The diagram illustrates how waste paper is processed and turned into new paper products. Overall, the process is cyclical and can be divided into six main stages, starting with the collection of used paper and ending with the production of recycled paper.\n\nTo begin with, waste paper is collected from homes and offices and transported to a recycling plant. There, it is sorted by hand and by machine to remove unsuitable materials such as plastic. Once the paper has been sorted, it is mixed with water and chemicals and broken down into a soft mixture known as pulp.\n\nIn the next phase, the pulp is cleaned in a process called de-inking, in which the old ink is removed. After that, the cleaned pulp is passed through rollers, which press out the water and flatten it into thin sheets. Finally, the sheets are dried and rolled, producing fresh paper that can be sent back to shops and offices, allowing the cycle to begin again.',
-    band_tips: '流程图核心:被动语态(is collected / is sorted)+ 顺序连接词 + 清晰的阶段划分。概述写清总阶段数和首尾。',
+    band_tips: "Core of process diagrams: passive voice (e.g., \"is collected / is sorted\"), sequential connectors, and clear stage division. The overview should state the total number of stages and the start and end points.",
     checklist: ['改写了题目', '概述说明了阶段数和起止', '大量使用被动语态', '顺序连接词丰富且不重复', '按正确顺序描述', '词数 ≥150']
   },
   {
-    id: 'w003', task: 2, type: '观点类(同意/不同意)', title: 'Should University Be Free?', min_words: 250,
+    id: 'w003', task: 2, type: 'Opinion (agree / disagree)', title: 'Should University Be Free?', min_words: 250,
     prompt: 'Some people believe that university education should be free for all students, while others think students should pay for it themselves. Discuss both views and give your own opinion.',
     outline: [
       '引言:改写题目 + 表明你的立场',
@@ -60,11 +60,11 @@ window.IELTS_DATA.writing = [
       { en: 'In my view / On balance, I believe that...', zh: '在我看来/总体而言,我认为……' }
     ],
     model_answer: 'The question of who should pay for higher education provokes strong opinions. While some argue that university should be funded entirely by the state, others maintain that students themselves should bear the cost. This essay will examine both positions before explaining why I believe a partly subsidised system is the fairest solution.\n\nThose who support free university education point to the issue of equality. If tuition is expensive, talented students from poorer families may be discouraged from applying, which wastes human potential and deepens social divisions. A free system, by contrast, allows everyone to compete on merit rather than wealth. Supporters also argue that society as a whole benefits from a well-educated population, since graduates contribute skills, pay higher taxes and drive innovation.\n\nOn the other hand, opponents stress the enormous cost to taxpayers. Funding every student is expensive, and this money might otherwise be spent on schools or healthcare. Furthermore, when education is free, some students may not value it or may choose courses with little practical benefit. Charging fees, they argue, encourages learners to take their studies seriously and to select subjects with clear career prospects.\n\nIn my opinion, both extremes are flawed. A completely free system places a heavy burden on the state, yet leaving students to pay full fees risks excluding the poor. The most sensible approach is therefore a balanced one, in which the government subsidises tuition while students contribute a modest, income-based amount after graduation. This protects access without ignoring economic reality.\n\nIn conclusion, although free education promotes fairness and self-funding encourages responsibility, a partly subsidised model best combines the strengths of both views.',
-    band_tips: '大作文 7.5 关键:1)立场清晰且全文一致;2)每个主体段有 PEEL(观点-解释-例子-小结);3)连接词自然多样;4)用词精准、句式有变化(从句/倒装/被动)。',
+    band_tips: "Keys to an essay score of 7.5: 1) Clear and consistent stance throughout; 2) Each body paragraph follows PEEL (Point-Explanation-Example-Link); 3) Natural and varied connectors; 4) Precise vocabulary and varied sentence structures (subordinate clauses/inversion/passive).",
     checklist: ['引言改写题目并表明立场', '两个观点各有独立段落', '每段都有具体理由或例子', '有清晰的个人观点', '连接词多样不重复', '句式有复杂结构变化', '结论呼应全文', '词数 ≥250']
   },
   {
-    id: 'w004', task: 2, type: '利弊/双边讨论', title: 'Remote Work', min_words: 250,
+    id: 'w004', task: 2, type: 'Advantages / Discussion', title: 'Remote Work', min_words: 250,
     prompt: 'More and more people are working from home rather than in an office. Do the advantages of this development outweigh the disadvantages?',
     outline: [
       '引言:改写题目 + 表明利大于弊还是弊大于利',
@@ -80,7 +80,7 @@ window.IELTS_DATA.writing = [
       { en: 'Weighing up both sides, I would argue that...', zh: '权衡两方面,我认为……' }
     ],
     model_answer: 'In recent years, an increasing number of employees have begun working from home instead of commuting to a traditional office. Although this shift brings certain difficulties, I believe its benefits clearly outweigh its drawbacks.\n\nThe advantages of remote work are considerable. Most obviously, it removes the daily commute, saving workers both time and money and reducing traffic and pollution. Employees also gain flexibility, allowing them to balance professional duties with family responsibilities more easily. Many people, moreover, find that they concentrate better at home, away from the constant interruptions of a busy office, which can increase productivity. A parent, for example, can attend to a sick child and still complete a full day of work.\n\nNevertheless, there are genuine disadvantages. Working alone can be isolating, and the lack of face-to-face contact may weaken teamwork and the sense of belonging to a company. Communication can also become slower and more prone to misunderstanding when it relies entirely on email and video calls. Perhaps most seriously, the boundary between work and personal life can blur, leading some people to work longer hours and feel unable to switch off.\n\nIn my view, however, these problems can largely be managed. Regular video meetings and occasional office days can preserve teamwork, while clear routines help separate work from rest. The fundamental gains in flexibility, well-being and reduced commuting are harder to replace.\n\nIn conclusion, while remote work poses real challenges relating to isolation and communication, its advantages in terms of flexibility and efficiency are greater. With sensible management, working from home is, on balance, a positive development.',
-    band_tips: '“利大于弊”题型必须在引言明确表态,并在结论再次重申。注意 advantage/disadvantage 的同义替换(benefit/drawback/downside/merit)。',
+    band_tips: "For \"advantages outweigh disadvantages\" essays, clearly state your position in the introduction and reiterate it in the conclusion. Note synonyms for \"advantage/disadvantage\" (e.g., \"benefit/drawback/downside/merit\").",
     checklist: ['引言表明利弊立场', '优点段有具体例子', '缺点段有具体例子', '结论重申立场', 'advantage 类词有同义替换', '连接词自然', '词数 ≥250']
   }
 ];

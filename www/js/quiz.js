@@ -14,18 +14,18 @@
       box.appendChild(renderQ(q, i, state, () => submitted));
     });
 
-    const submit = el(`<button class="btn block mt12">${opts.submitText || '提交答案'}</button>`);
+    const submit = el(`<button class="btn block mt12">${opts.submitText || 'Submit'}</button>`);
     submit.onclick = () => {
       if (submitted) { opts.onComplete && opts.onComplete(score(), questions.length, true); return; }
       // 校验是否都作答
       const unanswered = state.filter(s => s.value === null || s.value === '').length;
-      if (unanswered > 0 && !confirm(`还有 ${unanswered} 题未作答,确认提交?`)) return;
+      if (unanswered > 0 && !confirm(`${unanswered} unanswered — submit anyway?`)) return;
       submitted = true;
       grade(box, questions, state);
       const sc = score();
-      const res = el(`<div class="card mt12 center"><div class="card-title center" style="justify-content:center">得分 ${sc} / ${questions.length}</div><div class="bar mt8"><i style="width:${Math.round(sc / questions.length * 100)}%"></i></div></div>`);
+      const res = el(`<div class="card mt12 center"><div class="card-title center" style="justify-content:center">Score ${sc} / ${questions.length}</div><div class="bar mt8"><i style="width:${Math.round(sc / questions.length * 100)}%"></i></div></div>`);
       box.insertBefore(res, submit);
-      submit.textContent = '完成,返回';
+      submit.textContent = 'Done — back';
       submit.classList.add('good');
       opts.onComplete && opts.onComplete(sc, questions.length, false);
       res.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -61,7 +61,7 @@
         wrap.appendChild(op);
       });
     } else if (type === 'gap') {
-      const inp = el(`<input class="opt" style="width:100%;background:var(--bg-soft);color:var(--tx)" placeholder="填写答案(单词)" />`);
+      const inp = el(`<input class="opt" style="width:100%;background:var(--bg-soft);color:var(--tx)" placeholder="Type your answer" />`);
       inp.oninput = () => { state[i].value = inp.value.trim(); };
       wrap.appendChild(inp);
       wrap._input = inp;
@@ -113,7 +113,7 @@
       const ansText = type === 'gap' ? (Array.isArray(q.answer) ? q.answer.join(' / ') : q.answer)
         : type === 'mc' ? String.fromCharCode(65 + Number(q.answer)) + '. ' + esc(q.options[q.answer])
         : q.answer;
-      wrap.appendChild(el(`<div class="explain"><b>${correct ? '✅ 正确' : '❌ 答案:' + esc(ansText)}</b>${q.explanation ? '<br>' + esc(q.explanation) : ''}</div>`));
+      wrap.appendChild(el(`<div class="explain"><b>${correct ? '✅ Correct' : '❌ Answer: ' + esc(ansText)}</b>${q.explanation ? '<br>' + esc(q.explanation) : ''}</div>`));
     });
   }
 

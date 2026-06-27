@@ -21,11 +21,11 @@
     const rate = Store.get('ttsRate', 1.0);
     const player = el(`
       <div class="card center">
-        ${(!AudioFX.usingFiles(l) && !TTS.supported) ? '<div class="explain">⚠️ 本机暂无内置音频且不支持语音合成,可直接看原文。</div>' : ''}
-        <button class="btn" id="play" style="width:120px;height:120px;border-radius:50%;font-size:40px;flex-direction:column">▶<small style="font-size:12px;font-weight:600">播放</small></button>
+        ${(!AudioFX.usingFiles(l) && !TTS.supported) ? '<div class="explain">⚠️ No built-in audio or speech synthesis here — read the transcript below.</div>' : ''}
+        <button class="btn" id="play" style="width:120px;height:120px;border-radius:50%;font-size:40px;flex-direction:column">▶<small style="font-size:12px;font-weight:600">Play</small></button>
         <div class="row mt12" style="justify-content:center;gap:14px">
-          <button class="btn ghost sm" id="replay">↺ 重听</button>
-          <label class="faint">语速
+          <button class="btn ghost sm" id="replay">↺ Replay</button>
+          <label class="faint">Speed
             <select id="rate">
               <option value="0.7">0.7×</option><option value="0.85">0.85×</option>
               <option value="1">1.0×</option><option value="1.15">1.15×</option>
@@ -33,19 +33,19 @@
           </label>
         </div>
         <div class="bar mt16" style="height:8px"><i id="pbar" style="width:0%"></i></div>
-        <div class="faint mt8" id="lc">点播放开始听</div>
+        <div class="faint mt8" id="lc">Tap play to start</div>
       </div>
     `);
     // 双栏:左=播放器+原文,右=题目(宽屏同屏)
     const split = el('<div class="split-layout"></div>');
     const left = el('<div class="col-left"></div>');
-    left.appendChild(el('<div class="col-head">🎧 听力</div>'));
+    left.appendChild(el('<div class="col-head">🎧 Listening</div>'));
     left.appendChild(player);
 
     // 原文(遮挡)
     const transWrap = el(`
       <div class="card">
-        <div class="spread"><div class="card-title">📝 听力原文</div><button class="btn ghost sm" id="toggleT">显示原文</button></div>
+        <div class="spread"><div class="card-title">📝 Transcript</div><button class="btn ghost sm" id="toggleT">Show transcript</button></div>
         <div id="trans" class="hidden mt12"></div>
       </div>
     `);
@@ -56,7 +56,7 @@
     left.appendChild(transWrap);
 
     const right = el('<div class="col-right"></div>');
-    right.appendChild(el(`<div class="col-head">✍️ 题目 (${(l.questions || []).length})</div>`));
+    right.appendChild(el(`<div class="col-head">✍️ Questions (${(l.questions || []).length})</div>`));
     const qbox = el('<div class="card"></div>');
     right.appendChild(qbox);
 
@@ -73,20 +73,20 @@
 
     const setBtn = (icon, label) => { playBtn.innerHTML = icon + '<small style="font-size:12px;font-weight:600">' + label + '</small>'; };
     function play() {
-      if (playing) { AudioFX.stop(); playing = false; setBtn('▶', '播放'); lc.textContent = '已暂停'; return; }
-      playing = true; setBtn('⏸', '停止'); pbar.style.width = '0%';
+      if (playing) { AudioFX.stop(); playing = false; setBtn('▶', 'Play'); lc.textContent = 'Paused'; return; }
+      playing = true; setBtn('⏸', 'Stop'); pbar.style.width = '0%';
       AudioFX.playListening(l, {
         rate: parseFloat(rateSel.value),
-        onIndex: (i, n) => { lc.textContent = `播放中 ${i}/${n} 句`; },
+        onIndex: (i, n) => { lc.textContent = `Playing ${i}/${n}`; },
         onProgress: (f) => { pbar.style.width = Math.round(f * 100) + '%'; },
-        onEnd: () => { playing = false; setBtn('▶', '重播'); pbar.style.width = '100%'; if ((lc.textContent || '').indexOf('播放中') === 0) lc.textContent = '播放完毕 ✓'; }
+        onEnd: () => { playing = false; setBtn('▶', 'Replay'); pbar.style.width = '100%'; if ((lc.textContent || '').indexOf('Playing') === 0) lc.textContent = 'Finished ✓'; }
       });
     }
     playBtn.onclick = play;
     wrap.querySelector('#replay').onclick = () => { AudioFX.stop(); playing = false; pbar.style.width = '0%'; play(); };
     wrap.querySelector('#toggleT').onclick = (e) => {
       trans.classList.toggle('hidden');
-      e.target.textContent = trans.classList.contains('hidden') ? '显示原文' : '隐藏原文';
+      e.target.textContent = trans.classList.contains('hidden') ? 'Show transcript' : 'Hide transcript';
     };
 
     Quiz.render(qbox, l.questions || [], {
@@ -96,12 +96,12 @@
         Store.markTask('listening', true);
         Store.update('scores', {}, m => { (m.listening = m.listening || []).push({ id: l.id, sc, total, date: Store.todayStr() }); return m; });
         App.refreshStreak();
-        Toast(`听力完成 ${sc}/${total}`);
+        Toast(`Listening done ${sc}/${total}`);
       }
     });
   }
 
-  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">🎧</div><p>暂无听力内容</p><button class="btn" onclick="App.go('today')">返回</button></div>`; }
+  function empty(view) { view.innerHTML = `<div class="empty"><div class="big">🎧</div><p>No listening content yet</p><button class="btn" onclick="App.go('today')">Back</button></div>`; }
 
   window.Listening = { render };
 })();

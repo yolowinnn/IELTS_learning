@@ -57,7 +57,7 @@
   async function signIn() {
     if (signingIn) return;            // 防连点导致 cancelled-popup-request
     if (!ready) { await init(); }
-    if (!auth) { Toast && Toast('云同步未配置'); return; }
+    if (!auth) { Toast && Toast('Cloud sync is not configured'); return; }
     signingIn = true;
     try {
       await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -70,41 +70,41 @@
       } else { console.warn(e); Toast && Toast(friendlyAuthErr(code)); }
     } finally { signingIn = false; }
   }
-  async function signOut() { if (auth) { try { await auth.signOut(); Toast && Toast('已退出登录'); } catch (e) {} } }
+  async function signOut() { if (auth) { try { await auth.signOut(); Toast && Toast('Signed out'); } catch (e) {} } }
 
   async function ensureAuth() { if (!ready) await init(); return !!auth; }
   async function signInEmail(email, pw) {
-    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    if (!(await ensureAuth())) return { error: 'Cloud sync is not configured' };
     try { await auth.signInWithEmailAndPassword(email, pw); return { ok: true }; }
     catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
   }
   async function signUpEmail(email, pw) {
-    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    if (!(await ensureAuth())) return { error: 'Cloud sync is not configured' };
     try { await auth.createUserWithEmailAndPassword(email, pw); return { ok: true }; }
     catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
   }
   async function resetEmail(email) {
-    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    if (!(await ensureAuth())) return { error: 'Cloud sync is not configured' };
     try { await auth.sendPasswordResetEmail(email); return { ok: true }; }
     catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
   }
   function friendlyAuthErr(code) {
     const m = {
-      'auth/invalid-email': '邮箱格式不正确',
-      'auth/user-not-found': '该邮箱未注册,请先注册',
-      'auth/wrong-password': '密码错误',
-      'auth/invalid-credential': '邮箱或密码错误',
-      'auth/email-already-in-use': '该邮箱已注册,请直接登录',
-      'auth/weak-password': '密码太短(至少 6 位)',
-      'auth/missing-password': '请输入密码',
-      'auth/too-many-requests': '尝试过多,请稍后再试',
-      'auth/operation-not-allowed': '邮箱登录未启用(需在 Firebase 控制台开启)',
-      'auth/unauthorized-domain': '本网址未在 Firebase 授权域名中(请在控制台加上本站域名)',
-      'auth/popup-closed-by-user': '登录弹窗被关闭了,请重试',
-      'auth/cancelled-popup-request': '弹窗被打断,请只点一次或改用邮箱登录',
-      'auth/network-request-failed': '网络错误,请检查连接'
+      'auth/invalid-email': 'Invalid email format',
+      'auth/user-not-found': 'No account for this email — please sign up',
+      'auth/wrong-password': 'Wrong password',
+      'auth/invalid-credential': 'Wrong email or password',
+      'auth/email-already-in-use': 'Email already registered — please sign in',
+      'auth/weak-password': 'Password too short (min 6 chars)',
+      'auth/missing-password': 'Please enter a password',
+      'auth/too-many-requests': 'Too many attempts — try again later',
+      'auth/operation-not-allowed': 'Email sign-in is not enabled (enable it in the Firebase console)',
+      'auth/unauthorized-domain': 'This domain is not authorized in Firebase (add it in the console)',
+      'auth/popup-closed-by-user': 'Sign-in popup was closed — please retry',
+      'auth/cancelled-popup-request': 'Popup interrupted — tap once, or use email sign-in',
+      'auth/network-request-failed': 'Network error — check your connection'
     };
-    return m[code] || ('登录失败:' + code);
+    return m[code] || ('Sign-in failed: ' + code);
   }
 
   function docRef(uid) { return db.collection('users').doc(uid); }

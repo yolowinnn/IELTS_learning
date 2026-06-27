@@ -98,8 +98,8 @@
     const total = queue.length;
     wrap.appendChild(el(`
       <div class="spread mb8">
-        <div class="pill ${isNew ? 'accent' : 'warn'}">${isNew ? '🆕 新词' : '🔁 复习'}</div>
-        <div class="faint">${total - remain + 1} / ${total} · ${esc(w.topic || '通用')}</div>
+        <div class="pill ${isNew ? 'accent' : 'warn'}">${isNew ? '🆕 New' : '🔁 Review'}</div>
+        <div class="faint">${total - remain + 1} / ${total} · ${esc(w.topic || 'general')}</div>
       </div>
       <div class="bar mb8" style="height:6px"><i style="width:${Math.round((total - remain) / total * 100)}%"></i></div>
     `));
@@ -112,13 +112,13 @@
               <div class="word">${esc(w.word)}</div>
               <div class="ipa">${esc(w.ipa || '')}<span class="say-btn" id="say">🔊</span></div>
               <div class="pos">${esc(w.pos || '')}</div>
-              <div class="tap-hint">👆 点击卡片查看释义</div>
+              <div class="tap-hint">👆 Tap card to reveal</div>
             </div>
             <div class="flip-face flip-back">
               <div class="def">${esc(w.def_en || '')}</div>
               <div class="def-zh">${esc(w.def_zh || '')}</div>
               ${w.example ? `<div class="ex">"${highlight(w.example, w.word)}"</div>` : ''}
-              ${w.synonyms ? `<div class="syn">近义:${esc(w.synonyms)}</div>` : ''}
+              ${w.synonyms ? `<div class="syn">Synonyms: ${esc(w.synonyms)}</div>` : ''}
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@
     wrap.appendChild(card);
 
     const footer = el('<div id="vfooter"></div>');
-    const revealBtn = el('<button class="btn block mt16">显示释义</button>');
+    const revealBtn = el('<button class="btn block mt16">Show meaning</button>');
     footer.appendChild(revealBtn);
     wrap.appendChild(footer);
     view.appendChild(wrap);
@@ -140,10 +140,10 @@
       footer.innerHTML = '';
       const gr = el(`
         <div class="grade-row pop-in">
-          <button class="btn bad"  data-q="0">忘记<small>&lt;1天</small></button>
-          <button class="btn ghost" data-q="3">困难<small>较短</small></button>
-          <button class="btn" data-q="4">记得<small>正常</small></button>
-          <button class="btn good" data-q="5">简单<small>更久</small></button>
+          <button class="btn bad"  data-q="0">Again<small>&lt;1d</small></button>
+          <button class="btn ghost" data-q="3">Hard<small>soon</small></button>
+          <button class="btn" data-q="4">Good<small>normal</small></button>
+          <button class="btn good" data-q="5">Easy<small>later</small></button>
         </div>`);
       footer.appendChild(gr);
       gr.querySelectorAll('[data-q]').forEach(b => b.onclick = () => gradeCurrent(parseInt(b.dataset.q, 10)));

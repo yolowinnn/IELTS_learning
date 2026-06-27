@@ -6,7 +6,7 @@
   function weekOf(day) { return Math.min(8, Math.ceil(day / 7)); }
   function weekInfo(day) {
     const w = weeks();
-    return w[weekOf(day) - 1] || { theme: '综合复习', focus: '查漏补缺,保持五项全练', target: '巩固' };
+    return w[weekOf(day) - 1] || { theme: 'Review & Consolidate', focus: 'Fill the gaps, keep all five skills active', target: 'Consolidate' };
   }
 
   function pool(name) { return window.IELTS_DATA[name] || []; }

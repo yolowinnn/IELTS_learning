@@ -3,8 +3,8 @@ window.IELTS_DATA.listening.push(
   {
     id:"l006",
     title:"Joining the City Sports Centre",
-    section:"Section 1 · 生活对话",
-    scenario:"一位顾客打电话到市体育中心,咨询会员卡、价格、课程和开放时间,并办理报名。注意听价格、日期、电话号码和姓名拼写。",
+    section:"Section 1 · Everyday conversation",
+    scenario:"A customer calls the city sports centre about membership, prices, classes and hours, and signs up. Listen for prices, dates, phone numbers and name spelling.",
     lines:[
       { speaker:"Megan", text:"Good morning, City Sports Centre, this is Megan speaking. How can I help you today?" },
       { speaker:"Robert", text:"Hi Megan. I've just moved to the area and I'd like to join the gym. Could you tell me about your membership options?" },
@@ -24,19 +24,19 @@ window.IELTS_DATA.listening.push(
       { speaker:"Robert", text:"It's oh-seven-nine-double-four, three-one-two, eight-six-five. I'll pop in on Saturday to collect my card." }
     ],
     questions:[
-      { type:"gap", q:"The premium membership costs ____ pounds a month.", answer:["50","fifty"], explanation:"Megan 说 premium membership 'is fifty pounds a month'。" },
-      { type:"tfng", q:"The joining fee is waived for members who sign up before the end of June.", answer:"TRUE", explanation:"Megan 说本月有优惠,在 6 月 30 日前报名 joining fee 'is completely waived',故为 TRUE。" },
-      { type:"mc", q:"Which class does Robert say he will attend?", options:["Spinning","Swimming","Yoga","Pilates"], answer:2, explanation:"Robert 觉得七点的游泳太早,说 'I'll probably stick to the yoga',故选 C(索引 2)。" },
-      { type:"gap", q:"The yoga class starts at ____ in the evening.", answer:["6.15","six fifteen","6:15","quarter past six"], explanation:"Megan 说 'The yoga class begins at six fifteen'。" },
-      { type:"mc", q:"What time does the centre close on weekdays?", options:["Eight in the evening","Ten at night","Six in the morning","Seven in the evening"], answer:1, explanation:"周中开放到晚上十点('until ten at night'),周末才提早到八点,故选 B(索引 1)。" },
-      { type:"gap", q:"The customer's surname is spelt ____.", answer:["caldwell"], explanation:"Robert 拼出姓氏 'C-A-L-D-W-E-L-L',即 Caldwell。" }
+      { type:"gap", q:"The premium membership costs ____ pounds a month.", answer:["50","fifty"], explanation: "Megan says the premium membership 'is fifty pounds a month'." },
+      { type:"tfng", q:"The joining fee is waived for members who sign up before the end of June.", answer:"TRUE", explanation: "Megan says there's a special offer this month; if you sign up before 30 June, the joining fee 'is completely waived', so it's TRUE." },
+      { type:"mc", q:"Which class does Robert say he will attend?", options:["Spinning","Swimming","Yoga","Pilates"], answer:2, explanation: "Robert thinks the 7 am swim is too early, saying 'I'll probably stick to the yoga', so C is chosen (index 2)." },
+      { type:"gap", q:"The yoga class starts at ____ in the evening.", answer:["6.15","six fifteen","6:15","quarter past six"], explanation: "Megan says 'The yoga class begins at six fifteen'." },
+      { type:"mc", q:"What time does the centre close on weekdays?", options:["Eight in the evening","Ten at night","Six in the morning","Seven in the evening"], answer:1, explanation: "It's open 'until ten at night' on weekdays, but closes earlier at 8 pm on weekends, so B is chosen (index 1)." },
+      { type:"gap", q:"The customer's surname is spelt ____.", answer:["caldwell"], explanation: "Robert spells the surname 'C-A-L-D-W-E-L-L', which is Caldwell." }
     ]
   },
   {
     id:"l007",
     title:"Planning a Group Research Project",
-    section:"Section 3 · 学术讨论",
-    scenario:"两名学生 Sophie 和 Daniel 与导师 Dr Reynolds 讨论一项关于城市绿地的小组研究项目,确定方法、分工和截止日期。",
+    section:"Section 3 · Academic discussion",
+    scenario:"Students Sophie and Daniel discuss a group research project on urban green spaces with their tutor Dr Reynolds, agreeing method, roles and deadlines.",
     lines:[
       { speaker:"Dr Reynolds", text:"So, Sophie, Daniel, let's talk through your project on urban green spaces. Have you decided how you're going to collect your data?" },
       { speaker:"Sophie", text:"We were thinking of doing a questionnaire, mainly to find out how often local residents use the parks and what they value most." },
@@ -54,19 +54,19 @@ window.IELTS_DATA.listening.push(
       { speaker:"Daniel", text:"Great, the twelfth it is. Thanks, Dr Reynolds, that's really helped us focus." }
     ],
     questions:[
-      { type:"mc", q:"Why does Daniel want to add interviews to the project?", options:["They are quicker than a questionnaire","A questionnaire alone might be too shallow","The tutor insisted on interviews","They need fewer participants"], answer:1, explanation:"Daniel 说担心 'a questionnaire on its own might be too shallow',所以想加访谈,故选 B(索引 1)。" },
-      { type:"gap", q:"Dr Reynolds suggests interviewing about ____ people.", answer:["6","six"], explanation:"导师建议访谈保持简短,'maybe six people'。" },
-      { type:"tfng", q:"Dr Reynolds recommends interviewing only students.", answer:"FALSE", explanation:"导师说 'A mix is far more useful',建议包含 older residents,而非只采访学生,故为 FALSE。" },
-      { type:"gap", q:"They should aim for at least ____ questionnaire responses.", answer:["100","a hundred","one hundred"], explanation:"导师说 'I'd say at least a hundred'。" },
-      { type:"mc", q:"Who will take the lead on the interviews?", options:["Sophie","Daniel","Dr Reynolds","Both equally"], answer:1, explanation:"Sophie 设计问卷,而 Daniel 负责访谈('takes the lead on the interviews'),故选 B(索引 1)。" },
-      { type:"gap", q:"The first draft of findings is due on the ____ of November.", answer:["12th","twelfth","12"], explanation:"导师把草稿截止日定在 'the twelfth of November'。" }
+      { type:"mc", q:"Why does Daniel want to add interviews to the project?", options:["They are quicker than a questionnaire","A questionnaire alone might be too shallow","The tutor insisted on interviews","They need fewer participants"], answer:1, explanation: "Daniel is concerned that 'a questionnaire on its own might be too shallow', so he wants to add interviews, thus B is chosen (index 1)." },
+      { type:"gap", q:"Dr Reynolds suggests interviewing about ____ people.", answer:["6","six"], explanation: "The tutor suggests keeping interviews brief, 'maybe six people'." },
+      { type:"tfng", q:"Dr Reynolds recommends interviewing only students.", answer:"FALSE", explanation: "The tutor says 'A mix is far more useful', recommending including older residents rather than just interviewing students, so it's FALSE." },
+      { type:"gap", q:"They should aim for at least ____ questionnaire responses.", answer:["100","a hundred","one hundred"], explanation: "The tutor says 'I'd say at least a hundred'." },
+      { type:"mc", q:"Who will take the lead on the interviews?", options:["Sophie","Daniel","Dr Reynolds","Both equally"], answer:1, explanation: "Sophie designed the questionnaire; Daniel \"takes the lead on the interviews\", hence B (Index 1)." },
+      { type:"gap", q:"The first draft of findings is due on the ____ of November.", answer:["12th","twelfth","12"], explanation: "The tutor set the draft deadline for \"the twelfth of November\"." }
     ]
   },
   {
     id:"l008",
     title:"The Science of Sleep",
-    section:"Section 4 · 学术讲座",
-    scenario:"一位讲师向本科生介绍睡眠科学,讲解睡眠的阶段、作用以及影响睡眠质量的因素。注意听具体数据和术语。",
+    section:"Section 4 · Academic lecture",
+    scenario:"A lecturer introduces the science of sleep — its stages, functions and what affects sleep quality. Listen for specific figures and terms.",
     lines:[
       { speaker:"Lecturer", text:"Good morning everyone. Today we're going to look at the science of sleep, something we all do yet rarely stop to understand." },
       { speaker:"Lecturer", text:"On average, an adult needs between seven and nine hours of sleep each night. Yet surveys suggest a large proportion of us regularly get far less than that." },
@@ -80,12 +80,12 @@ window.IELTS_DATA.listening.push(
       { speaker:"Lecturer", text:"In our next session, we'll examine the long-term health effects of poor sleep, and look at some of the most effective strategies for improving it." }
     ],
     questions:[
-      { type:"gap", q:"An adult needs between seven and ____ hours of sleep each night.", answer:["9","nine"], explanation:"讲师说成人平均需要 'between seven and nine hours of sleep'。" },
-      { type:"gap", q:"One full sleep cycle lasts roughly ____ minutes.", answer:["90","ninety"], explanation:"讲师说一个周期 'lasting roughly ninety minutes'。" },
-      { type:"mc", q:"According to the lecture, REM sleep is most important for which function?", options:["Physical recovery","Memory consolidation","Building muscle","Strengthening the immune system"], answer:1, explanation:"讲师说 REM sleep 'play a key role in memory',帮助大脑巩固白天所学,故选 B(索引 1);physical recovery 属于 deep sleep。" },
-      { type:"tfng", q:"Deep sleep is mainly responsible for physical recovery.", answer:"TRUE", explanation:"讲师说 deep sleep 'is more about physical recovery',负责修复组织、增强免疫,故为 TRUE。" },
-      { type:"gap", q:"Blue light from screens suppresses a hormone called ____.", answer:["melatonin"], explanation:"讲师说蓝光会抑制 'a hormone called melatonin'。" },
-      { type:"mc", q:"What temperature does the lecturer say is ideal for sleep?", options:["Around fifteen degrees","Around eighteen degrees","Around twenty-one degrees","Around twenty-four degrees"], answer:1, explanation:"讲师说卧室稍凉,'around eighteen degrees' 最理想,故选 B(索引 1)。" }
+      { type:"gap", q:"An adult needs between seven and ____ hours of sleep each night.", answer:["9","nine"], explanation: "The lecturer stated adults need \"between seven and nine hours of sleep\" on average." },
+      { type:"gap", q:"One full sleep cycle lasts roughly ____ minutes.", answer:["90","ninety"], explanation: "The lecturer mentioned a cycle \"lasting roughly ninety minutes\"." },
+      { type:"mc", q:"According to the lecture, REM sleep is most important for which function?", options:["Physical recovery","Memory consolidation","Building muscle","Strengthening the immune system"], answer:1, explanation: "The lecturer stated REM sleep \"play a key role in memory\", helping the brain consolidate daily learning, hence B (Index 1); physical recovery relates to deep sleep." },
+      { type:"tfng", q:"Deep sleep is mainly responsible for physical recovery.", answer:"TRUE", explanation: "The lecturer stated deep sleep \"is more about physical recovery\", responsible for tissue repair and immune boosting, thus TRUE." },
+      { type:"gap", q:"Blue light from screens suppresses a hormone called ____.", answer:["melatonin"], explanation: "The lecturer said blue light inhibits \"a hormone called melatonin\"." },
+      { type:"mc", q:"What temperature does the lecturer say is ideal for sleep?", options:["Around fifteen degrees","Around eighteen degrees","Around twenty-one degrees","Around twenty-four degrees"], answer:1, explanation: "The lecturer stated a slightly cooler bedroom, \"around eighteen degrees\", is ideal, hence B (Index 1)." }
     ]
   }
 );
