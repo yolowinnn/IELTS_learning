@@ -22,8 +22,18 @@
         </div>
         <div class="cover-actions">
           <button class="btn-google" id="gLogin">${GOOGLE_G}<span>使用 Google 登录</span></button>
-          <button class="cover-skip" id="gSkip">暂不登录,先本地体验 →</button>
+          <div class="cover-or"><span>或用邮箱登录 / 注册</span></div>
+          <input class="cover-input" id="emEmail" type="email" inputmode="email" placeholder="邮箱" autocomplete="email" />
+          <input class="cover-input" id="emPw" type="password" placeholder="密码(至少 6 位)" autocomplete="current-password" />
+          <div class="row" style="gap:10px">
+            <button class="btn" id="emLogin" style="flex:1">登录</button>
+            <button class="btn ghost" id="emSignup" style="flex:1">注册</button>
+          </div>
           <div class="cover-note" id="gNote"></div>
+          <div class="row" style="justify-content:space-between">
+            <button class="cover-skip" id="emForgot" style="font-size:13px">忘记密码?</button>
+            <button class="cover-skip" id="gSkip" style="font-size:13px">暂不登录,本地体验 →</button>
+          </div>
         </div>
         <div class="cover-foot">登录后,网页与手机 App 的学习进度自动同步</div>
       </div>
@@ -32,12 +42,38 @@
 
     const note = c.querySelector('#gNote');
     const loginBtn = c.querySelector('#gLogin');
+    const emEmail = c.querySelector('#emEmail');
+    const emPw = c.querySelector('#emPw');
+    const emailRe = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!window.Sync || !Sync.configured()) {
-      loginBtn.disabled = true;
+      [loginBtn, c.querySelector('#emLogin'), c.querySelector('#emSignup')].forEach(b => b && (b.disabled = true));
       note.textContent = '本设备暂未配置云同步,可直接本地体验';
     }
     loginBtn.onclick = () => { note.textContent = '正在打开 Google 登录…'; Sync.signIn(); };
     c.querySelector('#gSkip').onclick = () => { Store.set('guestMode', true); App.enterApp(); };
+
+    function check() {
+      const e = (emEmail.value || '').trim(), p = emPw.value || '';
+      if (!emailRe.test(e)) { note.textContent = '请输入有效邮箱'; return null; }
+      if (p.length < 6) { note.textContent = '密码至少 6 位'; return null; }
+      return { e, p };
+    }
+    async function doEmail(fn, label) {
+      const v = check(); if (!v) return;
+      note.textContent = label + '中…';
+      const r = await fn(v.e, v.p);
+      if (!r || !r.ok) note.textContent = (r && r.error) || (label + '失败');
+      // 成功后 onAuth → gate → 自动进入 App
+    }
+    c.querySelector('#emLogin').onclick = () => doEmail(Sync.signInEmail, '登录');
+    c.querySelector('#emSignup').onclick = () => doEmail(Sync.signUpEmail, '注册');
+    c.querySelector('#emForgot').onclick = async () => {
+      const e = (emEmail.value || '').trim();
+      if (!emailRe.test(e)) { note.textContent = '先在上方填好邮箱,再点忘记密码'; return; }
+      const r = await Sync.resetEmail(e);
+      note.textContent = (r && r.ok) ? '重置邮件已发送,请查收' : ((r && r.error) || '发送失败');
+    };
+    emPw.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') c.querySelector('#emLogin').click(); });
   }
 
   function splash() {

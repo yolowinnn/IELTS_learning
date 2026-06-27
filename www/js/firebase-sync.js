@@ -61,6 +61,38 @@
   }
   async function signOut() { if (auth) { try { await auth.signOut(); Toast && Toast('已退出登录'); } catch (e) {} } }
 
+  async function ensureAuth() { if (!ready) await init(); return !!auth; }
+  async function signInEmail(email, pw) {
+    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    try { await auth.signInWithEmailAndPassword(email, pw); return { ok: true }; }
+    catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
+  }
+  async function signUpEmail(email, pw) {
+    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    try { await auth.createUserWithEmailAndPassword(email, pw); return { ok: true }; }
+    catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
+  }
+  async function resetEmail(email) {
+    if (!(await ensureAuth())) return { error: '云同步未配置' };
+    try { await auth.sendPasswordResetEmail(email); return { ok: true }; }
+    catch (e) { return { error: friendlyAuthErr(e.code || e.message) }; }
+  }
+  function friendlyAuthErr(code) {
+    const m = {
+      'auth/invalid-email': '邮箱格式不正确',
+      'auth/user-not-found': '该邮箱未注册,请先注册',
+      'auth/wrong-password': '密码错误',
+      'auth/invalid-credential': '邮箱或密码错误',
+      'auth/email-already-in-use': '该邮箱已注册,请直接登录',
+      'auth/weak-password': '密码太短(至少 6 位)',
+      'auth/missing-password': '请输入密码',
+      'auth/too-many-requests': '尝试过多,请稍后再试',
+      'auth/operation-not-allowed': '邮箱登录未启用(需在 Firebase 控制台开启)',
+      'auth/network-request-failed': '网络错误,请检查连接'
+    };
+    return m[code] || ('登录失败:' + code);
+  }
+
   function docRef(uid) { return db.collection('users').doc(uid); }
 
   async function pull(uid) {
@@ -146,5 +178,5 @@
   function mergeByDate(a, b) { a = a || {}; b = b || {}; const o = {}; new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => { const x = a[k], y = b[k]; if (!x) o[k] = y; else if (!y) o[k] = x; else o[k] = ((y.date || '') > (x.date || '')) ? y : x; }); return o; }
   function mergeMax(a, b) { a = a || {}; b = b || {}; const o = {}; new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => { o[k] = Math.max(a[k] || 0, b[k] || 0); }); return o; }
 
-  window.Sync = { init, signIn, signOut, onAuth, onStatus, onReady, currentUser, configured, pushNow, get status() { return status; }, get authReady() { return authReady; } };
+  window.Sync = { init, signIn, signInEmail, signUpEmail, resetEmail, signOut, onAuth, onStatus, onReady, currentUser, configured, pushNow, get status() { return status; }, get authReady() { return authReady; } };
 })();
