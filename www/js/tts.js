@@ -1,8 +1,12 @@
-/* tts.js — 文本转语音封装(Web Speech API),用于听力朗读、单词/范例发音 */
+/* tts.js — 文本转语音封装。网页用 Web Speech API;装进 App(Capacitor)时改用原生 TTS 插件(WebView 的 speechSynthesis 在部分安卓机不发声)。 */
 (function () {
   const synth = window.speechSynthesis;
   let voices = [];
   let ready = false;
+
+  // 原生 TTS(Capacitor @capacitor-community/text-to-speech);不存在则为 null,自动回退到 Web。
+  const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  function nativeTTS() { try { return (isNative && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) || null; } catch (e) { return null; } }
 
   function loadVoices() {
     voices = synth ? synth.getVoices() : [];
@@ -34,6 +38,14 @@
   let speaking = false;
 
   function speak(text, opts = {}) {
+    // App 内:优先原生 TTS
+    const N = nativeTTS();
+    if (N) {
+      const lang = (opts.voice && opts.voice.lang) || Store.get('ttsVoice', 'en-GB');
+      speaking = true;
+      return N.speak({ text: String(text || ''), lang: lang.replace('_', '-'), rate: opts.rate != null ? opts.rate : Store.get('ttsRate', 1.0) })
+        .then(() => { speaking = false; }).catch(() => { speaking = false; });
+    }
     if (!synth) { Toast && Toast('Speech synthesis is not supported here'); return Promise.resolve(); }
     return new Promise((resolve) => {
       const u = new SpeechSynthesisUtterance(text);
@@ -66,13 +78,13 @@
   function startSeq() { _seqActive = true; }
   function stopSeq() { _seqActive = false; cancel(); }
 
-  function cancel() { if (synth) synth.cancel(); speaking = false; }
+  function cancel() { try { const N = nativeTTS(); if (N) N.stop(); } catch (e) {} if (synth) synth.cancel(); speaking = false; }
   function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
-  function isSpeaking() { return synth ? synth.speaking : false; }
+  function isSpeaking() { return speaking || (synth ? synth.speaking : false); }
 
   window.TTS = {
     speak, speakSequence, cancel, isSpeaking, listEnglishVoices, pickVoice,
     startSeq, stopSeq,
-    get supported() { return !!synth; }
+    get supported() { return !!nativeTTS() || !!synth; }
   };
 })();

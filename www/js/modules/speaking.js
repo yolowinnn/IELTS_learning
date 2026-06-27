@@ -1,5 +1,8 @@
 /* speaking.js — 口语:每日主题 Part1/2/3 + 题卡计时 + 录音回放 + 跳 Gemini */
 (function () {
+  // 装到 App(Capacitor)里时,页面从 localhost/file 加载,/api 没有服务器 → 指向线上函数;网页则用相对路径。
+  function apiBase() { try { return (window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) ? 'https://ielts75.pages.dev' : ''; } catch (e) { return ''; } }
+
   function find(id) { return (window.IELTS_DATA.speaking || []).find(s => s.id === id) || (window.IELTS_DATA.speaking || [])[0]; }
 
   function render(view, id) {
@@ -162,7 +165,7 @@
       setStatus('🤔 Examiner is thinking…');
       const msgs = audioMsg ? conv.concat([{ role: 'user', audio: audioMsg }]) : conv.slice();
       try {
-        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'chat', topic, messages: msgs }) });
+        const r = await fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'chat', topic, messages: msgs }) });
         const j = await r.json();
         if (!r.ok) { setStatus('Error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
         if (audioMsg) {
@@ -217,7 +220,7 @@
       if (busy) return; busy = true;
       controls.innerHTML = ''; setStatus('📝 Scoring your real voice…');
       try {
-        const r = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'score', topic, messages: conv, audios: audios.slice(-4).map(a => ({ data: a.data, mimeType: a.mimeType })) }) });
+        const r = await fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'score', topic, messages: conv, audios: audios.slice(-4).map(a => ({ data: a.data, mimeType: a.mimeType })) }) });
         const j = await r.json();
         if (!r.ok || !j.text) { setStatus('Score error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
         Store.markTask('speaking', true); App.refreshStreak();
