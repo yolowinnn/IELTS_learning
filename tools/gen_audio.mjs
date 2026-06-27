@@ -19,7 +19,8 @@ const VOCAB_VOICE = 'en-GB-Neural2-C';
 function loadData() {
   const window = { IELTS_DATA: {} };
   const files = ['vocab', 'vocab_b2', 'vocab_b3', 'vocab_b4', 'vocab_b5', 'vocab_b6', 'vocab_b7', 'vocab_b8',
-    'reading', 'reading_b2', 'reading_b3', 'reading_b4', 'listening', 'listening_b2', 'listening_b3', 'listening_b4',
+    'reading', 'reading_b2', 'reading_b3', 'reading_b4',
+    'listening', 'listening_b2', 'listening_b3', 'listening_b4', 'listening_b5', 'listening_b6', 'listening_b7',
     'writing', 'writing_b2', 'writing_b3', 'writing_b4', 'speaking', 'speaking_b2', 'speaking_b3', 'speaking_b4', 'plan'];
   for (const f of files) {
     const p = path.join(WWW, 'data', f + '.js');

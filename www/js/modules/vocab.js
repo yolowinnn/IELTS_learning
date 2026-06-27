@@ -4,19 +4,26 @@
   let idx = 0;
   let revealed = false;
   let viewRef = null;
+  let curMode = 'daily';
   let stats = { reviewed: 0, learned: 0 };
 
-  function buildQueue() {
-    const due = SRS.dueToday().map(w => ({ w, isNew: false }));
-    const fresh = SRS.newToday().map(w => ({ w, isNew: true }));
-    // 复习优先,穿插新词
-    queue = due.concat(fresh);
+  function buildQueue(mode) {
+    curMode = mode || 'daily';
+    if (curMode === 'more') {
+      queue = SRS.moreNew(20).map(w => ({ w, isNew: true }));            // 不限量学新词(含之前漏背的)
+    } else if (curMode === 'review') {
+      queue = SRS.reviewPool(20).map(w => ({ w, isNew: false }));        // 复习已学过的词(不只到期的)
+    } else {
+      const due = SRS.dueToday().map(w => ({ w, isNew: false }));
+      const fresh = SRS.newToday().map(w => ({ w, isNew: true }));
+      queue = due.concat(fresh);
+    }
     idx = 0; revealed = false; stats = { reviewed: 0, learned: 0 };
   }
 
-  function render(view) {
+  function render(view, mode) {
     viewRef = view;
-    buildQueue();
+    buildQueue(mode);
     if (!queue.length) return done(view, true);
     paint();
   }
@@ -100,28 +107,32 @@
     paint();
   }
 
-  function done(view, nothingDue) {
+  function done(view, nothingEmpty) {
     // 标记今日单词任务完成
     Store.markTask('vocab', true);
     App.refreshStreak();
-    if (!nothingDue && (stats.reviewed + stats.learned) > 0) window.Celebrate && window.Celebrate();
+    if (!nothingEmpty && (stats.reviewed + stats.learned) > 0) window.Celebrate && window.Celebrate();
     view.innerHTML = '';
     const s = SRS.stats();
+    const allDone = s.moreAvail === 0;
+    const head = nothingEmpty
+      ? (curMode === 'review' ? '没有可复习的单词了' : (curMode === 'more' ? '词库已全部学过 🎓' : '今日复习与新词都完成了 👍'))
+      : '这一组完成！';
+    const btns = [];
+    if (s.moreAvail > 0) btns.push(`<button class="btn block" id="more">继续学新词(库里还剩 ${s.moreAvail} 个)</button>`);
+    if (s.learned > 0) btns.push(`<button class="btn ghost block" id="review">复习已学单词(${s.learned} 个)</button>`);
+    btns.push(`<button class="btn ghost block" id="back">返回今日</button>`);
     view.appendChild(el(`
       <div class="empty">
-        <div class="big">${nothingDue ? '🌟' : '🎉'}</div>
-        <h2>${nothingDue ? '今天没有待复习的单词' : '单词练习完成！'}</h2>
-        <p class="muted">本次复习 ${stats.reviewed} · 新学 ${stats.learned}<br>累计已学 ${s.learned} / ${s.total} 词,已掌握 ${s.mastered}</p>
-        <div class="row" style="justify-content:center;gap:10px" class="mt16">
-          <button class="btn ghost" onclick="App.go('today')">返回今日</button>
-          <button class="btn" id="more">再来一组</button>
-        </div>
+        <div class="big">${allDone ? '🎓' : '🎉'}</div>
+        <h2>${head}</h2>
+        <p class="muted">本组 · 复习 ${stats.reviewed} · 新学 ${stats.learned}<br>累计已学 ${s.learned} / ${s.total},已掌握 ${s.mastered},待复习 ${s.due}</p>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:18px auto 0">${btns.join('')}</div>
       </div>
     `));
-    const more = view.querySelector('#more');
-    more.onclick = () => render(view);
-    // 若确实没有可学的了,隐藏"再来一组"
-    if (nothingDue && s.newAvail === 0) more.style.display = 'none';
+    const more = view.querySelector('#more'); if (more) more.onclick = () => render(view, 'more');
+    const review = view.querySelector('#review'); if (review) review.onclick = () => render(view, 'review');
+    view.querySelector('#back').onclick = () => App.go('today');
   }
 
   function highlight(sentence, word) {

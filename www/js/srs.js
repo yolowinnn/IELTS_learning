@@ -57,6 +57,24 @@
     Store.update('newLearned', {}, (m) => { const t = Store.todayStr(); m[t] = (m[t] || 0) + 1; return m; });
   }
 
+  function byOrder(a, b) { return ((a.day || 1) - (b.day || 1)) || (String(a.id) < String(b.id) ? -1 : 1); }
+
+  // 全部尚未学过的词(按顺序:含之前漏背的,排在前面)
+  function unlearned() {
+    const s = states();
+    return allWords().filter(w => !s[w.id]).sort(byOrder);
+  }
+  // 继续学更多新词(不受每日上限约束)
+  function moreNew(n) { return unlearned().slice(0, n || 20); }
+
+  // 复习池:已学过的词,最该复习的在前(到期优先,其次最久没复习/最少见的)
+  function reviewPool(n) {
+    const s = states();
+    const learned = allWords().filter(w => s[w.id]);
+    learned.sort((a, b) => (String(s[a.id].due || '')).localeCompare(String(s[b.id].due || '')) || ((s[a.id].seen || 0) - (s[b.id].seen || 0)));
+    return learned.slice(0, n || 20);
+  }
+
   // 统计
   function stats() {
     const s = states();
@@ -67,9 +85,10 @@
       learned: ids.length,
       mastered,
       due: dueToday().length,
-      newAvail: newToday().length
+      newAvail: newToday().length,
+      moreAvail: allWords().length - ids.length   // 还有多少没学过的词
     };
   }
 
-  window.SRS = { grade, getState, dueToday, newToday, countNewLearned, stats, allWords };
+  window.SRS = { grade, getState, dueToday, newToday, moreNew, reviewPool, unlearned, countNewLearned, stats, allWords };
 })();

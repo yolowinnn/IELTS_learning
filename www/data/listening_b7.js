@@ -1,0 +1,148 @@
+/* listening_b7.js — TOEFL 风格原创 */
+window.IELTS_DATA.listening.push(
+  {
+    id:"l020",
+    title:"Switching a Lab Section",
+    section:"TOEFL · 校园对话",
+    scenario:"一名学生去找化学课助教,想把自己的实验课时间从周二换到别的时段,因为和另一门必修课冲突。注意听冲突原因、可选时段、名额限制和需要办理的手续。",
+    lines:[
+      { speaker:"Student", text:"Hi, are you the teaching assistant for General Chemistry? I think I have a scheduling problem with the lab." },
+      { speaker:"TA", text:"Yes, that's me. Have a seat. What seems to be the issue?" },
+      { speaker:"Student", text:"Well, I'm registered for the Tuesday afternoon lab, but it turns out it overlaps with a required course in my major. I only realized after I got my final timetable." },
+      { speaker:"TA", text:"That happens more often than you'd think. Which major are you in?" },
+      { speaker:"Student", text:"Statistics. The conflict is with a probability class that's only offered once, on Tuesdays from two to four. So I really can't move that one." },
+      { speaker:"TA", text:"Right, those single-section courses are tricky. The good news is the chemistry lab runs in four different sections during the week, so we should be able to find you another slot." },
+      { speaker:"Student", text:"That would be great. What are the other times?" },
+      { speaker:"TA", text:"There's a Wednesday morning section, a Thursday afternoon section, and a Friday morning one. The Wednesday and Friday slots are both fairly full, though." },
+      { speaker:"Student", text:"How full are we talking? Is there any room at all?" },
+      { speaker:"TA", text:"Each lab is capped at twenty-four students because of the number of workstations. Wednesday has one seat left, Friday has none, and Thursday has about five open spots." },
+      { speaker:"Student", text:"Then Thursday afternoon sounds like the safest choice. Does it cover exactly the same experiments?" },
+      { speaker:"TA", text:"It does. Every section follows the identical sequence of experiments; the only difference is which TA runs it. I actually teach the Thursday one myself." },
+      { speaker:"Student", text:"Oh, perfect. So how do I make the switch? Can you just move me over?" },
+      { speaker:"TA", text:"I wish it were that simple, but section changes have to go through the registration system. I can't edit the roster directly." },
+      { speaker:"Student", text:"So I log in and drop the Tuesday section and add the Thursday one myself?" },
+      { speaker:"TA", text:"Exactly, but here's the catch: the online add-drop window closed last Friday. After that point, any change needs a signed form from the instructor." },
+      { speaker:"Student", text:"Ah. So I'd need Professor Hayes to sign off on it?" },
+      { speaker:"TA", text:"Correct. Pick up the section-change form from the chemistry department office, fill in both the old and new section numbers, and bring it to her office hours. Once she signs it, you hand it to the registrar." },
+      { speaker:"Student", text:"Got it. And will my spot on Thursday be held while I do all that?" },
+      { speaker:"TA", text:"I'll make a note that you're coming, but honestly, I'd get the form to the professor this week. With only a few seats left, I can't promise it'll still be open if you wait." },
+      { speaker:"Student", text:"Understood. I'll head to the department office right after this. Thanks so much for explaining the whole process." },
+      { speaker:"TA", text:"No problem. See you in Thursday's lab, hopefully." }
+    ],
+    questions:[
+      { type:"mc", q:"Why does the student come to see the teaching assistant?", options:["To ask for help with a difficult experiment","To request a change to his lab section time","To complain about another student in the lab","To drop the chemistry course entirely"], answer:1, explanation:"学生开头就说实验课时间和必修课冲突,想换时段。" },
+      { type:"mc", q:"What prevents the student from keeping his original lab time?", options:["He has a part-time job on Tuesdays","A required statistics course meets at the same time","The Tuesday lab has been cancelled","He finds the Tuesday TA unhelpful"], answer:1, explanation:"周二二到四点有唯一开设的概率课,无法移动,与实验课冲突。" },
+      { type:"gap", q:"Each lab section is limited to ________ students because of the number of workstations.", answer:["24","twenty-four","twenty four"], explanation:"TA 明说每个实验课名额上限 24 人(workstations 数量决定)。" },
+      { type:"mc", q:"Which section does the student decide to move into, and why?", options:["Wednesday morning, because it is taught by the professor","Friday morning, because it is the least crowded","Thursday afternoon, because it has the most open seats","Tuesday evening, because it has no overlap"], answer:2, explanation:"周三只剩 1 个、周五没有,周四约有 5 个空位,所以周四最稳。" },
+      { type:"tfng", q:"The different lab sections cover different sets of experiments.", answer:"FALSE", explanation:"TA 说每个 section 的实验顺序完全相同,唯一区别是带课的助教不同。" },
+      { type:"gap", q:"Because the online add-drop window has closed, the student now needs a signed ________ from the instructor to change sections.", answer:["form","section-change form","section change form"], explanation:"网上增退选已截止,改 section 需要授课老师签字的表格(form)。" }
+    ]
+  },
+  {
+    id:"l021",
+    title:"Tracking Down a Conference Paper",
+    section:"TOEFL · 校园对话",
+    scenario:"一名研究生在图书馆求助馆员,想找一篇较旧的会议论文,但学校数据库里查不到。注意听论文为何难找、馆员建议的几种获取途径,以及馆际互借的时间和费用。",
+    lines:[
+      { speaker:"Student", text:"Excuse me, I'm hoping you can help. I've been trying to find a paper for my thesis, and I'm completely stuck." },
+      { speaker:"Librarian", text:"That's what I'm here for. What's the paper, and where have you looked so far?" },
+      { speaker:"Student", text:"It's a conference paper from a robotics symposium back in 1998. I've searched our main database and the online journals, but nothing comes up." },
+      { speaker:"Librarian", text:"Ah, conference papers from that era can be surprisingly hard to track down. A lot of older proceedings were never digitized, so they simply won't appear in a full-text search." },
+      { speaker:"Student", text:"That's frustrating. I have the exact title and the authors, though. Doesn't that help?" },
+      { speaker:"Librarian", text:"It helps enormously, actually. The trick is to search for the proceedings volume rather than the individual paper. Conferences publish all their papers together in one bound book each year." },
+      { speaker:"Student", text:"Oh, I hadn't thought of that. So I'd look for the whole symposium volume?" },
+      { speaker:"Librarian", text:"Exactly. Let me check the catalog. The title of the conference was the International Symposium on Robotics, you said? ... Hmm. We hold those proceedings, but only from 2003 onward. The earlier volumes aren't in our collection." },
+      { speaker:"Student", text:"So we don't have the 1998 one at all. What are my options then?" },
+      { speaker:"Librarian", text:"You have a few. The first and cheapest is interlibrary loan. We can request the physical volume from another university that owns it, and you'd read it here." },
+      { speaker:"Student", text:"How long does interlibrary loan usually take?" },
+      { speaker:"Librarian", text:"For a book like this, typically ten to fourteen days. The catch is that since it's a bound reference volume, the lending library often won't let it leave the building, so you might only get a scan of the specific paper instead." },
+      { speaker:"Student", text:"A scan of just the paper would actually be perfect for me. Is there a charge for that?" },
+      { speaker:"Librarian", text:"For currently enrolled graduate students, the first ten interlibrary loan requests each term are free. After that there's a small fee per article, but you're nowhere near that limit, I assume." },
+      { speaker:"Student", text:"Definitely not. This is my first request. Is interlibrary loan the only route?" },
+      { speaker:"Librarian", text:"No, there's a faster option worth trying first. Many authors now post their old papers on their personal or university web pages. If you email the lead author directly, they'll often just send you a copy." },
+      { speaker:"Student", text:"I never thought of just asking the author. That feels a bit bold, though." },
+      { speaker:"Librarian", text:"It's completely standard in academia. Researchers are usually delighted that someone still cares about their work from twenty-five years ago." },
+      { speaker:"Student", text:"Fair enough. I'll send the author an email today, and if I don't hear back in a few days, I'll come back and file the interlibrary loan request." },
+      { speaker:"Librarian", text:"That's a sensible plan. And if you do file the request, come to this desk and I'll walk you through the form so it doesn't get delayed." },
+      { speaker:"Student", text:"Thank you so much. This has been a huge help." },
+      { speaker:"Librarian", text:"My pleasure. Good luck with the thesis." }
+    ],
+    questions:[
+      { type:"mc", q:"What is the student's main problem?", options:["She cannot locate an old conference paper she needs","She has lost her library borrowing privileges","She does not know the title of the paper she wants","She owes a fine on an overdue book"], answer:0, explanation:"学生要为论文找一篇 1998 年的会议论文,但数据库查不到。" },
+      { type:"mc", q:"According to the librarian, why doesn't the paper appear in a full-text search?", options:["The student misspelled the authors' names","Many older conference proceedings were never digitized","The paper was retracted by the conference","The database only covers journals, not robotics"], answer:1, explanation:"馆员说那个年代很多旧会议论文集没被数字化,所以全文检索查不到。" },
+      { type:"gap", q:"The librarian suggests searching for the whole ________ volume instead of the individual paper.", answer:["proceedings","proceedings volume","conference proceedings"], explanation:"会议把当年所有论文合订成一本 proceedings(论文集),应按论文集来查。" },
+      { type:"tfng", q:"The library owns the 1998 volume of the symposium proceedings.", answer:"FALSE", explanation:"馆员查目录后说他们只藏 2003 年以后的,1998 年那卷不在馆藏。" },
+      { type:"gap", q:"For enrolled graduate students, the first ________ interlibrary loan requests each term are free.", answer:["10","ten"], explanation:"馆员说研究生每学期前 10 次馆际互借免费。" },
+      { type:"mc", q:"What does the librarian recommend the student try first?", options:["Buying the volume from an online bookstore","Filing the interlibrary loan request immediately","Emailing the lead author for a copy of the paper","Visiting the conference organizers in person"], answer:2, explanation:"馆员说更快的办法是先直接给第一作者发邮件要论文,作者常会直接发给你。" }
+    ]
+  },
+  {
+    id:"l022",
+    title:"How Desert Plants Survive Drought",
+    section:"TOEFL · 学术讲座",
+    scenario:"一节环境科学/植物学讲座,教授讲解沙漠植物在极端干旱下生存的几种策略,包括逃避型、储水型和耐旱型,并以仙人掌的特殊光合作用机制为例。注意听各类策略的定义、对比和具体例子。",
+    lines:[
+      { speaker:"Professor", text:"Good morning. Today I want to tackle a question that sounds simple but has a remarkably complex answer: how do plants survive in deserts, where it may not rain for months, or in extreme cases, years?" },
+      { speaker:"Professor", text:"The first thing to understand is that there isn't one single solution. Desert plants have evolved at least three broad strategies, and it's worth keeping them separate in your mind." },
+      { speaker:"Professor", text:"The first strategy is what we call drought escape. These plants don't really tolerate drought at all. Instead, they avoid it by timing their entire life cycle around the rare wet periods." },
+      { speaker:"Professor", text:"Think of certain desert wildflowers. Their seeds can lie dormant in the soil for years. Then, after a single heavy rain, they germinate, grow, flower, and produce new seeds all within a few weeks, before the soil dries out again." },
+      { speaker:"Professor", text:"So when you see those famous photographs of a desert suddenly carpeted in flowers, you're looking at drought escape in action. The plant isn't tough; it's just exquisitely well-timed." },
+      { speaker:"Professor", text:"The second strategy is drought avoidance through water storage. These are the succulents, and the cactus is the classic example. Rather than escaping the dry season, they store enough water during the wet season to ride it out." },
+      { speaker:"Professor", text:"A large cactus can hold an astonishing volume of water in its thick, fleshy stem. Some species can survive for a year or more on the water stored from a single rainy period." },
+      { speaker:"Professor", text:"But storing water is only half the battle. If you're carrying a reservoir around in the desert sun, you have to protect it from evaporation, and this is where cacti get really clever." },
+      { speaker:"Professor", text:"Notice that a cactus has no broad leaves. Leaves are where most plants lose water, through tiny pores called stomata. Over evolutionary time, the cactus reduced its leaves to spines, which lose almost no water and also discourage thirsty animals." },
+      { speaker:"Professor", text:"Without leaves, though, the cactus has to photosynthesize in its green stem. And it does so using a special chemical pathway that I want you to remember, because it's the heart of today's lecture." },
+      { speaker:"Professor", text:"Most plants open their stomata during the day to take in carbon dioxide for photosynthesis. But daytime in the desert is exactly when it's hottest and driest, so opening your pores then means losing precious water." },
+      { speaker:"Professor", text:"Cacti solve this with what's known as the CAM pathway. The key innovation is one of timing: they keep their stomata closed all day and open them only at night, when the air is cool and humid." },
+      { speaker:"Professor", text:"At night, the plant takes in carbon dioxide and locks it into a chemical compound, essentially storing it. Then, during the day, with the pores safely shut, it releases that stored carbon dioxide internally and uses sunlight to complete photosynthesis." },
+      { speaker:"Professor", text:"It's a beautiful piece of biochemical scheduling. By separating the intake of gas from the use of sunlight, the cactus photosynthesizes by day while only losing water by night, when the loss is minimal." },
+      { speaker:"Professor", text:"Now, the third strategy is the one people find least intuitive. It's called drought tolerance, and here the plant neither escapes nor stockpiles water. Instead, it endures severe dehydration in its own tissues and survives." },
+      { speaker:"Professor", text:"The extreme examples are the so-called resurrection plants. They can lose almost all the water in their cells, dry out until they look completely dead and brittle, and remain in that state for months." },
+      { speaker:"Professor", text:"Then, when the rains finally return, within a day or two they rehydrate and turn green again, resuming normal function as if nothing had happened. Very few organisms on Earth can do this." },
+      { speaker:"Professor", text:"So notice the contrast. The escapers wait out the drought as seeds; the storers carry their own water supply; and the tolerators essentially shut down and revive. Three completely different answers to the same harsh problem." },
+      { speaker:"Professor", text:"For Thursday, I'd like you to read the chapter on water relations and come prepared to discuss why the CAM pathway, efficient as it is, also makes cacti grow extremely slowly. There's an important trade-off there." }
+    ],
+    questions:[
+      { type:"mc", q:"What is the lecture mainly about?", options:["Why deserts receive so little rainfall","Different strategies plants use to survive desert drought","How to grow cacti as houseplants","The history of desert exploration"], answer:1, explanation:"教授开篇即问沙漠植物如何生存,全篇围绕三种生存策略展开。" },
+      { type:"mc", q:"How do drought-escaping desert wildflowers survive long dry periods?", options:["They store large amounts of water in their roots","Their seeds stay dormant and they complete their life cycle quickly after rain","They photosynthesize only at night","They drop all their leaves and turn brown"], answer:1, explanation:"逃避型植物种子可休眠多年,一场大雨后几周内完成发芽、开花、结种。" },
+      { type:"gap", q:"In cacti, the leaves have been reduced to ________, which lose almost no water and deter animals.", answer:["spines","spine"], explanation:"教授说仙人掌把叶片退化成刺(spines),几乎不失水还能驱赶动物。" },
+      { type:"gap", q:"Cacti use the ________ pathway, keeping their stomata closed during the day and opening them only at night.", answer:["CAM","C.A.M."], explanation:"教授强调今天的核心是 CAM 光合途径——白天关气孔、夜间开气孔。" },
+      { type:"tfng", q:"The CAM pathway allows cacti to take in carbon dioxide during the hottest part of the day.", answer:"FALSE", explanation:"恰相反:CAM 让仙人掌白天关闭气孔,只在凉爽湿润的夜间吸入二氧化碳。" },
+      { type:"mc", q:"What makes resurrection plants (the drought-tolerance strategy) unusual?", options:["They can lose nearly all their water, appear dead, then revive after rain","They produce flowers every single day of the year","They survive by growing extremely tall to reach groundwater","They are the fastest-growing plants in the desert"], answer:0, explanation:"耐旱型的复活植物可失去几乎全部水分、看似枯死数月,雨后一两天又复绿。" }
+    ]
+  },
+  {
+    id:"l023",
+    title:"Reading the Light from Distant Stars",
+    section:"TOEFL · 学术讲座",
+    scenario:"一节天文学讲座,教授讲解天文学家如何仅凭恒星的光来推断其成分、温度和运动。重点是光谱学:吸收谱线如何揭示元素,谱线的红移与蓝移如何揭示恒星朝向或远离我们的运动。注意听各类信息的来源和具体原理。",
+    lines:[
+      { speaker:"Professor", text:"Here's something that should strike you as almost impossible. We will never travel to a star outside our solar system; even the nearest one is over four light-years away. And yet astronomers can tell you what stars are made of, how hot they are, and how fast they're moving. How?" },
+      { speaker:"Professor", text:"The answer is that starlight itself carries an extraordinary amount of information, if you know how to decode it. The tool we use to decode it is called spectroscopy, and that's our subject today." },
+      { speaker:"Professor", text:"Let's start with what happens when you pass sunlight through a prism. You get a rainbow, a continuous band of color from red to violet. We call that a spectrum." },
+      { speaker:"Professor", text:"Now, if you look very carefully at that rainbow from a star, you'll notice something odd: it isn't perfectly continuous. There are thin dark lines, gaps where certain specific colors are missing. These are called absorption lines." },
+      { speaker:"Professor", text:"Where do those dark lines come from? The hot interior of a star produces light at all colors. But the cooler gas in the star's outer atmosphere absorbs certain very specific colors on the way out, removing them from the spectrum." },
+      { speaker:"Professor", text:"And here is the crucial fact: each chemical element absorbs its own unique set of colors. Hydrogen removes one particular pattern of colors; sodium removes a different pattern; iron, yet another. The pattern is like a fingerprint." },
+      { speaker:"Professor", text:"So when an astronomer spreads out a star's light and sees a dark line at exactly the wavelength where hydrogen absorbs, that's direct evidence that the star contains hydrogen. By cataloging all the dark lines, we can read off the star's chemical composition." },
+      { speaker:"Professor", text:"This is genuinely remarkable. Without ever collecting a sample, we know that the same elements found here on Earth, hydrogen, helium, carbon, iron, are present in stars trillions of kilometers away. The universe, it turns out, is made of the same stuff everywhere." },
+      { speaker:"Professor", text:"Now let's get more information out of the same spectrum. The spectrum also tells us the star's temperature, and it does so through color. A relatively cool star glows reddish, a medium star like our Sun glows yellowish-white, and the hottest stars glow blue." },
+      { speaker:"Professor", text:"This might feel backwards, since we often associate red with hot and blue with cold, think of a faucet's taps. But in physics, blue light carries more energy than red, so a blue star is actually the hotter one. Keep that straight." },
+      { speaker:"Professor", text:"Now for what I consider the most beautiful part. The spectrum can also tell us whether a star is moving toward us or away from us, and roughly how fast. This relies on something called the Doppler effect." },
+      { speaker:"Professor", text:"You've all experienced the Doppler effect with sound. When an ambulance races toward you, its siren sounds high-pitched; as it passes and races away, the pitch suddenly drops. The sound waves get compressed as it approaches and stretched as it recedes." },
+      { speaker:"Professor", text:"Light behaves the same way. If a star is moving toward us, its light waves are slightly compressed, which shifts all those absorption lines toward the blue end of the spectrum. We call that a blueshift." },
+      { speaker:"Professor", text:"If, instead, the star is moving away from us, its light waves are stretched, and the lines shift toward the red end. That's a redshift. So the direction the fingerprint pattern slides tells us which way the star is traveling." },
+      { speaker:"Professor", text:"And the amount of the shift tells us the speed. A large shift means the star is moving fast; a tiny shift means it's barely moving relative to us. We can measure velocities to remarkable precision this way." },
+      { speaker:"Professor", text:"This single technique reshaped our picture of the cosmos. In the 1920s, astronomers noticed that almost every distant galaxy showed a redshift, meaning nearly everything is moving away from us. That observation became one of the central pieces of evidence that the entire universe is expanding." },
+      { speaker:"Professor", text:"So let's recap the three things one little band of starlight can reveal. The pattern of dark lines tells us composition. The overall color tells us temperature. And the shift of the lines, red or blue, tells us motion." },
+      { speaker:"Professor", text:"For next week, I want you to bring one question about what spectroscopy cannot tell us, because there are real limits, and thinking about the gaps is just as instructive as celebrating the successes." }
+    ],
+    questions:[
+      { type:"mc", q:"What is the main purpose of the lecture?", options:["To describe a planned mission to a nearby star","To explain how astronomers learn about stars by analyzing their light","To argue that space travel will soon be possible","To compare the brightness of different galaxies"], answer:1, explanation:"教授开篇就问:从未到过恒星,却能知道其成分、温度、运动,靠的就是分析星光(光谱学)。" },
+      { type:"gap", q:"The thin dark gaps in a star's spectrum, where specific colors are missing, are called ________ lines.", answer:["absorption"], explanation:"恒星外层较冷气体吸收特定颜色,形成光谱中的吸收线(absorption lines)。" },
+      { type:"mc", q:"How do astronomers determine which elements a star contains?", options:["By measuring how bright the star appears","Each element absorbs a unique pattern of colors, like a fingerprint","By detecting sound waves coming from the star","By comparing the star's size to the Sun"], answer:1, explanation:"每种元素吸收一组独特颜色,像指纹;暗线出现在哪个波长就说明含哪种元素。" },
+      { type:"tfng", q:"According to the professor, a blue star is cooler than a red star.", answer:"FALSE", explanation:"恰相反:蓝光能量更高,蓝色恒星其实更热,红色恒星更冷,教授特别提醒别搞反。" },
+      { type:"gap", q:"When a star is moving away from us, its absorption lines shift toward the red end of the spectrum, an effect called a ________.", answer:["redshift","red shift","red-shift"], explanation:"远离时光波被拉伸,谱线向红端移动,称为红移(redshift)。" },
+      { type:"mc", q:"Why was the discovery that distant galaxies show a redshift historically important?", options:["It proved stars are made of unknown elements","It became key evidence that the universe is expanding","It showed that the Doppler effect does not apply to light","It allowed astronomers to measure a star's exact size"], answer:1, explanation:"1920 年代发现几乎所有远星系都红移(都在远离),成为宇宙膨胀的核心证据之一。" }
+    ]
+  }
+);
