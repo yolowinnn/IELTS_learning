@@ -22,10 +22,67 @@
   }
 
   function render(view, mode) {
+    if (!mode || mode === 'menu') return renderMenu(view);
     viewRef = view;
     buildQueue(mode);
     if (!queue.length) return done(view, true);
     paint();
+  }
+
+  // 指定一组单词开练(按天浏览用)
+  function startSession(view, words) {
+    viewRef = view; curMode = 'day';
+    queue = (words || []).map(w => ({ w, isNew: !SRS.getState(w.id) }));
+    idx = 0; revealed = false; stats = { reviewed: 0, learned: 0 };
+    if (!queue.length) return done(view, true);
+    paint();
+  }
+
+  function groupByDay() {
+    const map = {};
+    SRS.allWords().forEach(w => { const d = w.day || 1; (map[d] = map[d] || []).push(w); });
+    const start = Store.startDate();
+    return Object.keys(map).map(Number).sort((a, b) => a - b).map(day => {
+      const words = map[day];
+      const dt = new Date(start + 'T00:00:00'); dt.setDate(dt.getDate() + (day - 1));
+      let date; try { date = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); } catch (e) { date = (dt.getMonth() + 1) + '/' + dt.getDate(); }
+      const topics = [...new Set(words.map(w => w.topic).filter(Boolean))].slice(0, 3).join(' · ');
+      const learned = words.filter(w => SRS.getState(w.id)).length;
+      return { day, date, topics, total: words.length, learned, words };
+    });
+  }
+
+  // 单词页菜单:今日 + 按天浏览
+  function renderMenu(view) {
+    viewRef = view; view.innerHTML = '';
+    const s = SRS.stats();
+    const wrap = el('<div></div>');
+    wrap.appendChild(el(`
+      <div class="card">
+        <div class="card-title mb8">🗂️ Today's Vocabulary</div>
+        <div class="stat-grid">
+          <div class="stat"><b style="color:var(--warn)">${s.due}</b><small>Due review</small></div>
+          <div class="stat"><b style="color:var(--brand)">${s.newAvail}</b><small>New today</small></div>
+        </div>
+        <button class="btn block mt12" id="startToday">Start today's words →</button>
+        <div class="row mt8" style="gap:8px">
+          <button class="btn ghost" id="more" style="flex:1">Keep learning</button>
+          <button class="btn ghost" id="review" style="flex:1">Review (${s.learned})</button>
+        </div>
+      </div>`));
+    wrap.appendChild(el(`<div class="card"><div class="card-title mb8">📊 Progress</div><div class="stat-grid"><div class="stat"><b>${s.learned}/${s.total}</b><small>Learned</small></div><div class="stat"><b>${s.mastered}</b><small>Mastered</small></div></div></div>`));
+    const list = el('<div class="card"><div class="card-title mb8">📅 Browse by day</div><div class="faint mb8">Pick any day to study or revise — catch up on days you missed.</div><div id="dayList"></div></div>');
+    const dl = list.querySelector('#dayList');
+    groupByDay().forEach(d => {
+      const item = el(`<div class="list-item"><div class="li-ic">📘</div><div class="li-main"><b>Day ${d.day} · ${esc(d.date)}</b><div class="faint">${esc(d.topics || '')} · ${d.total} words · ${d.learned} learned</div></div>${d.learned >= d.total ? '<span class="pill good">done</span>' : ''}<div class="li-arrow">›</div></div>`);
+      item.onclick = () => startSession(view, d.words);
+      dl.appendChild(item);
+    });
+    wrap.appendChild(list);
+    view.appendChild(wrap);
+    wrap.querySelector('#startToday').onclick = () => render(view, 'daily');
+    wrap.querySelector('#more').onclick = () => render(view, 'more');
+    wrap.querySelector('#review').onclick = () => render(view, 'review');
   }
 
   function paint() {
@@ -116,23 +173,23 @@
     const s = SRS.stats();
     const allDone = s.moreAvail === 0;
     const head = nothingEmpty
-      ? (curMode === 'review' ? '没有可复习的单词了' : (curMode === 'more' ? '词库已全部学过 🎓' : '今日复习与新词都完成了 👍'))
-      : '这一组完成！';
+      ? (curMode === 'review' ? 'No words to review yet' : (curMode === 'more' ? 'You have learned the whole deck 🎓' : "Today's review & new words are done 👍"))
+      : 'Set complete!';
     const btns = [];
-    if (s.moreAvail > 0) btns.push(`<button class="btn block" id="more">继续学新词(库里还剩 ${s.moreAvail} 个)</button>`);
-    if (s.learned > 0) btns.push(`<button class="btn ghost block" id="review">复习已学单词(${s.learned} 个)</button>`);
-    btns.push(`<button class="btn ghost block" id="back">返回今日</button>`);
+    if (s.moreAvail > 0) btns.push(`<button class="btn block" id="more">Keep learning (${s.moreAvail} left)</button>`);
+    if (s.learned > 0) btns.push(`<button class="btn ghost block" id="review">Review learned (${s.learned})</button>`);
+    btns.push(`<button class="btn ghost block" id="menu">Back to vocabulary</button>`);
     view.appendChild(el(`
       <div class="empty">
         <div class="big">${allDone ? '🎓' : '🎉'}</div>
         <h2>${head}</h2>
-        <p class="muted">本组 · 复习 ${stats.reviewed} · 新学 ${stats.learned}<br>累计已学 ${s.learned} / ${s.total},已掌握 ${s.mastered},待复习 ${s.due}</p>
+        <p class="muted">This set · reviewed ${stats.reviewed} · new ${stats.learned}<br>Learned ${s.learned}/${s.total} · mastered ${s.mastered} · due ${s.due}</p>
         <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:18px auto 0">${btns.join('')}</div>
       </div>
     `));
     const more = view.querySelector('#more'); if (more) more.onclick = () => render(view, 'more');
     const review = view.querySelector('#review'); if (review) review.onclick = () => render(view, 'review');
-    view.querySelector('#back').onclick = () => App.go('today');
+    view.querySelector('#menu').onclick = () => renderMenu(view);
   }
 
   function highlight(sentence, word) {
