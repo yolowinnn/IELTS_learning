@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "468943290114",
+    "project_id": "ielts-study-9a0f5",
+    "storage_bucket": "ielts-study-9a0f5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468943290114:android:9064c0dc0d06dcc84fcc1b",
+        "android_client_info": {
+          "package_name": "com.ielts.study"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468943290114-v4rppi73q4ivu0vkph5gees4qam0lv2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ielts.study",
+            "certificate_hash": "bdfb04d82f801e05e91986d901ddaa1468c48589"
+          }
+        },
+        {
+          "client_id": "468943290114-gp14imgj1dpl00628lht007uqqlvfa0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO0jflOdmzXYSZCvXtSv7z--SIT0wIWMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468943290114-gp14imgj1dpl00628lht007uqqlvfa0o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
