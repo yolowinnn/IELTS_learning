@@ -1,6 +1,6 @@
 /* reading.js — 阅读:学术文章 + 题目 */
 (function () {
-  const DEFAULT_SRC = 'IELTS Academic Reading · Cambridge 19 (2024) standard · original practice';
+  const DEFAULT_SRC = 'IELTS Academic Reading · Cambridge 20 (2025) standard · original practice';
   function find(id) { return (window.IELTS_DATA.reading || []).find(r => r.id === id) || (window.IELTS_DATA.reading || [])[0]; }
 
   function render(view, id) {

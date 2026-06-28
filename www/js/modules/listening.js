@@ -1,7 +1,7 @@
 /* listening.js — 听力:TTS 朗读脚本 + 题目。原文默认遮挡。 */
 (function () {
   function find(id) { return (window.IELTS_DATA.listening || []).find(l => l.id === id) || (window.IELTS_DATA.listening || [])[0]; }
-  const DEFAULT_SRC = 'IELTS Academic Listening · Cambridge 19 (2024) standard · original practice';
+  const DEFAULT_SRC = 'IELTS Academic Listening · Cambridge 20 (2025) standard · original practice';
   let playing = false;
 
   function render(view, id) {

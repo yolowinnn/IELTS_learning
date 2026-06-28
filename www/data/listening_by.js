@@ -6,7 +6,7 @@ window.IELTS_DATA.listening.push(
   title: "Greenfield Summer Activity Camp Enrolment",
   section: "Section 1 · Everyday conversation",
   scenario: "A parent telephones the Greenfield Summer Activity Camp to enrol his daughter; listen for the dates, daily times, fees, items to bring, a contact name spelled out, and the minimum age.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Receptionist", text: "Good morning, Greenfield Summer Activity Camp, this is Diane speaking. How can I help you?" },
     { speaker: "Parent", text: "Oh, good morning. I'd like to enrol my daughter in the summer camp, if there are still places available." },
@@ -57,7 +57,7 @@ window.IELTS_DATA.listening.push(
   title: "Riverside Community Food Festival",
   section: "Section 2 · Monologue",
   scenario: "A local radio presenter announces details of an upcoming community food festival; listen for dates and times, stall and area locations, parking and transport, ticket prices, and the event rules.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Presenter", text: "Good morning, and welcome back to Riverside FM. In just a moment we'll have the weekend traffic update, but first I want to tell you all about an event that's been the talk of the town." },
     { speaker: "Presenter", text: "I'm delighted to announce that the Riverside Community Food Festival is returning for its fifth year, and this time it's bigger than ever before." },
@@ -168,7 +168,7 @@ window.IELTS_DATA.listening.push(
   title: "Marketing case-study tutorial: Patagonia",
   section: "Section 3 · Academic discussion",
   scenario: "Two students, Megan and Daniel, meet their tutor Dr Foster to plan a marketing case-study assignment; listen for the company chosen, who researches what, the data sources, the word count, and the submission deadline.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Dr Foster", text: "Come in, Megan, Daniel. So, you wanted to talk through your marketing case study before you get too far into it. Have you settled on a company yet?" },
     { speaker: "Megan", text: "We have, actually. We were going back and forth between a tech start-up and a clothing brand, but in the end we agreed on Patagonia, the outdoor clothing company." },
@@ -271,7 +271,7 @@ window.IELTS_DATA.listening.push(
   title: "Ocean Currents and Their Influence on Climate",
   section: "Section 4 · Academic lecture",
   scenario: "A university lecturer explains how major ocean currents work and shape regional climates; listen for the names of currents, their temperatures, distances and speeds, and the weather effects they produce.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Lecturer", text: "Good morning, everyone. In today's lecture I want to look at the world's ocean currents and, in particular, at the way they redistribute heat around the planet and therefore shape the climate of the regions they pass." },
     { speaker: "Lecturer", text: "Let's begin with a basic distinction. Surface currents are driven mainly by the wind, and they affect roughly the upper four hundred metres of the ocean. Below that lies a much slower system known as the deep current, which is driven instead by differences in water density." },
@@ -311,7 +311,7 @@ window.IELTS_DATA.listening.push(
   title: "Booking a hall for a birthday party",
   section: "Section 1 · Everyday conversation",
   scenario: "A customer phones the Riverside Community Centre to book a hall for a birthday party; listen for the date, number of guests, hire price and deposit, included facilities, catering options, and a contact phone number.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Receptionist", text: "Good morning, Riverside Community Centre, Daniel speaking. How can I help you?" },
     { speaker: "Customer", text: "Hi there. I'd like to ask about hiring one of your halls for a private party, please." },
@@ -362,7 +362,7 @@ window.IELTS_DATA.listening.push(
   title: "Glaciers and Past Climate",
   section: "Section 4 · Academic lecture",
   scenario: "A university lecturer explains how glaciers form, move and store climate records; listen for the processes involved, the dates and percentages mentioned, and the technical terms scientists use.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Lecturer", text: "Good morning, everyone. Today we are going to look at glaciers and, more importantly, at what they can tell us about the climate of the distant past. Glaciers may seem like simple masses of ice, but they are in fact remarkable archives of information." },
     { speaker: "Lecturer", text: "Let me begin with how a glacier actually forms, because this is often misunderstood. A glacier does not form from frozen water in the way a pond freezes. Instead, it begins with snow. In places where more snow falls in winter than melts in summer, layer upon layer of snow gradually builds up over many years." },

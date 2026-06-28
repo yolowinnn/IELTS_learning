@@ -6,7 +6,7 @@ window.IELTS_DATA.listening.push(
   title: "Booking a Holiday Cottage",
   section: "Section 1 · Everyday conversation",
   scenario: "A customer phones Greenfield Holiday Cottages to book a self-catering cottage; listen for the dates, prices, the cottage name, the deposit, contact details and what is included.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Agent", text: "Good morning, Greenfield Holiday Cottages, Karen speaking. How can I help you?" },
     { speaker: "Customer", text: "Hello, I'd like to book a cottage for a short break in the autumn, if you have anything free." },
@@ -56,7 +56,7 @@ window.IELTS_DATA.listening.push(
   title: "Riverside Science Museum Orientation",
   section: "Section 2 · Monologue",
   scenario: "A guide gives new visitors an orientation talk at a science museum, explaining where exhibits are, opening times, ticket prices, the café and shop, and a couple of rules.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Guide", text: "Good morning everyone, and a very warm welcome to the Riverside Science Museum. My name's Daniel, and I'm one of the visitor guides here. Before you head off to explore, I'd like to spend a few minutes telling you what's where, so you can make the most of your day." },
     { speaker: "Guide", text: "Let me start with the layout, because the building is bigger than it looks from outside. We're standing now in the main entrance hall on the ground floor. If you turn to your right, you'll find the cloakroom, where you can leave coats and large bags free of charge." },
@@ -143,7 +143,7 @@ window.IELTS_DATA.listening.push(
   title: "The Bystander Effect Field Study",
   section: "Section 3 · Academic discussion",
   scenario: "Two psychology students, Megan and Tom, meet their tutor Dr Hartley to plan a field study on helping behaviour; listen for the method, who does which task, the sample size, the equipment, and the deadline.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Dr Hartley", text: "Come in, Megan, Tom. So, you've chosen the bystander effect for your field study. Have you settled on how you'll actually collect the data?" },
     { speaker: "Megan", text: "We have. We're going with covert observation rather than a questionnaire. We thought asking people whether they'd help would just give us what they think they ought to say." },
@@ -266,7 +266,7 @@ window.IELTS_DATA.listening.push(
   title: "Monitoring Volcanoes and Predicting Eruptions",
   section: "Section 4 · Academic lecture",
   scenario: "A university lecturer explains how scientists monitor active volcanoes and forecast eruptions; listen for instruments, warning signs, figures and place examples.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Lecturer", text: "Good morning, everyone. Today we're going to look at how scientists keep watch over active volcanoes, and how, increasingly, they can warn the public before an eruption actually happens." },
     { speaker: "Lecturer", text: "Now, the first thing to understand is that a volcano almost never erupts without warning. In the weeks, days, or sometimes just hours beforehand, it produces a whole range of signals, and the job of the monitoring team is to detect and interpret those signals correctly." },
@@ -306,7 +306,7 @@ window.IELTS_DATA.listening.push(
   title: "Joining Riverbank Community Sports Centre",
   section: "Section 1 · Everyday conversation",
   scenario: "A man visits the Riverbank Community Sports Centre to sign up as a new member; listen for membership types and fees, class times, his registration number, opening hours and the steps to join.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Receptionist", text: "Good morning, welcome to Riverbank Community Sports Centre. How can I help you today?" },
     { speaker: "Daniel", text: "Hi, good morning. I've just moved into the area and I'd like to become a member, if that's possible." },
@@ -417,7 +417,7 @@ window.IELTS_DATA.listening.push(
   title: "The Past and Future of Electric Vehicles",
   section: "Section 4 · Academic lecture",
   scenario: "A university lecturer traces the history and future of electric vehicles; listen for dates, percentages, technical challenges, and predictions.",
-  source: "IELTS Academic Listening · Cambridge 19 (2024) standard · original, Jun 2026",
+  source: "IELTS Academic Listening · Cambridge 20 (2025) standard · original, Jun 2026",
   lines: [
     { speaker: "Lecturer", text: "Good morning, everyone. Today I want to take you on a journey through the surprisingly long history of the electric vehicle, or EV, and then look ahead to where the technology might be heading over the next few decades." },
     { speaker: "Lecturer", text: "Now, most people assume the electric car is a modern invention, but the first practical examples actually appeared in the eighteen-thirties. By the year nineteen hundred, electric cars were genuinely popular, and remarkably, they made up around thirty-eight per cent of all vehicles sold in the United States at that time." },

@@ -26,7 +26,7 @@
     wrap.appendChild(bar);
     wrap.appendChild(el(`<div class="faint mb8" style="margin-left:4px">Pick any day to practise — by date & topic.</div>`));
     if (active === 'reading' || active === 'listening') {
-      wrap.appendChild(el(`<div class="notice"><b>📘 About these materials</b><br>Original IELTS-format practice written to the latest <b>Cambridge IELTS 19 (2024)</b> standard — same question types, length & difficulty. Real reading/listening papers are confidential and never published; the official benchmark is the Cambridge IELTS series. Every test is labelled with its level.</div>`));
+      wrap.appendChild(el(`<div class="notice"><b>📘 About these materials</b><br>The newest official real papers are <b>Cambridge IELTS 20 (2025)</b> — get those from Cambridge for verbatim retired exams. The tests here are <b>original practice at Cambridge 20 standard</b>, many built on <b>topics from recent 2026 exams</b> (e.g. Australian Parrots, Marine Biodiversity, History of Pigments) and dated. Live exam papers are never published, so matching the real topics + standard is the closest legitimate option. Every test is labelled.</div>`));
     }
     if (active === 'speaking' || active === 'writing') {
       wrap.appendChild(el(`<div class="notice"><b>📋 Exam question bank (机经 / recalled)</b><br>Items tagged <b>机经</b> are <b>current & recent real exam questions reported by test-takers worldwide</b> — Speaking Part 2 (May–Aug 2026 rotation) and Writing Task 2 (2025–2026). This is the closest thing to the live exam. Practise speaking with the AI examiner, or write and get AI band feedback.</div>`));
@@ -53,7 +53,7 @@
           <div class="li-main">
             <b>${esc(title)}</b>
             <div class="faint">Day ${day} · ${dateForDay(day)}${meta ? ' · ' + esc(meta) : ''}</div>
-            ${item.source ? `<div class="src-tag">${/机经|recalled/.test(item.source) ? '📋' : '📘'} ${esc(item.source)}</div>` : ((active === 'reading' || active === 'listening') ? `<div class="src-tag">📘 Cambridge 19 (2024) standard</div>` : '')}
+            ${item.source ? `<div class="src-tag">${/机经|recalled/.test(item.source) ? '📋' : '📘'} ${esc(item.source)}</div>` : ((active === 'reading' || active === 'listening') ? `<div class="src-tag">📘 Cambridge 20 (2025) standard</div>` : '')}
           </div>
           ${doneIds.has(item.id) ? '<span class="pill good">done</span>' : ''}
           <div class="li-arrow">›</div>
