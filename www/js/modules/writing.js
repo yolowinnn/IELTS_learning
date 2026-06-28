@@ -12,7 +12,7 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>Task ${w.task} · ${esc(w.title)}</h2><div class="faint">${esc(w.type || '')} · ${w.task === 1 ? '20' : '40'} min · ≥${minW} words</div></div>
+        <div><h2>Task ${w.task} · ${esc(w.title)}</h2><div class="faint">${esc(w.type || '')} · ${w.task === 1 ? '20' : '40'} min · ≥${minW} words</div>${w.source ? `<div class="src-tag">📋 ${esc(w.source)}</div>` : ''}</div>
       </div>
     `));
 
@@ -54,7 +54,7 @@
     wrap.appendChild(editor);
 
     // 范文(隐藏)
-    const modelCard = el(`<div class="card hidden" id="modelCard"><div class="card-title mb8">📕 Model answer (Band 8+)</div><div class="passage">${(w.model_answer || '').split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('')}</div>${w.band_tips ? `<div class="explain mt8"><b>How to score higher</b><br>${esc(w.band_tips)}</div>` : ''}</div>`);
+    const modelCard = el(`<div class="card hidden" id="modelCard"><div class="card-title mb8">📕 Model answer (Band 8+)</div><div class="passage">${w.model_answer ? w.model_answer.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('') : '<p class="faint">No model answer for this exam-bank question — write your essay above and tap 🤖 Grade with Gemini AI for personalised band feedback.</p>'}</div>${w.band_tips ? `<div class="explain mt8"><b>How to score higher</b><br>${esc(w.band_tips)}</div>` : ''}</div>`);
     wrap.appendChild(modelCard);
 
     // 自查清单

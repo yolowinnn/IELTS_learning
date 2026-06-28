@@ -13,7 +13,7 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>Speaking · ${esc(s.title)}</h2><div class="faint">Topic: ${esc(s.topic || '')}</div></div>
+        <div><h2>Speaking · ${esc(s.title)}</h2><div class="faint">Topic: ${esc(s.topic || '')}</div>${s.source ? `<div class="src-tag">📋 ${esc(s.source)}</div>` : ''}</div>
       </div>
     `));
 
