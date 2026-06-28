@@ -25,6 +25,9 @@
     });
     wrap.appendChild(bar);
     wrap.appendChild(el(`<div class="faint mb8" style="margin-left:4px">Pick any day to practise — by date & topic.</div>`));
+    if (active === 'reading' || active === 'listening') {
+      wrap.appendChild(el(`<div class="notice"><b>📘 About these materials</b><br>Original IELTS-format practice written to the latest <b>Cambridge IELTS 19 (2024)</b> standard — same question types, length & difficulty. Real exam papers are confidential and never published; the official benchmark is the Cambridge IELTS series. Every test is labelled with its level.</div>`));
+    }
 
     const list = el('<div></div>');
     const data = window.IELTS_DATA[active] || [];
@@ -47,6 +50,7 @@
           <div class="li-main">
             <b>${esc(title)}</b>
             <div class="faint">Day ${day} · ${dateForDay(day)}${meta ? ' · ' + esc(meta) : ''}</div>
+            ${(active === 'reading' || active === 'listening') ? `<div class="src-tag">📘 ${esc(item.source || 'Cambridge 19 (2024) standard')}</div>` : ''}
           </div>
           ${doneIds.has(item.id) ? '<span class="pill good">done</span>' : ''}
           <div class="li-arrow">›</div>

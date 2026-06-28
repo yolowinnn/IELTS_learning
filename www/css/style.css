@@ -294,6 +294,9 @@ details > summary { cursor: pointer; color: var(--tx-dim); }
 .list-item .li-main b { font-size: 15px; }
 .list-item .li-arrow { color: var(--tx-faint); font-size: 20px; }
 .list-item.locked { opacity: .5; }
+.src-tag { font-size: 11.5px; color: var(--brand); font-weight: 700; margin-top: 3px; opacity: .9; }
+.notice { background: var(--tint); border: 1px solid var(--tint-line); border-radius: 14px; padding: 12px 14px; margin: 2px 4px 14px; font-size: 12.5px; line-height: 1.55; color: var(--tx-dim); }
+.notice b { color: var(--tx); }
 
 /* ===== 返回头 ===== */
 .subhead { display:flex; align-items:center; gap: 12px; margin-bottom: 16px; }

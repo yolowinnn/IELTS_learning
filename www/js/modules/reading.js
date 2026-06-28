@@ -1,5 +1,6 @@
 /* reading.js — 阅读:学术文章 + 题目 */
 (function () {
+  const DEFAULT_SRC = 'IELTS Academic Reading · Cambridge 19 (2024) standard · original practice';
   function find(id) { return (window.IELTS_DATA.reading || []).find(r => r.id === id) || (window.IELTS_DATA.reading || [])[0]; }
 
   function render(view, id) {
@@ -10,7 +11,7 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>${esc(r.title)}</h2><div class="faint">${esc(r.topic || '')} · ~${r.words || '?'} words</div></div>
+        <div><h2>${esc(r.title)}</h2><div class="faint">${esc(r.topic || '')} · ~${r.words || '?'} words</div><div class="src-tag">📘 ${esc(r.source || DEFAULT_SRC)}</div></div>
       </div>
     `));
 

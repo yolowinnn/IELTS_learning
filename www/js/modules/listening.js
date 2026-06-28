@@ -1,6 +1,7 @@
 /* listening.js — 听力:TTS 朗读脚本 + 题目。原文默认遮挡。 */
 (function () {
   function find(id) { return (window.IELTS_DATA.listening || []).find(l => l.id === id) || (window.IELTS_DATA.listening || [])[0]; }
+  const DEFAULT_SRC = 'IELTS Academic Listening · Cambridge 19 (2024) standard · original practice';
   let playing = false;
 
   function render(view, id) {
@@ -13,7 +14,7 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>${esc(l.title)}</h2><div class="faint">${esc(l.section || '')} · ${esc(l.scenario || '')}</div></div>
+        <div><h2>${esc(l.title)}</h2><div class="faint">${esc(l.section || '')} · ${esc(l.scenario || '')}</div><div class="src-tag">📘 ${esc(l.source || DEFAULT_SRC)}</div></div>
       </div>
     `));
 
