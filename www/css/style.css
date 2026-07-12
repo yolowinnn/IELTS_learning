@@ -4,33 +4,33 @@
    =================================================================== */
 :root {
   /* 背景与层 */
-  --bg: #f4f6fb;
-  --bg-2: #eef2f8;
-  --surface: #ffffff;
-  --surface-2: #f7f9fc;
-  --surface-3: #eef2f8;
-  --line: #e7ecf4;
-  --line-strong: #d8e0ec;
+  --bg: #f3eee0;
+  --bg-2: #ece4d2;
+  --surface: #fffdf7;
+  --surface-2: #faf5e9;
+  --surface-3: #f1e9d8;
+  --line: #e5dcc6;
+  --line-strong: #d8ccb0;
 
   /* 文字 */
-  --tx: #1e2a44;
-  --tx-dim: #64748b;
-  --tx-faint: #97a3b8;
+  --tx: #13281b;
+  --tx-dim: #4c6051;
+  --tx-faint: #8a9788;
 
-  /* 品牌:清爽绿 + 暖橙点缀 */
-  --brand: #10b981;
-  --brand-2: #14b8a6;
-  --brand-grad: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-  --hero-grad: linear-gradient(135deg, #059669 0%, #10b981 50%, #2dd4bf 118%);
-  --tint: #ecfdf5;           /* 浅绿底 */
-  --tint-line: #a7f3d0;      /* 浅绿边 */
+  /* 品牌:润 绿 + 暖金点缀 */
+  --brand: #2a9d4e;
+  --brand-2: #0f6f3c;
+  --brand-grad: linear-gradient(135deg, #2a9d4e 0%, #34b85f 100%);
+  --hero-grad: linear-gradient(135deg, #0f6f3c 0%, #2a9d4e 50%, #4bbf6a 118%);
+  --tint: #eaf4ec;           /* 浅绿底 */
+  --tint-line: #cfe6d6;      /* 浅绿边 */
 
   /* 技能色(浅底可读) */
-  --c-vocab: #0d9488;
-  --c-reading: #0ea5e9;
-  --c-listening: #8b5cf6;
-  --c-writing: #f59e0b;
-  --c-speaking: #10b981;
+  --c-vocab: #2a9d4e;
+  --c-reading: #c0902c;
+  --c-listening: #0f766e;
+  --c-writing: #b06a2c;
+  --c-speaking: #6a9a3f;
 
   /* 语义 */
   --good: #16a34a;
@@ -52,8 +52,8 @@ html, body { margin: 0; padding: 0; height: 100%; }
 body {
   background-color: var(--bg);
   background-image:
-    radial-gradient(800px 420px at 88% -10%, rgba(16, 185, 129, 0.10), transparent 60%),
-    radial-gradient(700px 420px at 5% 4%, rgba(45, 212, 191, 0.09), transparent 55%);
+    radial-gradient(800px 420px at 88% -10%, rgba(42, 157, 78, 0.10), transparent 60%),
+    radial-gradient(700px 420px at 5% 4%, rgba(192, 144, 44, 0.09), transparent 55%);
   background-attachment: fixed;
   color: var(--tx);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans SC", sans-serif;
@@ -197,11 +197,11 @@ h1,h2,h3 { margin: 0 0 6px; letter-spacing: -0.01em; }
   width: 44px; height: 44px; flex-shrink: 0; border-radius: 13px; display:flex; align-items:center; justify-content:center;
   font-size: 22px; background: var(--surface-2); border: 1px solid var(--line);
 }
-.task[data-skill="vocab"] .t-ic { background: #ecfeff; border-color: #a5f3fc; }
-.task[data-skill="reading"] .t-ic { background: #eff6ff; border-color: #bfdbfe; }
-.task[data-skill="listening"] .t-ic { background: #f5f3ff; border-color: #ddd6fe; }
-.task[data-skill="writing"] .t-ic { background: #fffbeb; border-color: #fde68a; }
-.task[data-skill="speaking"] .t-ic { background: #ecfdf5; border-color: #a7f3d0; }
+.task[data-skill="vocab"] .t-ic { background: #eaf4ec; border-color: #cfe6d6; }
+.task[data-skill="reading"] .t-ic { background: #f6efdc; border-color: #e6d3a0; }
+.task[data-skill="listening"] .t-ic { background: #e6f2f0; border-color: #b8ddd6; }
+.task[data-skill="writing"] .t-ic { background: #f4ebe0; border-color: #e2c9a8; }
+.task[data-skill="speaking"] .t-ic { background: #eef3e4; border-color: #d3e0b8; }
 .task .t-main { flex: 1; min-width: 0; }
 .task .t-main b { font-size: 15px; font-weight: 700; }
 .task .t-main .t-sub { font-size: 12.5px; color: var(--tx-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -344,7 +344,7 @@ input[type=checkbox] { accent-color: var(--brand); width:22px; height:22px; }
 /* ===== Toast ===== */
 .toast {
   position: fixed; left: 50%; bottom: calc(var(--tabbar-h) + 28px); transform: translateX(-50%);
-  background: #1e2a44; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 700;
+  background: #13281b; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 700;
   z-index: 100; box-shadow: 0 12px 30px -8px rgba(30,41,59,.4); animation: toastIn .3s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes toastIn { from { opacity:0; transform: translate(-50%, 12px);} to {opacity:1; transform: translate(-50%,0);} }
