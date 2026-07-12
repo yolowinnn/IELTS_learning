@@ -361,6 +361,9 @@ input[type=checkbox] { accent-color: var(--brand); width:22px; height:22px; }
 /* ===== 登录封面页 v4 — premium(品牌渐变 + 光晕 + 玻璃卡片)===== */
 body.cover-mode { background: #04372a; }
 body.cover-mode #tabbar, body.cover-mode #topbar { display: none; }
+/* 内嵌模式：隐藏自己的顶栏（由 润 Hub 外壳提供返回），保留底部导航与内页 ← 返回 */
+html.embed #topbar { display: none; }
+html.embed #view { padding-top: calc(env(safe-area-inset-top) + 16px); }
 body.cover-mode #view { padding: 0; max-width: none; }
 
 .cover2 {
