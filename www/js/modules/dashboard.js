@@ -13,6 +13,8 @@
     const todayPct = t.tasks.length ? Math.round(doneCount / t.tasks.length * 100) : 0;
     wrap.appendChild(el(`
       <div class="hero">
+        <div class="hero-illus"><img src="assets/hero_today.jpg" alt="" loading="eager"/></div>
+        <div class="hero-body">
         <div class="hero-top">
           <div>
             <div class="hero-sub">Week ${t.week} of 8</div>
@@ -25,6 +27,7 @@
         <div class="hero-bar">
           <div class="hero-bar-track"><i style="width:${pct}%"></i></div>
           <span class="hero-bar-tx">${pct}% overall</span>
+        </div>
         </div>
       </div>
     `));
