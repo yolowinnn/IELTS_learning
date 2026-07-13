@@ -93,7 +93,7 @@
     revealed = false;
     view.innerHTML = '';
 
-    const wrap = el('<div></div>');
+    const wrap = el('<div class="flash-session"></div>');
     // 进度条 + 标签
     const total = queue.length;
     wrap.appendChild(el(`

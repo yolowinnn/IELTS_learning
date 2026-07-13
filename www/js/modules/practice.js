@@ -32,7 +32,7 @@
       wrap.appendChild(el(`<div class="notice"><b>📋 Exam question bank (机经 / recalled)</b><br>Items tagged <b>机经</b> are <b>current & recent real exam questions reported by test-takers worldwide</b> — Speaking Part 2 (May–Aug 2026 rotation) and Writing Task 2 (2025–2026). This is the closest thing to the live exam. Practise speaking with the AI examiner, or write and get AI band feedback.</div>`));
     }
 
-    const list = el('<div></div>');
+    const list = el('<div class="li-grid"></div>');
     const data = window.IELTS_DATA[active] || [];
     const scores = Store.get('scores', {})[active] || [];
     const doneIds = new Set(scores.map(x => x.id));
