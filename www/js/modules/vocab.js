@@ -154,7 +154,14 @@
     const say = wrap.querySelector('#say');
     if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakWord(w.id, w.word, 0.95); };
     const sayEx = wrap.querySelector('#sayEx');
-    if (sayEx) sayEx.onclick = (e) => { e.stopPropagation(); if (window.TTS) { TTS.cancel(); TTS.speak(w.example, { rate: 0.92 }); } };
+    if (sayEx) sayEx.onclick = (e) => {
+      e.stopPropagation();
+      sayEx.classList.add('playing'); setTimeout(() => sayEx.classList.remove('playing'), 700);
+      try { if (window.speechSynthesis) speechSynthesis.resume(); } catch (err) {}   // 解 Chrome 卡住
+      // 不在 speak 前紧接 cancel(Chrome 会把这次朗读一起吞掉)
+      if (window.TTS && TTS.supported) TTS.speak(w.example, { rate: 0.92 });
+      else if (window.AudioFX) AudioFX.speakWord(w.id, w.word, 0.92);
+    };
     if (Store.get('autoSpeak', true)) AudioFX.speakWord(w.id, w.word, 0.95);
   }
 
