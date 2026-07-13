@@ -117,7 +117,7 @@
             <div class="flip-face flip-back">
               <div class="def">${esc(w.def_en || '')}</div>
               <div class="def-zh">${esc(w.def_zh || '')}</div>
-              ${w.example ? `<div class="ex">"${highlight(w.example, w.word)}"</div>` : ''}
+              ${w.example ? `<div class="ex">"${highlight(w.example, w.word)}"<button class="ex-say" id="sayEx" aria-label="Play sentence" title="朗读例句">🔊</button></div>` : ''}
               ${w.synonyms ? `<div class="syn">Synonyms: ${esc(w.synonyms)}</div>` : ''}
             </div>
           </div>
@@ -153,6 +153,8 @@
 
     const say = wrap.querySelector('#say');
     if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakWord(w.id, w.word, 0.95); };
+    const sayEx = wrap.querySelector('#sayEx');
+    if (sayEx) sayEx.onclick = (e) => { e.stopPropagation(); if (window.TTS) { TTS.cancel(); TTS.speak(w.example, { rate: 0.92 }); } };
     if (Store.get('autoSpeak', true)) AudioFX.speakWord(w.id, w.word, 0.95);
   }
 
