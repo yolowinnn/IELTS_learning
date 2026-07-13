@@ -115,6 +115,7 @@
         : q.answer;
       wrap.appendChild(el(`<div class="explain"><b>${correct ? '✅ Correct' : '❌ Answer: ' + esc(ansText)}</b>${q.explanation ? '<br>' + esc(q.explanation) : ''}</div>`));
     });
+    if (window.RunReport) { let corr = 0; questions.forEach((q, i) => { if (isCorrect(q, state[i].value)) corr++; }); RunReport(Math.min(20, 3 + corr * 2)); }
   }
 
   window.Quiz = { render };

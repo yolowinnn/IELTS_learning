@@ -49,6 +49,8 @@
     </button>
   </nav>
 
+  <!-- 内嵌 润 Hub 时上报赚分（跨站积分累计） -->
+  <script>window.RunReport=function(n,src){try{if(n>0&&window.parent&&window.parent!==window)window.parent.postMessage({type:'run-points',points:n,source:src||'ielts'},'*');}catch(e){}};</script>
   <!-- 数据(纯JS全局对象,WebView离线最稳) -->
   <script>window.IELTS_DATA = {};</script>
   <script src="data/vocab.js"></script>

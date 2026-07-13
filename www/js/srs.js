@@ -55,6 +55,7 @@
   // 标记一个新词今天已开始学
   function countNewLearned() {
     Store.update('newLearned', {}, (m) => { const t = Store.todayStr(); m[t] = (m[t] || 0) + 1; return m; });
+    if (window.RunReport) RunReport(3);
   }
 
   function byOrder(a, b) { return ((a.day || 1) - (b.day || 1)) || (String(a.id) < String(b.id) ? -1 : 1); }
