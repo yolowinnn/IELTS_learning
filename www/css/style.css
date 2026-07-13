@@ -49,7 +49,7 @@
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; height: 100%; }
-body {
+html {
   background-color: var(--bg);
   background-image:
     radial-gradient(1100px 560px at 92% -14%, rgba(42, 157, 78, 0.15), transparent 60%),
@@ -57,6 +57,23 @@ body {
     radial-gradient(820px 820px at 50% 132%, rgba(15, 111, 60, 0.10), transparent 58%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='2' cy='2' r='1.15' fill='%230f6f3c' fill-opacity='0.05'/%3E%3C/svg%3E");
   background-attachment: fixed;
+}
+/* 每个模块的淡绿装饰背景(gpt-image 生成) — 铺在渐变之上、内容之下,极低透明度不抢内容 */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-position: center; background-repeat: no-repeat; background-size: cover;
+  opacity: 0; transition: opacity .5s ease;
+}
+body[data-view]::before { opacity: .11; }
+body[data-view="today"]::before     { background-image: url("../assets/bg/today.jpg"); }
+body[data-view="vocab"]::before     { background-image: url("../assets/bg/vocab.jpg"); }
+body[data-view="practice"]::before  { background-image: url("../assets/bg/reading.jpg"); }
+body[data-view="me"]::before        { background-image: url("../assets/bg/today.jpg"); }
+body[data-view="reading"]::before   { background-image: url("../assets/bg/reading.jpg"); }
+body[data-view="listening"]::before { background-image: url("../assets/bg/listening.jpg"); }
+body[data-view="writing"]::before   { background-image: url("../assets/bg/writing.jpg"); }
+body[data-view="speaking"]::before  { background-image: url("../assets/bg/speaking.jpg"); }
+body {
   color: var(--tx);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans SC", sans-serif;
   font-size: 16px; line-height: 1.55; letter-spacing: 0.005em;

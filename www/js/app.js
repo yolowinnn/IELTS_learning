@@ -38,6 +38,7 @@
     view.classList.remove('wide');
     currentTab = tab;
     setActiveTab(tab);
+    document.body.dataset.view = tab;
     const t = TABS[tab];
     tbTitle.textContent = t.title;
     view.scrollTop = 0; window.scrollTo(0, 0);
@@ -54,6 +55,7 @@
     if (!MODULES[mod]) return;
     runCleanups();
     inSubView = true;
+    document.body.dataset.view = mod;
     view.classList.toggle('wide', mod === 'reading' || mod === 'listening');
     view.scrollTop = 0; window.scrollTo(0, 0);
     if (MOD_TITLES[mod]) tbTitle.textContent = MOD_TITLES[mod];
