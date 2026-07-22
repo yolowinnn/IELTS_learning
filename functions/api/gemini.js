@@ -87,15 +87,29 @@ export async function onRequestPost(context) {
       return jsonResp({ text: out.text || '(no score)' });
     }
 
+    const lastHasAudio = messages.length && messages[messages.length - 1].audio;
+    if (lastHasAudio) {
+      const au = messages[messages.length - 1].audio;
+      const trOut = await call({
+        systemInstruction: { parts: [{ text: 'You are a precise speech-to-text transcriber. Transcribe the audio EXACTLY word-for-word as actually spoken. Do NOT paraphrase, translate, correct, complete, or invent ANY content — transcribe only what you truly hear. If the audio is silent/empty or you cannot make out any speech, output exactly: [inaudible]. Output ONLY the raw transcription, nothing else.' }] },
+        contents: [{ role: 'user', parts: [{ inlineData: { mimeType: au.mimeType || 'audio/wav', data: au.data } }] }],
+        generationConfig: { temperature: 0, maxOutputTokens: 500 }
+      });
+      if (!trOut.ok) return jsonResp({ error: 'gemini', detail: JSON.stringify(trOut.j).slice(0, 500) }, trOut.status);
+      const transcript = (trOut.text || '').trim();
+      if (!transcript || /^\[?\s*inaudible\s*\]?\.?$/i.test(transcript)) {
+        return jsonResp({ transcript: '', reply: "Sorry, I didn't quite catch that — could you say your answer again, a little louder and closer to the mic?" });
+      }
+      const hist = messages.slice(-16, -1).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: [{ text: String(m.text || '') }] }));
+      hist.push({ role: 'user', parts: [{ text: transcript }] });
+      const rOut = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents: hist, generationConfig: { temperature: 0.85, maxOutputTokens: 400 } });
+      if (!rOut.ok) return jsonResp({ error: 'gemini', detail: JSON.stringify(rOut.j).slice(0, 500) }, rOut.status);
+      return jsonResp({ transcript, reply: rOut.text || '' });
+    }
     const contents = messages.slice(-16).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: partsFor(m) }));
     if (!contents.length) contents.push({ role: 'user', parts: [{ text: 'Please start the IELTS speaking mock with your first question.' }] });
-    const lastHasAudio = messages.length && messages[messages.length - 1].audio;
-    const gen = { temperature: 0.85, maxOutputTokens: 600 };
-    if (lastHasAudio) { gen.responseMimeType = 'application/json'; gen.responseSchema = { type: 'object', properties: { transcript: { type: 'string' }, reply: { type: 'string' } }, required: ['transcript', 'reply'] }; }
-    const sys = examinerSystem(topic) + (lastHasAudio ? '\nThe last turn is the candidate audio. Return JSON: transcript = a faithful transcription of what the candidate said; reply = your next examiner turn.' : '');
-    const out = await call({ systemInstruction: { parts: [{ text: sys }] }, contents, generationConfig: gen });
+    const out = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents, generationConfig: { temperature: 0.85, maxOutputTokens: 600 } });
     if (!out.ok) return jsonResp({ error: 'gemini', detail: JSON.stringify(out.j).slice(0, 500) }, out.status);
-    if (lastHasAudio) { try { const o = JSON.parse(out.text); return jsonResp({ transcript: o.transcript || '', reply: o.reply || '' }); } catch (e) { return jsonResp({ transcript: '', reply: out.text }); } }
     return jsonResp({ text: out.text || '(no reply)' });
   } catch (e) {
     return jsonResp({ error: String((e && e.message) || e) }, 500);

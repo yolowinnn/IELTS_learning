@@ -93,15 +93,31 @@ module.exports = async (req, res) => {
       return res.status(200).json({ text: out.text || '(no score)' });
     }
 
+    const lastHasAudio = messages.length && messages[messages.length - 1].audio;
+    if (lastHasAudio) {
+      // 第一步:专职严格转写(temp 0,只转不编,听不清就 [inaudible]) —— 避免模型编套路默认答案
+      const au = messages[messages.length - 1].audio;
+      const trOut = await call({
+        systemInstruction: { parts: [{ text: 'You are a precise speech-to-text transcriber. Transcribe the audio EXACTLY word-for-word as actually spoken. Do NOT paraphrase, translate, correct, complete, or invent ANY content — transcribe only what you truly hear. If the audio is silent/empty or you cannot make out any speech, output exactly: [inaudible]. Output ONLY the raw transcription, nothing else.' }] },
+        contents: [{ role: 'user', parts: [{ inlineData: { mimeType: au.mimeType || 'audio/wav', data: au.data } }] }],
+        generationConfig: { temperature: 0, maxOutputTokens: 500 }
+      });
+      if (!trOut.ok) return res.status(trOut.status).json({ error: 'gemini', detail: JSON.stringify(trOut.j).slice(0, 500) });
+      const transcript = (trOut.text || '').trim();
+      if (!transcript || /^\[?\s*inaudible\s*\]?\.?$/i.test(transcript)) {
+        return res.status(200).json({ transcript: '', reply: "Sorry, I didn't quite catch that — could you say your answer again, a little louder and closer to the mic?" });
+      }
+      // 第二步:考官基于【文字转写】接话
+      const hist = messages.slice(-16, -1).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: [{ text: String(m.text || '') }] }));
+      hist.push({ role: 'user', parts: [{ text: transcript }] });
+      const rOut = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents: hist, generationConfig: { temperature: 0.85, maxOutputTokens: 400 } });
+      if (!rOut.ok) return res.status(rOut.status).json({ error: 'gemini', detail: JSON.stringify(rOut.j).slice(0, 500) });
+      return res.status(200).json({ transcript, reply: rOut.text || '' });
+    }
     const contents = messages.slice(-16).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: partsFor(m) }));
     if (!contents.length) contents.push({ role: 'user', parts: [{ text: 'Please start the IELTS speaking mock with your first question.' }] });
-    const lastHasAudio = messages.length && messages[messages.length - 1].audio;
-    const gen = { temperature: 0.85, maxOutputTokens: 600 };
-    if (lastHasAudio) { gen.responseMimeType = 'application/json'; gen.responseSchema = { type: 'object', properties: { transcript: { type: 'string' }, reply: { type: 'string' } }, required: ['transcript', 'reply'] }; }
-    const sys = examinerSystem(topic) + (lastHasAudio ? '\nThe last turn is the candidate audio. Return JSON: transcript = a faithful transcription of what the candidate said; reply = your next examiner turn.' : '');
-    const out = await call({ systemInstruction: { parts: [{ text: sys }] }, contents, generationConfig: gen });
+    const out = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents, generationConfig: { temperature: 0.85, maxOutputTokens: 600 } });
     if (!out.ok) return res.status(out.status).json({ error: 'gemini', detail: JSON.stringify(out.j).slice(0, 500) });
-    if (lastHasAudio) { try { const o = JSON.parse(out.text); return res.status(200).json({ transcript: o.transcript || '', reply: o.reply || '' }); } catch (e) { return res.status(200).json({ transcript: '', reply: out.text }); } }
     return res.status(200).json({ text: out.text || '(no reply)' });
   } catch (e) {
     return res.status(500).json({ error: String((e && e.message) || e) });
