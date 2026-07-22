@@ -3,6 +3,30 @@
   // 装到 App(Capacitor)里时,页面从 localhost/file 加载,/api 没有服务器 → 指向线上函数;网页则用相对路径。
   function apiBase() { try { return (window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) ? 'https://ielts75.pages.dev' : ''; } catch (e) { return ''; } }
 
+  // 把录音(webm/opus 等)解码后重编码为 WAV(单声道 16kHz 16-bit)——Gemini 支持 wav,不支持 webm。
+  // 不转的话 Gemini 解不了码,会凭空编个"默认答案"(如成都/熊猫),而不是转写你的真实语音。
+  async function toWav(blob) {
+    const arr = await blob.arrayBuffer();
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AC();
+    const audioBuf = await ctx.decodeAudioData(arr);
+    try { ctx.close(); } catch (e) {}
+    const chs = audioBuf.numberOfChannels, len = audioBuf.length;
+    const mono = new Float32Array(len);
+    for (let c = 0; c < chs; c++) { const d = audioBuf.getChannelData(c); for (let i = 0; i < len; i++) mono[i] += d[i] / chs; }
+    // 降采样到 16kHz(语音足够,体积更小)
+    const target = 16000, src = audioBuf.sampleRate;
+    let samples = mono, rate = src;
+    if (src > target) { const ratio = src / target, out = Math.floor(len / ratio), ds = new Float32Array(out); for (let i = 0; i < out; i++) ds[i] = mono[Math.floor(i * ratio)]; samples = ds; rate = target; }
+    const buf = new ArrayBuffer(44 + samples.length * 2), dv = new DataView(buf);
+    const ws = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+    ws(0, 'RIFF'); dv.setUint32(4, 36 + samples.length * 2, true); ws(8, 'WAVE'); ws(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, rate, true); dv.setUint32(28, rate * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); ws(36, 'data'); dv.setUint32(40, samples.length * 2, true);
+    let off = 44; for (let i = 0; i < samples.length; i++) { let v = Math.max(-1, Math.min(1, samples[i])); dv.setInt16(off, v < 0 ? v * 0x8000 : v * 0x7FFF, true); off += 2; }
+    const u8 = new Uint8Array(buf); let bin = ''; const CH = 0x8000;
+    for (let i = 0; i < u8.length; i += CH) bin += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+    return { b64: btoa(bin), blob: new Blob([buf], { type: 'audio/wav' }) };
+  }
+
   function find(id) { return (window.IELTS_DATA.speaking || []).find(s => s.id === id) || (window.IELTS_DATA.speaking || [])[0]; }
 
   function render(view, id) {
@@ -226,17 +250,25 @@
         setStatus('🔴 Recording… speak your answer, then tap stop. (Take your time — minutes are fine.)');
       } catch (e) { setStatus('Mic blocked. Allow microphone access and retry.'); }
     }
-    function onRecStop() {
+    async function onRecStop() {
       clearInterval(recTimer);
       if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
       const type = (recorder && recorder.mimeType) || 'audio/webm';
-      const blob = new Blob(chunks, { type });
-      const url = URL.createObjectURL(blob);
-      const mime = type.split(';')[0];           // Gemini 用裸 mime
-      addLog('You', '…', true, url);             // 先占位,转写回来再填
-      const rd = new FileReader();
-      rd.onload = () => { const b64 = String(rd.result).split(',')[1]; audios.push({ data: b64, mimeType: mime, url }); controls.innerHTML = ''; ask({ data: b64, mimeType: mime }); };
-      rd.readAsDataURL(blob);
+      const raw = new Blob(chunks, { type });
+      const msgEl = addLog('You', '…', true, null);   // 先占位,转写回来再填
+      controls.innerHTML = '';
+      function attachReplay(url) { if (msgEl) { const b = el('<button class="lv-replay">▶</button>'); b.onclick = () => { const a = new Audio(url); a.play(); }; msgEl.appendChild(b); } }
+      try {
+        const wav = await toWav(raw);                  // 关键:转 WAV,Gemini 才能真读你的语音(不是套路默认答案)
+        const url = URL.createObjectURL(wav.blob); attachReplay(url);
+        audios.push({ data: wav.b64, mimeType: 'audio/wav', url });
+        ask({ data: wav.b64, mimeType: 'audio/wav' });
+      } catch (e) {
+        const url = URL.createObjectURL(raw); attachReplay(url);   // 极少数浏览器解码失败 → 退回原格式
+        const rd = new FileReader();
+        rd.onload = () => { const b64 = String(rd.result).split(',')[1]; const m2 = type.split(';')[0]; audios.push({ data: b64, mimeType: m2, url }); ask({ data: b64, mimeType: m2 }); };
+        rd.readAsDataURL(raw);
+      }
     }
 
     async function finishScore() {
