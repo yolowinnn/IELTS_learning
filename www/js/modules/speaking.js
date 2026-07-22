@@ -137,9 +137,32 @@
       if (audioUrl) { const b = el(`<button class="lv-replay">▶</button>`); b.onclick = () => { const a = new Audio(audioUrl); a.play(); }; m.appendChild(b); }
       logEl.appendChild(m); logEl.scrollTop = logEl.scrollHeight; return m;
     }
+    let ttsUnlocked = false, curAudio = null;
+    function unlockAudio() {
+      if (ttsUnlocked) return; ttsUnlocked = true;
+      try { if (window.speechSynthesis) speechSynthesis.resume(); } catch (e) {}
+      try { const s = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA='); s.volume = 0; s.play().catch(function () {}); } catch (e) {}
+    }
+    function browserSpeak(text, done) {
+      try {
+        if (window.TTS && TTS.supported) { try { if (window.speechSynthesis) speechSynthesis.resume(); } catch (e) {} TTS.speak(text, { voice: TTS.pickVoice('en-GB'), rate: 0.98 }).then(done); }
+        else done && done();
+      } catch (e) { done && done(); }
+    }
+    // 考官发声:优先 Gemini 自然人声(/api/gemini mode:tts),失败退回浏览器 TTS
     function speak(text, done) {
-      try { if (window.TTS && TTS.supported) { TTS.cancel(); TTS.speak(text, { voice: TTS.pickVoice('en-GB'), rate: 0.98 }).then(done); } else done && done(); }
-      catch (e) { done && done(); }
+      if (!text) { done && done(); return; }
+      try { if (curAudio) { curAudio.pause(); curAudio = null; } } catch (e) {}
+      fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'tts', text: text }) })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (j) {
+          if (!j || !j.audio) return browserSpeak(text, done);
+          const a = new Audio('data:audio/wav;base64,' + j.audio); curAudio = a;
+          a.onended = function () { curAudio = null; done && done(); };
+          a.onerror = function () { curAudio = null; browserSpeak(text, done); };
+          a.play().catch(function () { browserSpeak(text, done); });
+        })
+        .catch(function () { browserSpeak(text, done); });
     }
 
     // 控制区:不同阶段不同按钮
@@ -154,7 +177,7 @@
 
     async function begin() {
       controls.innerHTML = '';
-      speak('Let\'s begin.');   // 用户手势内解锁 TTS
+      unlockAudio();   // 用户手势内解锁音频播放(之后异步的 Gemini 语音才能自动播)
       let n = 3; setStatus('<b style="font-size:28px;color:#fff">' + n + '</b>');
       const t = setInterval(() => { n--; if (n > 0) setStatus('<b style="font-size:28px;color:#fff">' + n + '</b>'); else { clearInterval(t); setStatus(''); ask(); } }, 1000);
     }
@@ -234,7 +257,7 @@
     }
 
     showStart();
-    if (window.App && App.onLeave) App.onLeave(() => { try { if (window.TTS) TTS.cancel(); if (recorder && recorder.state === 'recording') recorder.stop(); if (stream) stream.getTracks().forEach(t => t.stop()); } catch (e) {} });
+    if (window.App && App.onLeave) App.onLeave(() => { try { if (curAudio) { curAudio.pause(); curAudio = null; } if (window.TTS) TTS.cancel(); if (recorder && recorder.state === 'recording') recorder.stop(); if (stream) stream.getTracks().forEach(t => t.stop()); } catch (e) {} });
     return card;
   }
 

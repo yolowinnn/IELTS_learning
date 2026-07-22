@@ -31,6 +31,16 @@ function partsFor(m) {
   return [{ text: String(m.text || '') }];
 }
 
+function pcmToWavB64(pcmB64, sampleRate) {
+  const bin = atob(pcmB64); const pcm = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) pcm[i] = bin.charCodeAt(i);
+  const channels = 1, bits = 16, byteRate = sampleRate * channels * bits / 8, blockAlign = channels * bits / 8;
+  const buf = new ArrayBuffer(44 + pcm.length), dv = new DataView(buf);
+  const ws = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+  ws(0, 'RIFF'); dv.setUint32(4, 36 + pcm.length, true); ws(8, 'WAVE'); ws(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, channels, true); dv.setUint32(24, sampleRate, true); dv.setUint32(28, byteRate, true); dv.setUint16(32, blockAlign, true); dv.setUint16(34, bits, true); ws(36, 'data'); dv.setUint32(40, pcm.length, true);
+  new Uint8Array(buf, 44).set(pcm);
+  let out = ''; const u8 = new Uint8Array(buf); for (let i = 0; i < u8.length; i++) out += String.fromCharCode(u8[i]); return btoa(out);
+}
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
 const jsonResp = (o, status) => new Response(JSON.stringify(o), { status: status || 200, headers: { 'Content-Type': 'application/json', ...CORS } });
 export async function onRequestOptions() { return new Response(null, { status: 204, headers: CORS }); }
@@ -51,6 +61,21 @@ export async function onRequestPost(context) {
       const text = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || []).map(p => p.text || '').join('').trim();
       return { ok: r.ok, status: r.status, text, j };
     };
+
+    if (mode === 'tts') {
+      const text = String(body.text || '').slice(0, 1400);
+      if (!text) return jsonResp({ error: 'no text' }, 400);
+      const voice = body.voice || 'Kore';
+      const style = body.style || 'in a warm, clear, professional British IELTS examiner voice';
+      const ttsModel = context.env.GEMINI_TTS_MODEL || 'gemini-2.5-flash-preview-tts';
+      const tr = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${ttsModel}:generateContent`, { method: 'POST', headers: { 'x-goog-api-key': KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `Say ${style}: ${text}` }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } } }) });
+      const tj = await tr.json();
+      const part = tj.candidates && tj.candidates[0] && tj.candidates[0].content && tj.candidates[0].content.parts && tj.candidates[0].content.parts[0];
+      const inline = part && part.inlineData;
+      if (!tr.ok || !inline || !inline.data) return jsonResp({ error: 'tts', detail: JSON.stringify(tj).slice(0, 400) }, tr.status || 500);
+      const rateM = /rate=(\d+)/.exec(inline.mimeType || ''); const rate = rateM ? parseInt(rateM[1], 10) : 24000;
+      return jsonResp({ audio: pcmToWavB64(inline.data, rate), mimeType: 'audio/wav' });
+    }
 
     if (mode === 'score') {
       const audios = Array.isArray(body.audios) ? body.audios : [];

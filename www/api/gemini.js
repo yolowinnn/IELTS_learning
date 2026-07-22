@@ -30,6 +30,17 @@ function partsFor(m) {
   if (m.audio && m.audio.data) return [{ inlineData: { mimeType: m.audio.mimeType || 'audio/webm', data: m.audio.data } }, { text: '(candidate audio answer)' }];
   return [{ text: String(m.text || '') }];
 }
+// 把 Gemini TTS 返回的 PCM(L16, 单声道)封成 WAV,前端可直接 <audio> 播放
+function pcmToWav(pcm, sampleRate) {
+  const channels = 1, bits = 16;
+  const byteRate = sampleRate * channels * bits / 8, blockAlign = channels * bits / 8;
+  const h = Buffer.alloc(44);
+  h.write('RIFF', 0); h.writeUInt32LE(36 + pcm.length, 4); h.write('WAVE', 8);
+  h.write('fmt ', 12); h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(channels, 22);
+  h.writeUInt32LE(sampleRate, 24); h.writeUInt32LE(byteRate, 28); h.writeUInt16LE(blockAlign, 32); h.writeUInt16LE(bits, 34);
+  h.write('data', 36); h.writeUInt32LE(pcm.length, 40);
+  return Buffer.concat([h, pcm]);
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,6 +62,26 @@ module.exports = async (req, res) => {
       const text = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || []).map(p => p.text || '').join('').trim();
       return { ok: r.ok, status: r.status, text, j };
     };
+
+    if (mode === 'tts') {
+      const text = String(body.text || '').slice(0, 1400);
+      if (!text) return res.status(400).json({ error: 'no text' });
+      const voice = body.voice || 'Kore';
+      const style = body.style || 'in a warm, clear, professional British IELTS examiner voice';
+      const ttsModel = process.env.GEMINI_TTS_MODEL || 'gemini-2.5-flash-preview-tts';
+      const turl = `https://generativelanguage.googleapis.com/v1beta/models/${ttsModel}:generateContent`;
+      const tr = await fetch(turl, { method: 'POST', headers: { 'x-goog-api-key': KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({
+        contents: [{ parts: [{ text: `Say ${style}: ${text}` }] }],
+        generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } }
+      }) });
+      const tj = await tr.json();
+      const part = tj.candidates && tj.candidates[0] && tj.candidates[0].content && tj.candidates[0].content.parts && tj.candidates[0].content.parts[0];
+      const inline = part && part.inlineData;
+      if (!tr.ok || !inline || !inline.data) return res.status(tr.status || 500).json({ error: 'tts', detail: JSON.stringify(tj).slice(0, 400) });
+      const rateM = /rate=(\d+)/.exec(inline.mimeType || ''); const rate = rateM ? parseInt(rateM[1], 10) : 24000;
+      const wav = pcmToWav(Buffer.from(inline.data, 'base64'), rate);
+      return res.status(200).json({ audio: wav.toString('base64'), mimeType: 'audio/wav' });
+    }
 
     if (mode === 'score') {
       const audios = Array.isArray(body.audios) ? body.audios : [];
