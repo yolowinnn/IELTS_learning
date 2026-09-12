@@ -10,6 +10,24 @@
 - **同步项目**:用户个人 Gmail(lynnzx88@gmail.com)新建 Firebase。待用户发 firebaseConfig → 填 firebase-config.js → 重部署 + 重打包 APK。
 - **在线 AI/任务型**:下一阶段,AI 走公司 Vertex key 的 Vercel serverless 代理(www/api/),不内置 key。
 
+
+## 课后增量更新流水线(2026-09-12 起)
+上完课把文件丢进 `data/<YYYYMMDD>/` → 产出一个**课程包(lesson pack)** → 网页部署即生效、
+已装 APK 联网自动拉取,不用重装。技能说明 `.claude/skills/ielts-lesson/SKILL.md`,
+格式说明 `docs/lesson-pack-format.md`。
+
+- 工具链:`tools/lesson/prep.py`(docx→文本、PDF→页图 webp+缩略拼版、音频探测)、
+  `tools/lesson/assets.py`(挑页装包、音频转单声道 64k)、
+  `tools/lesson/build_pack.mjs`(校验 id/题型/答案/资源 → 装进 www/packs → 重建 index.json 和 data/packs.js)
+- 运行时:`www/js/packs.js`(内置 + 联网增量 + 手动导入,三条路合并进 IELTS_DATA)、
+  `www/js/sheets.js`(原卷页图查看器,可缩放翻页)、`www/js/modules/lesson.js`(课程页)
+- 题型扩展:`quiz.js` 加 `multi`(选 TWO,按选对个数给分)和 `match`(A–G 配对),支持 `marks` 分值制和真题题号 `no`
+- 听力支持真人录音单文件播放(进度拖动/±10s/变速),阅读支持原卷页图;老的 TTS 内容照常工作
+- 课堂生词 `day: 0` → 排在每日新词队列最前;Words 页按「🎓 哪节课」单独成组
+- 首页出现「Latest class」卡片;Practice 新增「My classes」标签;Profile 可查更新/导入包/改内容服务器
+- 首个包:`www/packs/lesson-20260912`(剑18 Test1:听力 P2 真题+P3 作业、阅读 P1、28 个生词、
+  14 组同义替换、8 条作业),听力 10 分 / 阅读 13 分实测满分判定正确
+
 ## 技术栈
 - 前端:原生 HTML/CSS/JS 单页应用(离线,数据内置为 JS 全局对象)
 - 听力/发音:WebView 自带语音合成 TTS(`speechSynthesis`)
