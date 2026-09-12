@@ -5,6 +5,35 @@
 > 一句话结论:**用个人 Cloudflare 账号开一个 R2 桶,桶设私有,通过站点自己的
 > `/packs/*` 函数读**。代码已经写好,只差你开桶 + 绑定。
 
+## ⚠️ 先确认站点在谁的账号下
+
+2026-09-12 实测:这台 Mac 上存着一份 **公司账号** 的 wrangler OAuth
+(`jiawei.li@industrialmind.ai` → `Inframanager@taomoai.com's Account`,
+id `6de392b8...`,配置在 `~/Library/Preferences/.wrangler/config/default.toml`)。
+而 `ielts75.pages.dev` 已经是活的。两者一对照,**这个 Pages 项目很可能就建在公司账号下**。
+
+确认方法:用公司账号登录 dash.cloudflare.com → Workers & Pages,看有没有 `ielts75`。
+有的话:删掉它,再用个人账号重新部署(`deploy_cloudflare.sh` 已做隔离)。
+注意 `*.pages.dev` 子域名是全局唯一的,公司账号下的 `ielts75` 不删,个人账号就占不到同名。
+
+### 脚本怎么保证不碰公司账号
+
+两条都实测过:
+
+1. 设了 `CLOUDFLARE_API_TOKEN` 时,wrangler **优先用它**,不会回落到本机的 OAuth
+   (拿一个无效 token 试,wrangler 直接报 Invalid Authorization header,而不是改用 OAuth)。
+2. 把 `XDG_CONFIG_HOME` 指到一个空目录,wrangler 就**完全看不到**本机的登录态
+   (报 `You are not authenticated`)。macOS 上 wrangler 默认读 `~/Library/Preferences/.wrangler`。
+
+`deploy_cloudflare.sh` 和 `tools/lesson/upload_assets.sh` 两条都用上了:
+一次性空 config 目录 + 必须显式传 token + 传进来的 token 必须能访问你给的个人 Account ID,
+对不上直接退出。
+
+如果想彻底清掉本机的公司登录态(会影响你用 wrangler 干公司的活,自己权衡):
+```bash
+npx --yes wrangler@latest logout
+```
+
 ## 规模
 
 | 项 | 数值 |

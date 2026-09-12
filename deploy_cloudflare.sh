@@ -8,6 +8,16 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+# ── 隔离本机已有的 wrangler 登录态 ─────────────────────────────────────────
+# 这台 Mac 上存着一份公司账号的 OAuth(~/Library/Preferences/.wrangler)。
+# 把 XDG_CONFIG_HOME 指到一次性空目录,wrangler 就完全看不到它;
+# 再配合下面必须显式传入的 CLOUDFLARE_API_TOKEN,不可能误用公司账号。
+# (实测:XDG_CONFIG_HOME 指向空目录时 wrangler 报 "You are not authenticated";
+#  设了 CLOUDFLARE_API_TOKEN 时 wrangler 优先用它,不回落到 OAuth。)
+WRANGLER_SANDBOX="$(mktemp -d)"
+export XDG_CONFIG_HOME="$WRANGLER_SANDBOX"
+trap 'rm -rf "$WRANGLER_SANDBOX"' EXIT
+
 : "${CLOUDFLARE_API_TOKEN:?必须提供个人账号的 CLOUDFLARE_API_TOKEN}"
 : "${EXPECT_ACCOUNT_ID:?必须提供期望的【个人】Account ID(EXPECT_ACCOUNT_ID),用于核对}"
 

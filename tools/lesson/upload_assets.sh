@@ -23,6 +23,16 @@ BUCKET="${R2_BUCKET:-ielts-packs}"
 BASE="${ASSET_BASE:-https://ielts75.pages.dev}"
 
 [ -n "$PACK_ID" ] || { echo "用法: bash tools/lesson/upload_assets.sh <pack-id> [--prune]"; exit 2; }
+# ── 隔离本机已有的 wrangler 登录态 ─────────────────────────────────────────
+# 这台 Mac 上存着一份公司账号的 OAuth(~/Library/Preferences/.wrangler)。
+# 把 XDG_CONFIG_HOME 指到一次性空目录,wrangler 就完全看不到它;
+# 再配合下面必须显式传入的 CLOUDFLARE_API_TOKEN,不可能误用公司账号。
+# (实测:XDG_CONFIG_HOME 指向空目录时 wrangler 报 "You are not authenticated";
+#  设了 CLOUDFLARE_API_TOKEN 时 wrangler 优先用它,不回落到 OAuth。)
+WRANGLER_SANDBOX="$(mktemp -d)"
+export XDG_CONFIG_HOME="$WRANGLER_SANDBOX"
+trap 'rm -rf "$WRANGLER_SANDBOX"' EXIT
+
 : "${CLOUDFLARE_API_TOKEN:?必须提供个人账号的 CLOUDFLARE_API_TOKEN(需 R2 读写权限)}"
 : "${EXPECT_ACCOUNT_ID:?必须提供期望的【个人】Account ID,用于核对}"
 
