@@ -64,6 +64,9 @@ function validateQuestion(q, where) {
   } else E(`${where}: unknown question type "${t}"`);
 }
 
+// 资源既可以跟包放一起,也可以托管在对象存储(pack.assetBase 为绝对地址时)
+function assetsAreRemote(pack) { return /^https?:\/\//.test(pack.assetBase || ''); }
+
 function validate(pack, packDir, known) {
   if (!/^[\w.-]+$/.test(pack.id || '')) E('pack.id missing or has odd characters');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(pack.date || '')) E('pack.date must be YYYY-MM-DD');
@@ -86,15 +89,17 @@ function validate(pack, packDir, known) {
         if (!item.example) W(`${where}: no example sentence`);
         continue;
       }
-      // 资源文件必须真的存在
+      // 资源文件必须真的存在(托管到对象存储后本地没有 → 降级为提醒)
+      const remote = assetsAreRemote(pack);
+      const missing = (f) => !/^https?:/.test(f) && !fs.existsSync(path.join(packDir, f));
       for (const f of [item.audio].filter(Boolean)) {
-        if (!/^https?:/.test(f) && !fs.existsSync(path.join(packDir, f))) E(`${where}: audio not found → ${f}`);
+        if (missing(f)) (remote ? W : E)(`${where}: audio not in the repo → ${f}${remote ? ' (assetBase 指向远端,请确认已上传)' : ''}`);
       }
       for (const key of ['sheets', 'questionSheets', 'transcriptSheets']) {
         for (const s of item[key] || []) {
           const src = typeof s === 'string' ? s : s.src;
           if (!src) { E(`${where}: ${key} entry without src`); continue; }
-          if (!/^https?:/.test(src) && !fs.existsSync(path.join(packDir, src))) E(`${where}: ${key} file not found → ${src}`);
+          if (missing(src)) (remote ? W : E)(`${where}: ${key} not in the repo → ${src}${remote ? ' (assetBase 指向远端,请确认已上传)' : ''}`);
         }
       }
       if (kind === 'listening' || kind === 'reading') {

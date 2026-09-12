@@ -94,6 +94,16 @@ node tools/lesson/build_pack.mjs www/packs/lesson-20260912/pack.json
 
 改动已发布的包时:**必须把 `rev` 加 1**,否则装过的 App 不会重新下载。
 
+### 6.(可选)资源挪到对象存储
+音频占了一个包 75% 的体积。若用户已经开了 R2 桶,上传并瘦身:
+```bash
+CLOUDFLARE_API_TOKEN=... EXPECT_ACCOUNT_ID=... \
+  bash tools/lesson/upload_assets.sh lesson-20260912 --prune
+```
+脚本会核对是**个人** Cloudflare 账号才动手,上传后把 `pack.json` 的 `assetBase` 指到线上、
+删本地资源、重建索引。选型与一次性配置见 `docs/assets-hosting.md`。
+没开桶就跳过这步,资源留在仓库里照常可用。
+
 ## 交付给用户的话
 
 - 网页:`cd www && vercel deploy --prod --yes --scope ljw2556826312-6708s-projects`

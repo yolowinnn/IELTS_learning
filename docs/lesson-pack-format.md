@@ -26,6 +26,7 @@ www/data/packs.js           ← 自动生成,打包内置(离线)
 | `date` | ✓ | 上课日期 `YYYY-MM-DD` |
 | `title` | ✓ | 课程标题,如 `Class 1 · Cambridge 18 Test 1` |
 | `source` |  | 来源标注,显示在每条内容上 |
+| `assetBase` |  | 资源(音频/页图)的根地址。留空=跟 pack.json 放一起;填绝对地址=托管在对象存储(见 `docs/assets-hosting.md`) |
 | `summary` |  | 一段话说明这次课做了什么 |
 | `listening` / `reading` / `writing` / `speaking` / `vocab` |  | 内容数组,直接并进 `IELTS_DATA` 对应集合 |
 | `notes` |  | `[{t, d}]` 课堂要点 |

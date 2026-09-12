@@ -32,6 +32,13 @@
     return base.replace(/\/+$/, '') + '/' + src.replace(/^\.?\//, '');
   }
 
+  // 资源(音频/页图)可以不跟 pack.json 放一起:pack.assetBase 指到对象存储/别的域名
+  function assetRoot(pack, base) {
+    const ab = pack.assetBase;
+    if (!ab) return base;
+    return String(ab).replace(/^\.?\//, '').replace(/\/+$/, '');
+  }
+
   // 把包里一条内容装配成 App 能直接用的对象(补上来源、把相对路径变成可用地址)
   function decorate(item, pack, base, kind) {
     const o = Object.assign({}, item);
@@ -39,12 +46,13 @@
     o.packTitle = pack.title || '';
     o.lessonDate = pack.date || '';
     o.base = base;
+    const ab = assetRoot(pack, base);
     if (!o.source && pack.source) o.source = pack.source;
-    if (o.audio) o.audio = absolute(base, o.audio);
+    if (o.audio) o.audio = absolute(ab, o.audio);
     ['sheets', 'questionSheets', 'transcriptSheets'].forEach(k => {
       if (Array.isArray(o[k])) o[k] = o[k].map(s => (typeof s === 'string'
-        ? { src: absolute(base, s) }
-        : Object.assign({}, s, { src: absolute(base, s.src) })));
+        ? { src: absolute(ab, s) }
+        : Object.assign({}, s, { src: absolute(ab, s.src) })));
     });
     if (kind === 'vocab' && o.day == null) o.day = 0;   // 课程词优先进每日新词队列
     return o;
