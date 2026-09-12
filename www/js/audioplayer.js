@@ -31,6 +31,19 @@
     if (window.TTS && TTS.supported) TTS.speak(word, { rate: rate || 0.95 });
   }
 
+  // 词条发音:课程包的词自带音频地址(离线内置),否则走老的 audio/vocab/<id>.mp3,再退回 TTS
+  async function speakVocab(w, rate) {
+    if (!w) return;
+    if (w.audio) { const ok = await playFile(w.audio, 1.0); if (ok) return; }
+    return speakWord(w.id, w.word, rate);
+  }
+
+  // 例句发音:有预生成音频就放,返回是否放成功(没有则由调用方退回 TTS)
+  async function speakExample(w) {
+    if (w && w.audioEx) { const ok = await playFile(w.audioEx, 1.0); if (ok) return true; }
+    return false;
+  }
+
   // 听力:优先逐句 MP3(不同说话人不同嗓音),退回 TTS 序列
   async function playListening(l, opts) {
     opts = opts || {};
@@ -62,5 +75,5 @@
   function isPlaying() { return seqActive || (cur && !cur.paused); }
   function usingFiles(l) { return listeningCount(l.id) > 0; }
 
-  window.AudioFX = { stop, playFile, speakWord, playListening, hasVocab, listeningCount, isPlaying, usingFiles };
+  window.AudioFX = { stop, playFile, speakWord, speakVocab, speakExample, playListening, hasVocab, listeningCount, isPlaying, usingFiles };
 })();

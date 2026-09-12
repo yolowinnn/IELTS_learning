@@ -3,7 +3,7 @@
 window.IELTS_PACKS = [
  {
   "packVersion": 1,
-  "rev": 1,
+  "rev": 2,
   "id": "lesson-20260912",
   "date": "2026-09-12",
   "title": "Class 1 · Cambridge 18 Test 1",
@@ -619,7 +619,9 @@ window.IELTS_PACKS = [
     "def_zh": "集约农业",
     "example": "Intensive farming raises output, but it pollutes the air and exhausts the soil.",
     "synonyms": "industrial agriculture, conventional farming",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-01.mp3",
+    "audioEx": "assets/vocab/lv260912-01-ex.mp3"
    },
    {
     "id": "lv260912-02",
@@ -630,7 +632,9 @@ window.IELTS_PACKS = [
     "def_zh": "产量;屈服",
     "example": "The same yield can be achieved with 90% less water.",
     "synonyms": "output, harvest; give in to, succumb to",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-02.mp3",
+    "audioEx": "assets/vocab/lv260912-02-ex.mp3"
    },
    {
     "id": "lv260912-03",
@@ -641,7 +645,9 @@ window.IELTS_PACKS = [
     "def_zh": "消耗,消费",
     "example": "Rooftop farms could eventually cover a tenth of the city's food consumption.",
     "synonyms": "use, intake, expenditure",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-03.mp3",
+    "audioEx": "assets/vocab/lv260912-03-ex.mp3"
    },
    {
     "id": "lv260912-04",
@@ -652,7 +658,9 @@ window.IELTS_PACKS = [
     "def_zh": "温室气体",
     "example": "Shipping food thousands of kilometres generates huge quantities of greenhouse gases.",
     "synonyms": "carbon emissions",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-04.mp3",
+    "audioEx": "assets/vocab/lv260912-04-ex.mp3"
    },
    {
     "id": "lv260912-05",
@@ -663,7 +671,9 @@ window.IELTS_PACKS = [
     "def_zh": "农药,杀虫剂",
     "example": "Much of the fruit we eat has been treated with more than a dozen pesticides.",
     "synonyms": "insecticide, agrochemical",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-05.mp3",
+    "audioEx": "assets/vocab/lv260912-05-ex.mp3"
    },
    {
     "id": "lv260912-06",
@@ -674,7 +684,9 @@ window.IELTS_PACKS = [
     "def_zh": "替代品;可替代的",
     "example": "Soil-free growing is a credible alternative to conventional agriculture.",
     "synonyms": "substitute, option",
-    "topic": "Academic"
+    "topic": "Academic",
+    "audio": "assets/vocab/lv260912-06.mp3",
+    "audioEx": "assets/vocab/lv260912-06-ex.mp3"
    },
    {
     "id": "lv260912-07",
@@ -685,7 +697,9 @@ window.IELTS_PACKS = [
     "def_zh": "适应",
     "example": "Farmers must adapt to a hotter and drier growing season.",
     "synonyms": "adjust to, acclimatise to",
-    "topic": "Academic"
+    "topic": "Academic",
+    "audio": "assets/vocab/lv260912-07.mp3",
+    "audioEx": "assets/vocab/lv260912-07-ex.mp3"
    },
    {
     "id": "lv260912-08",
@@ -696,7 +710,9 @@ window.IELTS_PACKS = [
     "def_zh": "屈服于,抵挡不住",
     "example": "Regulators should not succumb to pressure from the food industry.",
     "synonyms": "give in to, yield to",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-08.mp3",
+    "audioEx": "assets/vocab/lv260912-08-ex.mp3"
    },
    {
     "id": "lv260912-09",
@@ -707,7 +723,9 @@ window.IELTS_PACKS = [
     "def_zh": "制约,限制",
     "example": "In cities you work with very significant practical constraints on space.",
     "synonyms": "limitation, restriction",
-    "topic": "Academic"
+    "topic": "Academic",
+    "audio": "assets/vocab/lv260912-09.mp3",
+    "audioEx": "assets/vocab/lv260912-09-ex.mp3"
    },
    {
     "id": "lv260912-10",
@@ -718,7 +736,9 @@ window.IELTS_PACKS = [
     "def_zh": "展示平台;展示",
     "example": "The rooftop farm is a real-life showcase for soil-free growing.",
     "synonyms": "display, shop window",
-    "topic": "Academic"
+    "topic": "Academic",
+    "audio": "assets/vocab/lv260912-10.mp3",
+    "audioEx": "assets/vocab/lv260912-10-ex.mp3"
    },
    {
     "id": "lv260912-11",
@@ -729,7 +749,9 @@ window.IELTS_PACKS = [
     "def_zh": "经受住,承受",
     "example": "Varieties are chosen for their capacity to withstand long journeys.",
     "synonyms": "endure, resist, survive",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-11.mp3",
+    "audioEx": "assets/vocab/lv260912-11-ex.mp3"
    },
    {
     "id": "lv260912-12",
@@ -740,7 +762,9 @@ window.IELTS_PACKS = [
     "def_zh": "耗尽,使枯竭",
     "example": "No soil is exhausted, because the roots grow in nutrient-rich water.",
     "synonyms": "deplete, drain, use up",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-12.mp3",
+    "audioEx": "assets/vocab/lv260912-12-ex.mp3"
    },
    {
     "id": "lv260912-13",
@@ -751,7 +775,9 @@ window.IELTS_PACKS = [
     "def_zh": "丰富的,大量的",
     "example": "Strawberries sprout abundantly from the vertical tubes.",
     "synonyms": "plentiful, ample, profuse",
-    "topic": "Academic"
+    "topic": "Academic",
+    "audio": "assets/vocab/lv260912-13.mp3",
+    "audioEx": "assets/vocab/lv260912-13-ex.mp3"
    },
    {
     "id": "lv260912-14",
@@ -762,7 +788,9 @@ window.IELTS_PACKS = [
     "def_zh": "收成;收割",
     "example": "Twenty staff will harvest up to a tonne of produce every day.",
     "synonyms": "crop, gather in, reap",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-14.mp3",
+    "audioEx": "assets/vocab/lv260912-14-ex.mp3"
    },
    {
     "id": "lv260912-15",
@@ -773,7 +801,9 @@ window.IELTS_PACKS = [
     "def_zh": "农产品",
     "example": "The farm's produce is grown upstairs and sold just down the road.",
     "synonyms": "crops, fresh food",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-15.mp3",
+    "audioEx": "assets/vocab/lv260912-15-ex.mp3"
    },
    {
     "id": "lv260912-16",
@@ -784,7 +814,9 @@ window.IELTS_PACKS = [
     "def_zh": "批发商",
     "example": "Most of the price goes to wholesalers rather than to the farmers.",
     "synonyms": "distributor, middleman",
-    "topic": "Business"
+    "topic": "Business",
+    "audio": "assets/vocab/lv260912-16.mp3",
+    "audioEx": "assets/vocab/lv260912-16-ex.mp3"
    },
    {
     "id": "lv260912-17",
@@ -795,7 +827,9 @@ window.IELTS_PACKS = [
     "def_zh": "循环利用",
     "example": "The water that showers the roots every twelve minutes is recycled.",
     "synonyms": "reuse, reprocess",
-    "topic": "Environment"
+    "topic": "Environment",
+    "audio": "assets/vocab/lv260912-17.mp3",
+    "audioEx": "assets/vocab/lv260912-17-ex.mp3"
    },
    {
     "id": "lv260912-18",
@@ -806,7 +840,9 @@ window.IELTS_PACKS = [
     "def_zh": "良性的;有德的",
     "example": "He calls the method virtuous: cheap to run, clean and entirely local.",
     "synonyms": "wholesome, commendable",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-18.mp3",
+    "audioEx": "assets/vocab/lv260912-18-ex.mp3"
    },
    {
     "id": "lv260912-19",
@@ -817,7 +853,9 @@ window.IELTS_PACKS = [
     "def_zh": "废弃的,闲置的",
     "example": "Mushrooms are being grown in disused underground car parks.",
     "synonyms": "abandoned, derelict, idle",
-    "topic": "Cities"
+    "topic": "Cities",
+    "audio": "assets/vocab/lv260912-19.mp3",
+    "audioEx": "assets/vocab/lv260912-19-ex.mp3"
    },
    {
     "id": "lv260912-20",
@@ -828,7 +866,9 @@ window.IELTS_PACKS = [
     "def_zh": "极小一部分",
     "example": "The system uses a tiny fraction of the electricity older methods need.",
     "synonyms": "a small proportion of, a sliver of",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-20.mp3",
+    "audioEx": "assets/vocab/lv260912-20-ex.mp3"
    },
    {
     "id": "lv260912-21",
@@ -839,7 +879,9 @@ window.IELTS_PACKS = [
     "def_zh": "投入程度,承诺",
     "example": "Think carefully about your level of commitment before you apply.",
     "synonyms": "dedication, devotion",
-    "topic": "Work & study"
+    "topic": "Work & study",
+    "audio": "assets/vocab/lv260912-21.mp3",
+    "audioEx": "assets/vocab/lv260912-21-ex.mp3"
    },
    {
     "id": "lv260912-22",
@@ -850,7 +892,9 @@ window.IELTS_PACKS = [
     "def_zh": "奉献,专注投入",
     "example": "What the charity values most in its volunteers is dedication.",
     "synonyms": "commitment, devotion",
-    "topic": "Work & study"
+    "topic": "Work & study",
+    "audio": "assets/vocab/lv260912-22.mp3",
+    "audioEx": "assets/vocab/lv260912-22-ex.mp3"
    },
    {
     "id": "lv260912-23",
@@ -861,7 +905,9 @@ window.IELTS_PACKS = [
     "def_zh": "可参与的时间",
     "example": "It is critical that your availability matches the hours we need.",
     "synonyms": "free time, capacity",
-    "topic": "Work & study"
+    "topic": "Work & study",
+    "audio": "assets/vocab/lv260912-23.mp3",
+    "audioEx": "assets/vocab/lv260912-23-ex.mp3"
    },
    {
     "id": "lv260912-24",
@@ -872,7 +918,9 @@ window.IELTS_PACKS = [
     "def_zh": "可靠性",
     "example": "Age has nothing to do with reliability.",
     "synonyms": "dependability, consistency",
-    "topic": "Work & study"
+    "topic": "Work & study",
+    "audio": "assets/vocab/lv260912-24.mp3",
+    "audioEx": "assets/vocab/lv260912-24-ex.mp3"
    },
    {
     "id": "lv260912-25",
@@ -883,7 +931,9 @@ window.IELTS_PACKS = [
     "def_zh": "新颖的,新奇的",
     "example": "We are looking for a novel way of raising money.",
     "synonyms": "original, innovative, fresh",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-25.mp3",
+    "audioEx": "assets/vocab/lv260912-25-ex.mp3"
    },
    {
     "id": "lv260912-26",
@@ -894,7 +944,9 @@ window.IELTS_PACKS = [
     "def_zh": "富有想象力的",
     "example": "An imaginative fundraiser attracts far more donors than a familiar one.",
     "synonyms": "creative, inventive",
-    "topic": "Advanced collocations"
+    "topic": "Advanced collocations",
+    "audio": "assets/vocab/lv260912-26.mp3",
+    "audioEx": "assets/vocab/lv260912-26-ex.mp3"
    },
    {
     "id": "lv260912-27",
@@ -905,7 +957,9 @@ window.IELTS_PACKS = [
     "def_zh": "挤在一起的",
     "example": "People at the back may be a bit squashed, so do come forward.",
     "synonyms": "cramped, squeezed, close together",
-    "topic": "Everyday English"
+    "topic": "Everyday English",
+    "audio": "assets/vocab/lv260912-27.mp3",
+    "audioEx": "assets/vocab/lv260912-27-ex.mp3"
    },
    {
     "id": "lv260912-28",
@@ -916,7 +970,9 @@ window.IELTS_PACKS = [
     "def_zh": "筹款",
     "example": "Fundraising needs original ideas far more than it needs money.",
     "synonyms": "charity appeal",
-    "topic": "Work & study"
+    "topic": "Work & study",
+    "audio": "assets/vocab/lv260912-28.mp3",
+    "audioEx": "assets/vocab/lv260912-28-ex.mp3"
    }
   ],
   "synonyms": [

@@ -28,6 +28,41 @@
 - 首个包:`www/packs/lesson-20260912`(剑18 Test1:听力 P2 真题+P3 作业、阅读 P1、28 个生词、
   14 组同义替换、8 条作业),听力 10 分 / 阅读 13 分实测满分判定正确
 
+## 2026-09-12 本轮实做记录(部署 + 音频 + 打包)
+
+### Cloudflare 归属问题(重要)
+- 本机 `~/Library/Preferences/.wrangler/config/default.toml` 存的是**公司账号** OAuth
+  (`jiawei.li@industrialmind.ai` → `Inframanager@taomoai.com's Account`)。
+  任何 wrangler 命令不显式给 token 就会打到公司账号。
+- 雅思站 `ielts75` 实际在**个人账号** `Ljw2556826312@gmail.com's Account`
+  (`5cf6ad023efbef7a1da68509b1b0da1e`),六月底用 `wrangler login` OAuth 部署的,
+  之后本机登录态被公司账号覆盖。线上那份停在 2026-06-28(字节比对确认 = commit 77cdabb)。
+- 防护抽成 `tools/cf_guard.sh` + `tools/cf_verify.py`,两个 Cloudflare 脚本共用:
+  ① 一次性空 `XDG_CONFIG_HOME` 沙箱,wrangler 完全看不到本机登录态;
+  ② 必须显式传 token,缺了直接退出;
+  ③ 核对 token 确实够得到指定的个人 Account ID,够不到就中止。
+  实测:假 token 退出 2;真 token + 公司 Account ID 退出 3;真 token + 个人 ID 通过。
+
+### 部署
+- `bash deploy_cloudflare.sh` → https://ielts75.pages.dev 已更新到今天这版(829 个文件)。
+- Functions 已编译(口语 `/api/gemini` + 新的 `/packs/*` R2 路由)。
+- **待办**:口语 AI 考官还需设 `GEMINI_API_KEY`(个人 Gemini key,当前线上没有)。
+- 已知限制:Cloudflare Pages 静态资源不支持 Range 请求(老的 `/audio/**` 也一样),
+  听力音频整包返回。接上 R2 后 `functions/packs/[[path]].js` 会补上 206。
+
+### 课程包发音(离线 TTS)
+- 新增 `tools/lesson/gen_pack_audio.py`:用 macOS 自带英音 `Daniel` + ffmpeg,
+  给课程包生词生成**单词 + 例句**两条 MP3(单声道 64k)。完全本机生成,
+  不碰任何云服务、不花钱、不需要 key。
+- lesson-20260912 的 28 个词 → 56 个音频,1.05 MB。pack.json 写入 `audio` / `audioEx`。
+- 运行时:`AudioFX.speakVocab(w)` / `AudioFX.speakExample(w)` 优先放内置 MP3,
+  没有再退回系统 TTS。闪卡三处发音(自动发音、🔊 单词、🔊 例句)都已接上。
+- 改了已发布的包 → `rev` 升到 2,装过的 App 会自动重新下载。
+
+### 打包
+- `android/app/build.gradle` → versionCode 9 / versionName **1.8**。
+- `bash build_apk.sh` → `雅思7.5冲刺.apk` **40 MB**(课程包 70 个文件已内置,离线可用)。
+
 ## 技术栈
 - 前端:原生 HTML/CSS/JS 单页应用(离线,数据内置为 JS 全局对象)
 - 听力/发音:WebView 自带语音合成 TTS(`speechSynthesis`)

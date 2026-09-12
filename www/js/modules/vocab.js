@@ -179,17 +179,21 @@
     flip.onclick = doFlip;
 
     const say = wrap.querySelector('#say');
-    if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakWord(w.id, w.word, 0.95); };
+    if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakVocab(w, 0.95); };
     const sayEx = wrap.querySelector('#sayEx');
     if (sayEx) sayEx.onclick = (e) => {
       e.stopPropagation();
       sayEx.classList.add('playing'); setTimeout(() => sayEx.classList.remove('playing'), 700);
       try { if (window.speechSynthesis) speechSynthesis.resume(); } catch (err) {}   // 解 Chrome 卡住
-      // 不在 speak 前紧接 cancel(Chrome 会把这次朗读一起吞掉)
-      if (window.TTS && TTS.supported) TTS.speak(w.example, { rate: 0.92 });
-      else if (window.AudioFX) AudioFX.speakWord(w.id, w.word, 0.92);
+      // 优先放预生成的例句音频(离线可用、发音稳定),没有再退回系统 TTS
+      AudioFX.speakExample(w).then(ok => {
+        if (ok) return;
+        // 不在 speak 前紧接 cancel(Chrome 会把这次朗读一起吞掉)
+        if (window.TTS && TTS.supported) TTS.speak(w.example, { rate: 0.92 });
+        else AudioFX.speakVocab(w, 0.92);
+      });
     };
-    if (Store.get('autoSpeak', true)) AudioFX.speakWord(w.id, w.word, 0.95);
+    if (Store.get('autoSpeak', true)) AudioFX.speakVocab(w, 0.95);
   }
 
   function gradeCurrent(q) {

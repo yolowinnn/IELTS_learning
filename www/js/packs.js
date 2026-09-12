@@ -49,6 +49,7 @@
     const ab = assetRoot(pack, base);
     if (!o.source && pack.source) o.source = pack.source;
     if (o.audio) o.audio = absolute(ab, o.audio);
+    if (o.audioEx) o.audioEx = absolute(ab, o.audioEx);
     ['sheets', 'questionSheets', 'transcriptSheets'].forEach(k => {
       if (Array.isArray(o[k])) o[k] = o[k].map(s => (typeof s === 'string'
         ? { src: absolute(ab, s) }
