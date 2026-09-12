@@ -10,6 +10,59 @@
 - **同步项目**:用户个人 Gmail(lynnzx88@gmail.com)新建 Firebase。待用户发 firebaseConfig → 填 firebase-config.js → 重部署 + 重打包 APK。
 - **在线 AI/任务型**:下一阶段,AI 走公司 Vertex key 的 Vercel serverless 代理(www/api/),不内置 key。
 
+
+## 课后增量更新流水线(2026-09-12 起)
+上完课把文件丢进 `data/<YYYYMMDD>/` → 产出一个**课程包(lesson pack)** → 网页部署即生效、
+已装 APK 联网自动拉取,不用重装。技能说明 `.claude/skills/ielts-lesson/SKILL.md`,
+格式说明 `docs/lesson-pack-format.md`。
+
+- 工具链:`tools/lesson/prep.py`(docx→文本、PDF→页图 webp+缩略拼版、音频探测)、
+  `tools/lesson/assets.py`(挑页装包、音频转单声道 64k)、
+  `tools/lesson/build_pack.mjs`(校验 id/题型/答案/资源 → 装进 www/packs → 重建 index.json 和 data/packs.js)
+- 运行时:`www/js/packs.js`(内置 + 联网增量 + 手动导入,三条路合并进 IELTS_DATA)、
+  `www/js/sheets.js`(原卷页图查看器,可缩放翻页)、`www/js/modules/lesson.js`(课程页)
+- 题型扩展:`quiz.js` 加 `multi`(选 TWO,按选对个数给分)和 `match`(A–G 配对),支持 `marks` 分值制和真题题号 `no`
+- 听力支持真人录音单文件播放(进度拖动/±10s/变速),阅读支持原卷页图;老的 TTS 内容照常工作
+- 课堂生词 `day: 0` → 排在每日新词队列最前;Words 页按「🎓 哪节课」单独成组
+- 首页出现「Latest class」卡片;Practice 新增「My classes」标签;Profile 可查更新/导入包/改内容服务器
+- 首个包:`www/packs/lesson-20260912`(剑18 Test1:听力 P2 真题+P3 作业、阅读 P1、28 个生词、
+  14 组同义替换、8 条作业),听力 10 分 / 阅读 13 分实测满分判定正确
+
+## 2026-09-12 本轮实做记录(部署 + 音频 + 打包)
+
+### Cloudflare 归属问题(重要)
+- 本机 `~/Library/Preferences/.wrangler/config/default.toml` 存的是**公司账号** OAuth
+  (`jiawei.li@industrialmind.ai` → `Inframanager@taomoai.com's Account`)。
+  任何 wrangler 命令不显式给 token 就会打到公司账号。
+- 雅思站 `ielts75` 实际在**个人账号** `Ljw2556826312@gmail.com's Account`
+  (`5cf6ad023efbef7a1da68509b1b0da1e`),六月底用 `wrangler login` OAuth 部署的,
+  之后本机登录态被公司账号覆盖。线上那份停在 2026-06-28(字节比对确认 = commit 77cdabb)。
+- 防护抽成 `tools/cf_guard.sh` + `tools/cf_verify.py`,两个 Cloudflare 脚本共用:
+  ① 一次性空 `XDG_CONFIG_HOME` 沙箱,wrangler 完全看不到本机登录态;
+  ② 必须显式传 token,缺了直接退出;
+  ③ 核对 token 确实够得到指定的个人 Account ID,够不到就中止。
+  实测:假 token 退出 2;真 token + 公司 Account ID 退出 3;真 token + 个人 ID 通过。
+
+### 部署
+- `bash deploy_cloudflare.sh` → https://ielts75.pages.dev 已更新到今天这版(829 个文件)。
+- Functions 已编译(口语 `/api/gemini` + 新的 `/packs/*` R2 路由)。
+- **待办**:口语 AI 考官还需设 `GEMINI_API_KEY`(个人 Gemini key,当前线上没有)。
+- 已知限制:Cloudflare Pages 静态资源不支持 Range 请求(老的 `/audio/**` 也一样),
+  听力音频整包返回。接上 R2 后 `functions/packs/[[path]].js` 会补上 206。
+
+### 课程包发音(离线 TTS)
+- 新增 `tools/lesson/gen_pack_audio.py`:用 macOS 自带英音 `Daniel` + ffmpeg,
+  给课程包生词生成**单词 + 例句**两条 MP3(单声道 64k)。完全本机生成,
+  不碰任何云服务、不花钱、不需要 key。
+- lesson-20260912 的 28 个词 → 56 个音频,1.05 MB。pack.json 写入 `audio` / `audioEx`。
+- 运行时:`AudioFX.speakVocab(w)` / `AudioFX.speakExample(w)` 优先放内置 MP3,
+  没有再退回系统 TTS。闪卡三处发音(自动发音、🔊 单词、🔊 例句)都已接上。
+- 改了已发布的包 → `rev` 升到 2,装过的 App 会自动重新下载。
+
+### 打包
+- `android/app/build.gradle` → versionCode 9 / versionName **1.8**。
+- `bash build_apk.sh` → `雅思7.5冲刺.apk` **40 MB**(课程包 70 个文件已内置,离线可用)。
+
 ## 技术栈
 - 前端:原生 HTML/CSS/JS 单页应用(离线,数据内置为 JS 全局对象)
 - 听力/发音:WebView 自带语音合成 TTS(`speechSynthesis`)

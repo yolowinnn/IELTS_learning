@@ -18,6 +18,7 @@
     listening: (id) => Listening.render(view, id),
     writing:   (id) => Writing.render(view, id),
     speaking:  (id) => Speaking.render(view, id),
+    lesson:    (id) => Lesson.render(view, id),
   };
 
   let currentTab = 'today';
@@ -48,7 +49,7 @@
     refreshStreak();
   }
 
-  const MOD_TITLES = { reading: 'Reading', listening: 'Listening', writing: 'Writing', speaking: 'Speaking' };
+  const MOD_TITLES = { reading: 'Reading', listening: 'Listening', writing: 'Writing', speaking: 'Speaking', lesson: 'Class' };
 
   // 打开子页面(模块详情)
   function open(mod, id) {
@@ -122,6 +123,11 @@
 
   // 启动
   Store.startDate();          // 确保起始日已设
+  // 联网增量:后台拉新课程包(失败静默,不影响离线使用)
+  if (window.Packs) {
+    Packs.onChange(() => { if (!inSubView) go(currentTab); });
+    Packs.autoCheck();
+  }
   Store.Streak.recompute();
 
   // 登录门禁:已登录 / 游客 / 未配置云 → 进 App;否则显示登录封面

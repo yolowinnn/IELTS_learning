@@ -44,6 +44,30 @@
       </div>
     `));
 
+    // 最近一次上课的内容包(上完课就出现在首页)
+    const latest = (window.Packs ? Packs.list() : [])[0];
+    if (latest) {
+      const c = latest.counts || {};
+      const bits = [];
+      if (c.listening) bits.push(`🎧 ${c.listening} listening`);
+      if (c.reading) bits.push(`📖 ${c.reading} reading`);
+      if (c.vocab) bits.push(`🗂️ ${c.vocab} words`);
+      const hw = (latest.pack.homework || []);
+      const hwDone = Object.values(Store.get('lessonHw', {})[latest.id] || {}).filter(Boolean).length;
+      const card = el(`
+        <div class="card">
+          <div class="spread mb8">
+            <div class="card-title">🎓 Latest class</div>
+            ${hw.length ? `<div class="pill ${hwDone >= hw.length ? 'good' : 'warn'}">homework ${hwDone}/${hw.length}</div>` : ''}
+          </div>
+          <b>${esc(latest.title)}</b>
+          <div class="faint mt8">${esc(latest.date)} · ${bits.join(' · ')}</div>
+          <button class="btn block mt12" id="openLesson">Open this class →</button>
+        </div>`);
+      card.querySelector('#openLesson').onclick = () => App.open('lesson', latest.id);
+      wrap.appendChild(card);
+    }
+
     // SRS 快览
     wrap.appendChild(el(`
       <div class="card">

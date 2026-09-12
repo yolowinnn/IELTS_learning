@@ -11,6 +11,7 @@
 - ✍️ 写作 / 🗣️ 口语(范文、句型、录音、AI 批改提示词)
 - 📅 8 周计划 + 每日五项任务打卡 + 连续天数
 - ☁️ Google 登录,网页/App 进度 Firestore 同步
+- 🎓 **课程包**:每次上完课把课件丢进 `data/<日期>/`,自动做成「真题录音 + 原卷题目 + 课堂生词 + 同义替换 + 作业清单」的增量更新;网页部署即生效,已装 APK 联网自动拉取
 
 ## 技术
 - 前端:原生 HTML/CSS/JS 单页应用(`www/`),清爽浅色绿主题
@@ -18,6 +19,14 @@
 - 音频:打包时用 Google Cloud TTS 预生成,内置离线播放
 - 打包:Capacitor → Android APK
 - 部署:Vercel(根目录 `www`,推送自动部署)
+
+## 课后更新(一次课 = 一个包)
+```bash
+python3 tools/lesson/prep.py data/20260912 --date 2026-09-12   # 素材 → 文本/页图/清单
+# (Claude 按 .claude/skills/ielts-lesson 写 www/packs/lesson-20260912/pack.json)
+node tools/lesson/build_pack.mjs www/packs/lesson-20260912/pack.json
+```
+格式说明:`docs/lesson-pack-format.md`
 
 ## 开发
 ```bash

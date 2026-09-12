@@ -1,4 +1,4 @@
-/* reading.js — 阅读:学术文章 + 题目 */
+/* reading.js — 阅读:原创文章(文字) 或 课程包真题(原卷页图) + 题目 */
 (function () {
   const DEFAULT_SRC = 'IELTS Academic Reading · Cambridge 20 (2025) standard · original practice';
   function find(id) { return (window.IELTS_DATA.reading || []).find(r => r.id === id) || (window.IELTS_DATA.reading || [])[0]; }
@@ -11,27 +11,45 @@
     wrap.appendChild(el(`
       <div class="subhead">
         <button class="back" onclick="App.back()">←</button>
-        <div><h2>${esc(r.title)}</h2><div class="faint">${esc(r.topic || '')} · ~${r.words || '?'} words</div><div class="src-tag">📘 ${esc(r.source || DEFAULT_SRC)}</div></div>
+        <div><h2>${esc(r.title)}</h2><div class="faint">${esc(r.topic || '')}${r.words ? ' · ~' + r.words + ' words' : ''}</div><div class="src-tag">${r.pack ? '🎓' : '📘'} ${esc(r.source || DEFAULT_SRC)}</div></div>
       </div>
     `));
 
-    // 双栏:左文章 / 右题目(宽屏同屏,窄屏堆叠)
     const split = el('<div class="split-layout"></div>');
     const left = el('<div class="col-left"></div>');
     left.appendChild(el('<div class="col-head">📖 Passage</div>'));
-    const passage = el('<div class="card passage"></div>');
-    (r.paras || []).forEach((p, i) => {
-      passage.appendChild(el(`<p><span class="para-label">${String.fromCharCode(65 + i)}</span>${esc(p)}</p>`));
-    });
-    left.appendChild(passage);
+    if (r.sheets && r.sheets.length) {
+      const box = el('<div class="card"></div>');
+      box.appendChild(Sheets.render(r.sheets));
+      left.appendChild(box);
+    } else {
+      const passage = el('<div class="card passage"></div>');
+      (r.paras || []).forEach((p, i) => {
+        passage.appendChild(el(`<p><span class="para-label">${String.fromCharCode(65 + i)}</span>${esc(p)}</p>`));
+      });
+      left.appendChild(passage);
+    }
 
     const right = el('<div class="col-right"></div>');
-    right.appendChild(el(`<div class="col-head">✍️ Questions (${(r.questions || []).length})</div>`));
+    const qn = (r.questions || []).length;
+    const qm = (r.questions || []).reduce((a, q) => a + Math.max(1, Number(q.marks) || 1), 0);
+    right.appendChild(el(`<div class="col-head">✍️ Questions (${qm === qn ? qn : qn + ' · ' + qm + ' marks'})</div>`));
+    if (r.questionSheets && r.questionSheets.length) {
+      const sc = el('<div class="card"><div class="card-title mb8">📄 Exam paper</div></div>');
+      sc.appendChild(Sheets.render(r.questionSheets));
+      right.appendChild(sc);
+    }
+    if (r.instructions) right.appendChild(el(`<div class="notice">${esc(r.instructions)}</div>`));
     const qbox = el('<div class="card"></div>');
     right.appendChild(qbox);
 
     split.appendChild(left); split.appendChild(right);
     wrap.appendChild(split);
+    if (r.notes && r.notes.length) {
+      const c = el('<div class="card"><div class="card-title mb8">🧠 In-class points</div></div>');
+      r.notes.forEach(n => c.appendChild(el(`<div class="note-row"><b>${esc(n.t || '')}</b><div>${esc(n.d || '')}</div></div>`)));
+      wrap.appendChild(c);
+    }
     view.appendChild(wrap);
 
     Quiz.render(qbox, r.questions || [], {

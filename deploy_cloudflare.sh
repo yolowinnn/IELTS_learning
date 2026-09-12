@@ -5,34 +5,22 @@
 #
 # 用法:
 #   CLOUDFLARE_API_TOKEN=<个人账号token> EXPECT_ACCOUNT_ID=<个人account_id> bash deploy_cloudflare.sh
+#
+# 个人账号(2026-09-12 确认):Ljw2556826312@gmail.com's Account
+#   EXPECT_ACCOUNT_ID=5cf6ad023efbef7a1da68509b1b0da1e
+# 注意:本机 wrangler 存的是公司账号 OAuth,脚本已用一次性 XDG_CONFIG_HOME 隔离,不会误用。
 set -euo pipefail
 cd "$(dirname "$0")"
 
-: "${CLOUDFLARE_API_TOKEN:?必须提供个人账号的 CLOUDFLARE_API_TOKEN}"
-: "${EXPECT_ACCOUNT_ID:?必须提供期望的【个人】Account ID(EXPECT_ACCOUNT_ID),用于核对}"
-
-echo "▸ 核对 token 所属账号(防止误用公司账号)…"
-RESP=$(curl -s -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" "https://api.cloudflare.com/client/v4/accounts")
-echo "$RESP" | python3 - "$EXPECT_ACCOUNT_ID" <<'PY'
-import sys, json
-expect = sys.argv[1]
-d = json.load(sys.stdin)
-if not d.get("success"):
-    print("❌ token 无效或无权限:", json.dumps(d.get("errors"))[:200]); sys.exit(2)
-accts = d.get("result", [])
-for a in accts:
-    print(f"   账号:{a['name']}  id={a['id']}")
-ids = [a["id"] for a in accts]
-if expect not in ids:
-    print(f"❌ 期望的个人账号 {expect} 不在该 token 可访问的账号里——已中止,绝不部署到别的账号。")
-    sys.exit(3)
-print(f"✅ 核对通过:将只部署到 {expect}")
-PY
+source "$(dirname "$0")/tools/cf_guard.sh"
+cf_sandbox
+cf_require_env
+cf_verify_account
 
 echo "▸ 部署 www/(含 functions/api 口语函数)到 Pages 项目 ielts75 …"
-export CLOUDFLARE_ACCOUNT_ID="${EXPECT_ACCOUNT_ID}"
 npx --yes wrangler@latest pages deploy www --project-name=ielts75 --branch=main --commit-dirty=true
 
 echo
-echo "▸ 完成。若口语要用,还需设置密钥(一次性):"
-echo "  CLOUDFLARE_API_TOKEN=*** CLOUDFLARE_ACCOUNT_ID=${EXPECT_ACCOUNT_ID} npx wrangler pages secret put VERTEX_SA_KEY --project-name=ielts75"
+echo "▸ 完成。若口语 AI 考官要用,还需设置密钥(一次性,名字必须是 GEMINI_API_KEY):"
+echo "  CLOUDFLARE_API_TOKEN=*** CLOUDFLARE_ACCOUNT_ID=${EXPECT_ACCOUNT_ID} \\"
+echo "    XDG_CONFIG_HOME=\$(mktemp -d) npx --yes wrangler@latest pages secret put GEMINI_API_KEY --project-name=ielts75"

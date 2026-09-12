@@ -48,7 +48,7 @@
     const limit = Store.get('dailyNew', 20);
     const learnedToday = Store.get('newLearned', {})[Store.todayStr()] || 0;
     const remaining = Math.max(0, limit - learnedToday);
-    const pool = allWords().filter(w => !s[w.id]).sort((a, b) => ((a.day || 1) - (b.day || 1)) || (String(a.id) < String(b.id) ? -1 : 1));
+    const pool = allWords().filter(w => !s[w.id]).sort(byOrder);
     return pool.slice(0, remaining);
   }
 
@@ -58,7 +58,8 @@
     if (window.RunReport) RunReport(3);
   }
 
-  function byOrder(a, b) { return ((a.day || 1) - (b.day || 1)) || (String(a.id) < String(b.id) ? -1 : 1); }
+  // 排序:课堂生词(day 0)最优先,其次按计划天数
+  function byOrder(a, b) { return ((a.day == null ? 1 : a.day) - (b.day == null ? 1 : b.day)) || (String(a.id) < String(b.id) ? -1 : 1); }
 
   // 全部尚未学过的词(按顺序:含之前漏背的,排在前面)
   function unlearned() {

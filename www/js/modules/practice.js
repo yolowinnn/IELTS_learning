@@ -1,12 +1,17 @@
 /* practice.js — Practice library: browse all content by skill & day */
 (function () {
   const TABS = [
+    { key: 'lessons', ic: '🎓', label: 'My classes', mod: 'lesson' },
     { key: 'reading', ic: '📖', label: 'Reading', mod: 'reading' },
     { key: 'listening', ic: '🎧', label: 'Listening', mod: 'listening' },
     { key: 'writing', ic: '✍️', label: 'Writing', mod: 'writing' },
     { key: 'speaking', ic: '🗣️', label: 'Speaking', mod: 'speaking' },
   ];
-  let active = 'listening';
+  let active = (window.Packs && Packs.list().length) ? 'lessons' : 'listening';
+
+  function dateStr(d) {
+    try { return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); } catch (e) { return d; }
+  }
 
   function dateForDay(day) {
     const dt = new Date(Store.startDate() + 'T00:00:00'); dt.setDate(dt.getDate() + (day - 1));
@@ -24,6 +29,7 @@
       bar.appendChild(b);
     });
     wrap.appendChild(bar);
+    if (active === 'lessons') { view.appendChild(wrap); return Lesson.list(view); }
     wrap.appendChild(el(`<div class="faint mb8" style="margin-left:4px">Pick any day to practise — by date & topic.</div>`));
     if (active === 'reading' || active === 'listening') {
       wrap.appendChild(el(`<div class="notice"><b>📘 About these materials</b><br>The newest official real papers are <b>Cambridge IELTS 20 (2025)</b> — get those from Cambridge for verbatim retired exams. The tests here are <b>original practice at Cambridge 20 standard</b>, many built on <b>topics from recent 2026 exams</b> (e.g. Australian Parrots, Marine Biodiversity, History of Pigments) and dated. Live exam papers are never published, so matching the real topics + standard is the closest legitimate option. Every test is labelled.</div>`));
@@ -42,6 +48,7 @@
     data.forEach((item, i) => {
       const tab = TABS.find(t => t.key === active);
       const day = i + 1;
+      const when = item.lessonDate ? `Class · ${esc(dateStr(item.lessonDate))}` : `Day ${day} · ${dateForDay(day)}`;
       const title = active === 'writing' ? `Task ${item.task} · ${item.title}` : item.title;
       const meta = active === 'reading' ? `${item.topic || ''} · ${item.words || '?'} words`
         : active === 'listening' ? (item.section || '')
@@ -52,8 +59,8 @@
           <div class="li-ic">${tab.ic}</div>
           <div class="li-main">
             <b>${esc(title)}</b>
-            <div class="faint">Day ${day} · ${dateForDay(day)}${meta ? ' · ' + esc(meta) : ''}</div>
-            ${item.source ? `<div class="src-tag">${/机经|recalled/.test(item.source) ? '📋' : '📘'} ${esc(item.source)}</div>` : ((active === 'reading' || active === 'listening') ? `<div class="src-tag">📘 Cambridge 20 (2025) standard</div>` : '')}
+            <div class="faint">${when}${meta ? ' · ' + esc(meta) : ''}</div>
+            ${item.source ? `<div class="src-tag">${item.pack ? '🎓' : (/机经|recalled/.test(item.source) ? '📋' : '📘')} ${esc(item.source)}</div>` : ((active === 'reading' || active === 'listening') ? `<div class="src-tag">📘 Cambridge 20 (2025) standard</div>` : '')}
           </div>
           ${doneIds.has(item.id) ? '<span class="pill good">done</span>' : ''}
           <div class="li-arrow">›</div>

@@ -38,18 +38,45 @@
     paint();
   }
 
+  function fmtDay(dt) {
+    try { return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+    catch (e) { return (dt.getMonth() + 1) + '/' + dt.getDate(); }
+  }
+
+  // 分组:课堂生词按"哪节课"单独成组(排最前),其余按计划天数
   function groupByDay() {
+    const all = SRS.allWords();
+    const groups = [];
+    const packWords = {};
+    all.forEach(w => { if (w.pack) (packWords[w.pack] = packWords[w.pack] || []).push(w); });
+    Object.keys(packWords)
+      .sort((a, b) => String((packWords[b][0] || {}).lessonDate).localeCompare(String((packWords[a][0] || {}).lessonDate)))
+      .forEach(pid => {
+        const words = packWords[pid];
+        const info = window.Packs && Packs.get(pid);
+        const date = (words[0] || {}).lessonDate || '';
+        groups.push({
+          key: pid, ic: '🎓',
+          label: (info && info.pack && info.pack.title) || 'Class words',
+          date: date ? fmtDay(new Date(date + 'T00:00:00')) : '',
+          topics: [...new Set(words.map(w => w.topic).filter(Boolean))].slice(0, 3).join(' · '),
+          total: words.length, learned: words.filter(w => SRS.getState(w.id)).length, words
+        });
+      });
+
     const map = {};
-    SRS.allWords().forEach(w => { const d = w.day || 1; (map[d] = map[d] || []).push(w); });
+    all.forEach(w => { if (w.pack) return; const d = w.day || 1; (map[d] = map[d] || []).push(w); });
     const start = Store.startDate();
-    return Object.keys(map).map(Number).sort((a, b) => a - b).map(day => {
+    Object.keys(map).map(Number).sort((a, b) => a - b).forEach(day => {
       const words = map[day];
       const dt = new Date(start + 'T00:00:00'); dt.setDate(dt.getDate() + (day - 1));
-      let date; try { date = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); } catch (e) { date = (dt.getMonth() + 1) + '/' + dt.getDate(); }
-      const topics = [...new Set(words.map(w => w.topic).filter(Boolean))].slice(0, 3).join(' · ');
-      const learned = words.filter(w => SRS.getState(w.id)).length;
-      return { day, date, topics, total: words.length, learned, words };
+      groups.push({
+        key: 'day' + day, ic: '📘', label: 'Day ' + day, date: fmtDay(dt),
+        topics: [...new Set(words.map(w => w.topic).filter(Boolean))].slice(0, 3).join(' · '),
+        total: words.length, learned: words.filter(w => SRS.getState(w.id)).length, words
+      });
     });
+    return groups;
   }
 
   // 单词页菜单:今日 + 按天浏览
@@ -71,10 +98,10 @@
         </div>
       </div>`));
     wrap.appendChild(el(`<div class="card"><div class="card-title mb8">📊 Progress</div><div class="stat-grid"><div class="stat"><b>${s.learned}/${s.total}</b><small>Learned</small></div><div class="stat"><b>${s.mastered}</b><small>Mastered</small></div></div></div>`));
-    const list = el('<div class="card"><div class="card-title mb8">📅 Browse by day</div><div class="faint mb8">Pick any day to study or revise — catch up on days you missed.</div><div id="dayList"></div></div>');
+    const list = el('<div class="card"><div class="card-title mb8">📅 Browse by day</div><div class="faint mb8">Class words come first, then the 8-week plan. Pick any group to study or revise.</div><div id="dayList"></div></div>');
     const dl = list.querySelector('#dayList');
     groupByDay().forEach(d => {
-      const item = el(`<div class="list-item"><div class="li-ic">📘</div><div class="li-main"><b>Day ${d.day} · ${esc(d.date)}</b><div class="faint">${esc(d.topics || '')} · ${d.total} words · ${d.learned} learned</div></div>${d.learned >= d.total ? '<span class="pill good">done</span>' : ''}<div class="li-arrow">›</div></div>`);
+      const item = el(`<div class="list-item"><div class="li-ic">${d.ic}</div><div class="li-main"><b>${esc(d.label)}${d.date ? ' · ' + esc(d.date) : ''}</b><div class="faint">${esc(d.topics || '')} · ${d.total} words · ${d.learned} learned</div></div>${d.learned >= d.total ? '<span class="pill good">done</span>' : ''}<div class="li-arrow">›</div></div>`);
       item.onclick = () => startSession(view, d.words);
       dl.appendChild(item);
     });
@@ -152,17 +179,21 @@
     flip.onclick = doFlip;
 
     const say = wrap.querySelector('#say');
-    if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakWord(w.id, w.word, 0.95); };
+    if (say) say.onclick = (e) => { e.stopPropagation(); AudioFX.speakVocab(w, 0.95); };
     const sayEx = wrap.querySelector('#sayEx');
     if (sayEx) sayEx.onclick = (e) => {
       e.stopPropagation();
       sayEx.classList.add('playing'); setTimeout(() => sayEx.classList.remove('playing'), 700);
       try { if (window.speechSynthesis) speechSynthesis.resume(); } catch (err) {}   // 解 Chrome 卡住
-      // 不在 speak 前紧接 cancel(Chrome 会把这次朗读一起吞掉)
-      if (window.TTS && TTS.supported) TTS.speak(w.example, { rate: 0.92 });
-      else if (window.AudioFX) AudioFX.speakWord(w.id, w.word, 0.92);
+      // 优先放预生成的例句音频(离线可用、发音稳定),没有再退回系统 TTS
+      AudioFX.speakExample(w).then(ok => {
+        if (ok) return;
+        // 不在 speak 前紧接 cancel(Chrome 会把这次朗读一起吞掉)
+        if (window.TTS && TTS.supported) TTS.speak(w.example, { rate: 0.92 });
+        else AudioFX.speakVocab(w, 0.92);
+      });
     };
-    if (Store.get('autoSpeak', true)) AudioFX.speakWord(w.id, w.word, 0.95);
+    if (Store.get('autoSpeak', true)) AudioFX.speakVocab(w, 0.95);
   }
 
   function gradeCurrent(q) {
@@ -208,5 +239,5 @@
     } catch (e) { return esc(sentence); }
   }
 
-  window.Vocab = { render };
+  window.Vocab = { render, startSession };
 })();

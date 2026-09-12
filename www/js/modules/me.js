@@ -54,6 +54,9 @@
     }
     wrap.appendChild(cal);
 
+    // 课程内容包
+    wrap.appendChild(packsCard(view));
+
     // 设置
     wrap.appendChild(settings(view));
 
@@ -91,6 +94,53 @@
       btn.onclick = () => Sync.signIn();
       c.appendChild(btn);
     }
+    return c;
+  }
+
+
+  // 课程包:上完课增量更新的内容(听力真题/阅读原卷/课堂生词)
+  function packsCard(view) {
+    const c = el(`<div class="card"><div class="card-title mb8">🎓 Lesson packs</div>
+      <div class="faint mb8">Content added after each class. New packs download automatically; you can also import a pack file offline.</div>
+      <div id="packList"></div></div>`);
+    const list = c.querySelector('#packList');
+    const packs = Packs.list();
+    if (!packs.length) list.appendChild(el('<div class="faint mb8">No lesson packs installed yet.</div>'));
+    packs.forEach(p => {
+      const bits = Object.keys(p.counts || {}).map(k => `${p.counts[k]} ${k}`).join(' · ');
+      list.appendChild(el(`<div class="set-row"><span>${esc(p.title)}<div class="faint">${esc(p.date)} · ${esc(bits)}</div></span><span class="pill">${esc(String(p.pack.rev || 1))}</span></div>`));
+    });
+
+    const row = el('<div class="row mt8" style="gap:8px"></div>');
+    const check = el('<button class="btn ghost sm" style="flex:1">Check for new lessons</button>');
+    check.onclick = async () => {
+      check.disabled = true; check.textContent = 'Checking…';
+      try {
+        const added = await Packs.checkRemote();
+        Toast(added.length ? `Added ${added.length} pack(s) ✅` : 'Already up to date');
+        App.go('me');
+      } catch (e) { Toast('Could not reach the content server'); check.disabled = false; check.textContent = 'Check for new lessons'; }
+    };
+    const imp = el('<button class="btn ghost sm" style="flex:1">Import pack file</button>');
+    imp.onclick = () => {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'application/json';
+      inp.onchange = () => {
+        const f = inp.files[0]; if (!f) return;
+        Packs.importFile(f).then(info => { Toast(`Installed ${info.title} ✅`); App.go('me'); })
+          .catch(e => Toast('Invalid pack file'));
+      };
+      inp.click();
+    };
+    row.appendChild(check); row.appendChild(imp);
+    c.appendChild(row);
+
+    const base = el(`<div class="set-row mt8"><span>Content server</span><span class="muted" style="font-size:12px">${esc(Packs.remoteBase())} <button class="btn ghost sm" id="cb" style="margin-left:8px">Change</button></span></div>`);
+    base.querySelector('#cb').onclick = () => {
+      const v = prompt('Content server URL (blank = default)', Store.get('packBase', ''));
+      if (v === null) return;
+      Packs.setRemoteBase(v); Toast('Saved'); App.go('me');
+    };
+    c.appendChild(base);
     return c;
   }
 
