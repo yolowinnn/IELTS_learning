@@ -5,6 +5,10 @@
 #
 # 用法:
 #   CLOUDFLARE_API_TOKEN=<个人账号token> EXPECT_ACCOUNT_ID=<个人account_id> bash deploy_cloudflare.sh
+#
+# 个人账号(2026-09-12 确认):Ljw2556826312@gmail.com's Account
+#   EXPECT_ACCOUNT_ID=5cf6ad023efbef7a1da68509b1b0da1e
+# 注意:本机 wrangler 存的是公司账号 OAuth,脚本已用一次性 XDG_CONFIG_HOME 隔离,不会误用。
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -44,5 +48,6 @@ export CLOUDFLARE_ACCOUNT_ID="${EXPECT_ACCOUNT_ID}"
 npx --yes wrangler@latest pages deploy www --project-name=ielts75 --branch=main --commit-dirty=true
 
 echo
-echo "▸ 完成。若口语要用,还需设置密钥(一次性):"
-echo "  CLOUDFLARE_API_TOKEN=*** CLOUDFLARE_ACCOUNT_ID=${EXPECT_ACCOUNT_ID} npx wrangler pages secret put VERTEX_SA_KEY --project-name=ielts75"
+echo "▸ 完成。若口语 AI 考官要用,还需设置密钥(一次性,名字必须是 GEMINI_API_KEY):"
+echo "  CLOUDFLARE_API_TOKEN=*** CLOUDFLARE_ACCOUNT_ID=${EXPECT_ACCOUNT_ID} \\"
+echo "    XDG_CONFIG_HOME=\$(mktemp -d) npx --yes wrangler@latest pages secret put GEMINI_API_KEY --project-name=ielts75"
