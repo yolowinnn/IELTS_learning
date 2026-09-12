@@ -45,6 +45,10 @@
 
 ### 部署
 - `bash deploy_cloudflare.sh` → https://ielts75.pages.dev 已更新到今天这版(829 个文件)。
+- **Vercel 未部署**:本机 vercel CLI 登录的是公司账号 `jiawei-li-imai`(默认团队 industrial-mind-ai-team),
+  个人 scope `ljw2556826312-6708s-projects` 报 scope does not exist。需个人账号 token 才能发,
+  命令:`cd www && vercel deploy --prod --yes --token <个人token>`。
+- 七月那批未提交的口语改动(WAV 录音 + 429 限速)已补提交并推 GitHub,main 与 origin/main 对齐。
 - Functions 已编译(口语 `/api/gemini` + 新的 `/packs/*` R2 路由)。
 - **待办**:口语 AI 考官还需设 `GEMINI_API_KEY`(个人 Gemini key,当前线上没有)。
 - 已知限制:Cloudflare Pages 静态资源不支持 Range 请求(老的 `/audio/**` 也一样),
@@ -59,8 +63,13 @@
   没有再退回系统 TTS。闪卡三处发音(自动发音、🔊 单词、🔊 例句)都已接上。
 - 改了已发布的包 → `rev` 升到 2,装过的 App 会自动重新下载。
 
+### 听力循环播放(v1.9)
+- 播放器加 Repeat:×1 / ×3 / ×5 / ×10 / ∞,每遍间隔 1.2s,徽章显示「loop n / N」。
+- 跑满自动停并归位;间隔期内再点播放即中止循环。选择存 `Store('loopTimes')` 并纳入云同步。
+- 对应精听三遍法:盲听做题 → 对脚本标同义替换 → 跟读。
+
 ### 打包
-- `android/app/build.gradle` → versionCode 9 / versionName **1.8**。
+- `android/app/build.gradle` → versionCode 9 / versionName **1.8**,后升至 **1.9 / versionCode 10**(含循环播放)。
 - `bash build_apk.sh` → `雅思7.5冲刺.apk` **40 MB**(课程包 70 个文件已内置,离线可用)。
 
 ## 技术栈
