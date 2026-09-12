@@ -5,7 +5,7 @@
    - 数据以 JSON 字符串存于 users/{uid},规避 Firestore 字段名限制。 */
 (function () {
   const SYNC_KEYS = ['srs', 'progress', 'scores', 'writingDrafts', 'newLearned', 'startDate',
-    'dailyNew', 'ttsRate', 'ttsVoice', 'autoSpeak', 'celebratedDate', 'lessonHw'];
+    'dailyNew', 'ttsRate', 'ttsVoice', 'autoSpeak', 'celebratedDate', 'lessonHw', 'loopTimes'];
   const SDK = '10.12.2';
   let app = null, auth = null, db = null, user = null;
   let ready = false, pushTimer = null, authReady = false;

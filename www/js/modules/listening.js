@@ -91,12 +91,16 @@
             <div class="spread faint" style="font-size:12px"><span id="cur">0:00</span><span id="dur">--:--</span></div>
           </div>
         </div>
-        <div class="row mt8" style="gap:8px;flex-wrap:wrap">
+        <div class="row mt8" style="gap:8px;flex-wrap:wrap;align-items:center">
           <button class="btn ghost sm" id="b10">↺ 10s</button>
           <button class="btn ghost sm" id="f10">10s ↻</button>
           <label class="faint">Speed
             <select id="rate"><option value="0.75">0.75×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.25">1.25×</option></select>
           </label>
+          <label class="faint">Repeat
+            <select id="loop"><option value="1">×1</option><option value="3">×3</option><option value="5">×5</option><option value="10">×10</option><option value="0">∞</option></select>
+          </label>
+          <span class="pill" id="loopN" style="display:none"></span>
           <span class="pill accent">real exam audio</span>
         </div>
         <div id="markers" class="row mt8" style="gap:6px;flex-wrap:wrap"></div>
@@ -114,11 +118,50 @@
       seek.value = Math.round(a.currentTime / a.duration * 1000);
       cur.textContent = fmt(a.currentTime);
     };
-    a.onended = () => { playBtn.textContent = '▶'; };
+    // 循环播放:精听三遍法用得上(盲听 → 对脚本 → 跟读)。每遍之间留一小段间隔。
+    const loopSel = card.querySelector('#loop');
+    const loopBadge = card.querySelector('#loopN');
+    const GAP_MS = 1200;
+    let done = 0, gapTimer = null;
+    loopSel.value = String(Store.get('loopTimes', 1));
+    function target() { return parseInt(loopSel.value, 10); }
+    function paintLoop() {
+      const t = target();
+      if (t === 1) { loopBadge.style.display = 'none'; return; }
+      loopBadge.style.display = '';
+      loopBadge.textContent = t === 0 ? `loop ${done + 1} / ∞` : `loop ${Math.min(done + 1, t)} / ${t}`;
+    }
+    function clearGap() { if (gapTimer) { clearTimeout(gapTimer); gapTimer = null; } }
+    loopSel.onchange = () => { Store.set('loopTimes', target()); done = 0; clearGap(); paintLoop(); };
+    paintLoop();
+    App.onLeave(clearGap);
+
+    a.onended = () => {
+      done++;
+      const t = target();
+      if (t === 0 || done < t) {        // 还要再放一遍
+        paintLoop();
+        playBtn.textContent = '⏸';
+        clearGap();
+        gapTimer = setTimeout(() => {
+          gapTimer = null;
+          a.currentTime = 0;
+          a.play().catch(() => { playBtn.textContent = '▶'; });
+        }, GAP_MS);
+        return;
+      }
+      playBtn.textContent = '▶';        // 遍数跑满,回到起点等下一轮
+      done = 0;
+      paintLoop();
+    };
     a.onerror = () => { card.appendChild(el('<div class="explain">⚠️ Audio not available offline yet — connect once to download it.</div>')); };
     playBtn.onclick = () => {
-      if (a.paused) { AudioFX.stop(); a.play().then(() => playBtn.textContent = '⏸').catch(() => Toast('Tap again to start audio')); }
-      else { a.pause(); playBtn.textContent = '▶'; }
+      if (gapTimer) { clearGap(); playBtn.textContent = '▶'; return; }   // 间隔期再点 = 停止循环
+      if (a.paused) {
+        AudioFX.stop();
+        if (a.ended || a.currentTime === 0) { done = 0; paintLoop(); }
+        a.play().then(() => playBtn.textContent = '⏸').catch(() => Toast('Tap again to start audio'));
+      } else { a.pause(); playBtn.textContent = '▶'; }
     };
     seek.oninput = () => { dragging = true; if (a.duration) cur.textContent = fmt(seek.value / 1000 * a.duration); };
     seek.onchange = () => { if (a.duration) a.currentTime = seek.value / 1000 * a.duration; dragging = false; };
