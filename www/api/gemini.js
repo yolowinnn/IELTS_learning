@@ -56,11 +56,28 @@ module.exports = async (req, res) => {
     const topic = body.topic || '';
     const messages = Array.isArray(body.messages) ? body.messages : [];
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-    const call = async (payload) => {
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+    // 免费额度限速(429)时按建议延迟重试一次(封顶 6s),平滑突发
+    const call = async (payload, retries) => {
+      retries = (retries == null) ? 1 : retries;
       const r = await fetch(url, { method: 'POST', headers: { 'x-goog-api-key': KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const j = await r.json();
+      if (r.status === 429 && retries > 0) {
+        let wait = 3000;
+        try { const d = (j.error && j.error.details) || []; const ri = d.find(x => String(x['@type'] || '').includes('RetryInfo')); if (ri && ri.retryDelay) { const s = parseFloat(ri.retryDelay); if (!isNaN(s)) wait = Math.min(6000, Math.ceil(s * 1000) + 200); } } catch (e) {}
+        await sleep(wait);
+        return call(payload, retries - 1);
+      }
       const text = ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || []).map(p => p.text || '').join('').trim();
       return { ok: r.ok, status: r.status, text, j };
+    };
+    // 429 → 前端可识别的友好限速响应(不当成普通错误,提示稍等重试)
+    const errResp = (out) => {
+      if (out.status === 429) {
+        let ra = 20; try { const d = (out.j.error && out.j.error.details) || []; const ri = d.find(x => String(x['@type'] || '').includes('RetryInfo')); if (ri && ri.retryDelay) { const s = parseFloat(ri.retryDelay); if (!isNaN(s)) ra = Math.ceil(s); } } catch (e) {}
+        return res.status(429).json({ error: 'rate_limited', rate: true, retryAfter: ra, detail: '免费额度限速(约 20 次/分),请稍等 ' + ra + ' 秒再试' });
+      }
+      return errResp(out);
     };
 
     if (mode === 'tts') {
@@ -89,7 +106,7 @@ module.exports = async (req, res) => {
       const parts = [{ text: 'Conversation transcript:\n' + transcript + '\n\nThe candidate audio answers follow. Score now.' }];
       audios.slice(0, 4).forEach(a => a && a.data && parts.push({ inlineData: { mimeType: a.mimeType || 'audio/webm', data: a.data } }));
       const out = await call({ systemInstruction: { parts: [{ text: scoringSystem(topic) }] }, contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.4, maxOutputTokens: 900 } });
-      if (!out.ok) return res.status(out.status).json({ error: 'gemini', detail: JSON.stringify(out.j).slice(0, 500) });
+      if (!out.ok) return errResp(out);
       return res.status(200).json({ text: out.text || '(no score)' });
     }
 
@@ -102,7 +119,7 @@ module.exports = async (req, res) => {
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: au.mimeType || 'audio/wav', data: au.data } }] }],
         generationConfig: { temperature: 0, maxOutputTokens: 500 }
       });
-      if (!trOut.ok) return res.status(trOut.status).json({ error: 'gemini', detail: JSON.stringify(trOut.j).slice(0, 500) });
+      if (!trOut.ok) return errResp(trOut);
       const transcript = (trOut.text || '').trim();
       if (!transcript || /^\[?\s*inaudible\s*\]?\.?$/i.test(transcript)) {
         return res.status(200).json({ transcript: '', reply: "Sorry, I didn't quite catch that — could you say your answer again, a little louder and closer to the mic?" });
@@ -111,13 +128,13 @@ module.exports = async (req, res) => {
       const hist = messages.slice(-16, -1).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: [{ text: String(m.text || '') }] }));
       hist.push({ role: 'user', parts: [{ text: transcript }] });
       const rOut = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents: hist, generationConfig: { temperature: 0.85, maxOutputTokens: 400 } });
-      if (!rOut.ok) return res.status(rOut.status).json({ error: 'gemini', detail: JSON.stringify(rOut.j).slice(0, 500) });
+      if (!rOut.ok) return errResp(rOut);
       return res.status(200).json({ transcript, reply: rOut.text || '' });
     }
     const contents = messages.slice(-16).map(m => ({ role: (m.role === 'assistant' || m.role === 'model') ? 'model' : 'user', parts: partsFor(m) }));
     if (!contents.length) contents.push({ role: 'user', parts: [{ text: 'Please start the IELTS speaking mock with your first question.' }] });
     const out = await call({ systemInstruction: { parts: [{ text: examinerSystem(topic) }] }, contents, generationConfig: { temperature: 0.85, maxOutputTokens: 600 } });
-    if (!out.ok) return res.status(out.status).json({ error: 'gemini', detail: JSON.stringify(out.j).slice(0, 500) });
+    if (!out.ok) return errResp(out);
     return res.status(200).json({ text: out.text || '(no reply)' });
   } catch (e) {
     return res.status(500).json({ error: String((e && e.message) || e) });

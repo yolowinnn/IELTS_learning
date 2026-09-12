@@ -3,28 +3,25 @@
   // 装到 App(Capacitor)里时,页面从 localhost/file 加载,/api 没有服务器 → 指向线上函数;网页则用相对路径。
   function apiBase() { try { return (window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) ? 'https://ielts75.pages.dev' : ''; } catch (e) { return ''; } }
 
-  // 把录音(webm/opus 等)解码后重编码为 WAV(单声道 16kHz 16-bit)——Gemini 支持 wav,不支持 webm。
-  // 不转的话 Gemini 解不了码,会凭空编个"默认答案"(如成都/熊猫),而不是转写你的真实语音。
-  async function toWav(blob) {
-    const arr = await blob.arrayBuffer();
-    const AC = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AC();
-    const audioBuf = await ctx.decodeAudioData(arr);
-    try { ctx.close(); } catch (e) {}
-    const chs = audioBuf.numberOfChannels, len = audioBuf.length;
-    const mono = new Float32Array(len);
-    for (let c = 0; c < chs; c++) { const d = audioBuf.getChannelData(c); for (let i = 0; i < len; i++) mono[i] += d[i] / chs; }
-    // 降采样到 16kHz(语音足够,体积更小)
-    const target = 16000, src = audioBuf.sampleRate;
-    let samples = mono, rate = src;
-    if (src > target) { const ratio = src / target, out = Math.floor(len / ratio), ds = new Float32Array(out); for (let i = 0; i < out; i++) ds[i] = mono[Math.floor(i * ratio)]; samples = ds; rate = target; }
-    const buf = new ArrayBuffer(44 + samples.length * 2), dv = new DataView(buf);
+  // 把麦克风采到的 PCM(Float32)重编码为 WAV(单声道 16kHz 16-bit)——Gemini 支持 wav,不支持 webm。
+  // 录音直接走 Web Audio 采 PCM(见 toggleRecord),不再用 MediaRecorder/webm:彻底绕开
+  // "浏览器录的 webm/opus → Gemini 解不了码 → 凭空编个默认答案(成都/熊猫)" 这个坑,还能实时读音量。
+  // 降采样到 16kHz(语音足够 + 体积小,避免超请求体上限);返回 {b64, blob, peak, dur, trimmed}。
+  function encodeWav(samples, srcRate) {
+    const target = 16000;
+    let out = samples, rate = srcRate;
+    if (srcRate > target) { const ratio = srcRate / target, n = Math.floor(samples.length / ratio), ds = new Float32Array(n); for (let i = 0; i < n; i++) ds[i] = samples[Math.floor(i * ratio)]; out = ds; rate = target; }
+    // 上限保护:Vercel 函数请求体 ~4.5MB;16kHz 单声道 ≈ 32KB/s → 截到约 100s,防 413
+    const MAXS = target * 100; let trimmed = false;
+    if (out.length > MAXS) { out = out.subarray(0, MAXS); trimmed = true; }
+    let peak = 0; for (let i = 0; i < out.length; i++) { const a = Math.abs(out[i]); if (a > peak) peak = a; }
+    const buf = new ArrayBuffer(44 + out.length * 2), dv = new DataView(buf);
     const ws = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
-    ws(0, 'RIFF'); dv.setUint32(4, 36 + samples.length * 2, true); ws(8, 'WAVE'); ws(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, rate, true); dv.setUint32(28, rate * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); ws(36, 'data'); dv.setUint32(40, samples.length * 2, true);
-    let off = 44; for (let i = 0; i < samples.length; i++) { let v = Math.max(-1, Math.min(1, samples[i])); dv.setInt16(off, v < 0 ? v * 0x8000 : v * 0x7FFF, true); off += 2; }
+    ws(0, 'RIFF'); dv.setUint32(4, 36 + out.length * 2, true); ws(8, 'WAVE'); ws(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, rate, true); dv.setUint32(28, rate * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); ws(36, 'data'); dv.setUint32(40, out.length * 2, true);
+    let off = 44; for (let i = 0; i < out.length; i++) { let v = Math.max(-1, Math.min(1, out[i])); dv.setInt16(off, v < 0 ? v * 0x8000 : v * 0x7FFF, true); off += 2; }
     const u8 = new Uint8Array(buf); let bin = ''; const CH = 0x8000;
     for (let i = 0; i < u8.length; i += CH) bin += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
-    return { b64: btoa(bin), blob: new Blob([buf], { type: 'audio/wav' }) };
+    return { b64: btoa(bin), blob: new Blob([buf], { type: 'audio/wav' }), peak: peak, dur: out.length / rate, trimmed: trimmed };
   }
 
   function find(id) { return (window.IELTS_DATA.speaking || []).find(s => s.id === id) || (window.IELTS_DATA.speaking || [])[0]; }
@@ -142,7 +139,8 @@
     const topic = s.topic || s.title || '';
     const conv = [];      // {role:'user'|'assistant', text}  (text history)
     const audios = [];    // {data(base64), mimeType, url}    (for replay + scoring)
-    let busy = false, recorder = null, stream = null, chunks = [], recTimer = null, recStart = 0;
+    let busy = false, stream = null, recTimer = null, recStart = 0;
+    let audioCtx = null, srcNode = null, procNode = null, pcmParts = [], pcmLen = 0, capRate = 48000, capturing = false, livePeak = 0;
 
     const card = el(`
       <div class="card" style="background:linear-gradient(135deg,#064e3b,#065f46);border:1px solid #34d399;color:#eafff5">
@@ -214,7 +212,14 @@
       try {
         const r = await fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'chat', topic, messages: msgs }) });
         const j = await r.json();
-        if (!r.ok) { setStatus('Error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
+        if (!r.ok) {
+          if (r.status === 429 || j.rate) {
+            const ra = j.retryAfter || 20;
+            const last = logEl.lastElementChild; if (last && last.classList.contains('lv-me') && last.querySelector('span') && last.querySelector('span').textContent === '…') last.querySelector('span').textContent = '(未发送)';
+            setStatus('⏳ 考官被限速了(Gemini 免费额度约 20 次/分)。等约 ' + ra + ' 秒,再点"🎤 录音"重说即可 —— 进度没丢。');
+          } else { setStatus('出错:' + (j.detail || j.error || r.status)); }
+          busy = false; showAnswer(); return;
+        }
         if (audioMsg) {
           const tr = (j.transcript || '').trim();
           if (tr) { conv.push({ role: 'user', text: tr }); const last = logEl.lastElementChild; if (last && last.querySelector('span')) last.querySelector('span').textContent = tr; }
@@ -232,50 +237,74 @@
       busy = false;
     }
 
+    // 录音 = 直接从麦克风采 PCM(Web Audio),不用 MediaRecorder/webm。好处:Gemini 能真读语音、实时显示音量、不会解码失败。
     async function toggleRecord() {
       const recBtn = controls.querySelector('#recBtn');
-      if (recorder && recorder.state === 'recording') { recorder.stop(); return; }
+      if (capturing) { stopCapture(); return; }
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        let mime = 'audio/webm;codecs=opus';
-        if (!(window.MediaRecorder && MediaRecorder.isTypeSupported(mime))) mime = (window.MediaRecorder && MediaRecorder.isTypeSupported('audio/webm')) ? 'audio/webm' : '';
-        recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
-        chunks = [];
-        recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-        recorder.onstop = onRecStop;
-        recorder.start();
-        recStart = Date.now();
-        recBtn.classList.add('rec'); recBtn.innerHTML = '⏹ Stop & send <span id="recT">0:00</span>';
-        recTimer = setInterval(() => { const s = Math.floor((Date.now() - recStart) / 1000); const el2 = controls.querySelector('#recT'); if (el2) el2.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }, 500);
-        setStatus('🔴 Recording… speak your answer, then tap stop. (Take your time — minutes are fine.)');
-      } catch (e) { setStatus('Mic blocked. Allow microphone access and retry.'); }
+        stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+        const AC = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AC();
+        try { await audioCtx.resume(); } catch (e) {}
+        capRate = audioCtx.sampleRate || 48000;
+        srcNode = audioCtx.createMediaStreamSource(stream);
+        procNode = audioCtx.createScriptProcessor(4096, 1, 1);
+        pcmParts = []; pcmLen = 0; livePeak = 0;
+        procNode.onaudioprocess = (e) => {
+          const ch = e.inputBuffer.getChannelData(0);
+          const copy = new Float32Array(ch.length); copy.set(ch); pcmParts.push(copy); pcmLen += ch.length;
+          let p = 0; for (let i = 0; i < ch.length; i++) { const a = Math.abs(ch[i]); if (a > p) p = a; }
+          livePeak = Math.max(livePeak * 0.85, p);   // 衰减峰值,做实时音量条
+        };
+        const mute = audioCtx.createGain(); mute.gain.value = 0;   // 静音直通,避免麦克风回授啸叫
+        srcNode.connect(procNode); procNode.connect(mute); mute.connect(audioCtx.destination);
+        capturing = true; recStart = Date.now();
+        recBtn.classList.add('rec'); recBtn.innerHTML = '⏹ 停止发送 <span id="recT">0:00</span>';
+        recTimer = setInterval(() => {
+          const s = Math.floor((Date.now() - recStart) / 1000);
+          const el2 = controls.querySelector('#recT'); if (el2) el2.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+          const lvl = Math.round(Math.min(1, livePeak * 1.4) * 100);
+          const bars = Math.max(1, Math.round(lvl / 7));
+          setStatus('🔴 录音中 · 音量 <b style="color:#fff">' + lvl + '%</b> <span style="color:#6ee7b7">' + '▮'.repeat(bars) + '</span><br><span style="color:#a7f3d0">正常说话即可(看到音量条在动就说明麦在收音),说完点"停止发送"。</span>');
+        }, 200);
+        setStatus('🔴 录音中… 请开始说。');
+      } catch (e) { setStatus('麦克风被拦截:请在浏览器/系统允许麦克风权限后重试。'); }
     }
-    async function onRecStop() {
-      clearInterval(recTimer);
+    function stopCapture() {
+      capturing = false; clearInterval(recTimer);
+      try { if (procNode) { procNode.onaudioprocess = null; procNode.disconnect(); } } catch (e) {}
+      try { if (srcNode) srcNode.disconnect(); } catch (e) {}
       if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-      const type = (recorder && recorder.mimeType) || 'audio/webm';
-      const raw = new Blob(chunks, { type });
+      const merged = new Float32Array(pcmLen); let off = 0;
+      for (let i = 0; i < pcmParts.length; i++) { merged.set(pcmParts[i], off); off += pcmParts[i].length; }
+      pcmParts = []; const srcRate = capRate;
+      try { if (audioCtx) audioCtx.close(); } catch (e) {} audioCtx = null; srcNode = null; procNode = null;
+      onRecStop(merged, srcRate);
+    }
+    async function onRecStop(samples, srcRate) {
       const msgEl = addLog('You', '…', true, null);   // 先占位,转写回来再填
       controls.innerHTML = '';
-      function attachReplay(url) { if (msgEl) { const b = el('<button class="lv-replay">▶</button>'); b.onclick = () => { const a = new Audio(url); a.play(); }; msgEl.appendChild(b); } }
-      try {
-        const wav = await toWav(raw);                  // 关键:转 WAV,Gemini 才能真读你的语音(不是套路默认答案)
-        const url = URL.createObjectURL(wav.blob); attachReplay(url);
-        audios.push({ data: wav.b64, mimeType: 'audio/wav', url });
-        ask({ data: wav.b64, mimeType: 'audio/wav' });
-      } catch (e) {
-        const url = URL.createObjectURL(raw); attachReplay(url);   // 极少数浏览器解码失败 → 退回原格式
-        const rd = new FileReader();
-        rd.onload = () => { const b64 = String(rd.result).split(',')[1]; const m2 = type.split(';')[0]; audios.push({ data: b64, mimeType: m2, url }); ask({ data: b64, mimeType: m2 }); };
-        rd.readAsDataURL(raw);
+      const setYou = (t) => { try { if (msgEl && msgEl.querySelector('span')) msgEl.querySelector('span').textContent = t; } catch (e) {} };
+      const attachReplay = (url) => { if (msgEl) { const b = el('<button class="lv-replay">▶</button>'); b.onclick = () => { const a = new Audio(url); a.play(); }; msgEl.appendChild(b); } };
+      const wav = encodeWav(samples, srcRate);
+      const pk = Math.round(wav.peak * 100), du = Math.round(wav.dur * 10) / 10;
+      try { console.log('[speaking] rec:', du + 's', 'peak ' + pk + '%', Math.round(wav.b64.length * 0.75 / 1024) + 'KB', '@' + srcRate + 'Hz'); } catch (e) {}
+      if (wav.peak < 0.012 || wav.dur < 0.4) {   // 几乎没录到声音 → 别送(送了也是 [inaudible]),提示查麦并重录
+        setYou('(没录到声音)');
+        setStatus('⚠️ 几乎没录到你的声音(音量 ' + pk + '%,时长 ' + du + 's)。请检查:① 浏览器/系统已允许麦克风;② 系统输入设备选对、未静音;③ 靠近麦克风、正常音量说。然后重新录。');
+        showAnswer(); return;
       }
+      const url = URL.createObjectURL(wav.blob); attachReplay(url);
+      audios.push({ data: wav.b64, mimeType: 'audio/wav', url });
+      if (wav.trimmed) setStatus('（回答较长,已按前 100 秒转写评分）');
+      ask({ data: wav.b64, mimeType: 'audio/wav' });
     }
 
     async function finishScore() {
       if (busy) return; busy = true;
       controls.innerHTML = ''; setStatus('📝 Scoring your real voice…');
       try {
-        const r = await fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'score', topic, messages: conv, audios: audios.slice(-4).map(a => ({ data: a.data, mimeType: a.mimeType })) }) });
+        const r = await fetch(apiBase() + '/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'score', topic, messages: conv, audios: audios.slice(-3).map(a => ({ data: a.data, mimeType: a.mimeType })) }) });
         const j = await r.json();
         if (!r.ok || !j.text) { setStatus('Score error: ' + (j.error || j.detail || r.status)); busy = false; showAnswer(); return; }
         Store.markTask('speaking', true); App.refreshStreak();
@@ -289,7 +318,7 @@
     }
 
     showStart();
-    if (window.App && App.onLeave) App.onLeave(() => { try { if (curAudio) { curAudio.pause(); curAudio = null; } if (window.TTS) TTS.cancel(); if (recorder && recorder.state === 'recording') recorder.stop(); if (stream) stream.getTracks().forEach(t => t.stop()); } catch (e) {} });
+    if (window.App && App.onLeave) App.onLeave(() => { try { if (curAudio) { curAudio.pause(); curAudio = null; } if (window.TTS) TTS.cancel(); capturing = false; clearInterval(recTimer); if (procNode) { procNode.onaudioprocess = null; procNode.disconnect(); } if (srcNode) srcNode.disconnect(); if (audioCtx) audioCtx.close(); if (stream) stream.getTracks().forEach(t => t.stop()); } catch (e) {} });
     return card;
   }
 
