@@ -19,6 +19,13 @@
     // 题目
     wrap.appendChild(el(`<div class="card"><div class="card-title mb8">📋 Prompt</div><div>${esc(w.prompt)}</div></div>`));
 
+    // 图表/原卷页图(Task 1 的图必须看得清,点开可放大)
+    if (w.sheets && w.sheets.length) {
+      const sc = el(`<div class="card"><div class="card-title mb8">📊 The chart</div></div>`);
+      sc.appendChild(Sheets.render(w.sheets));
+      wrap.appendChild(sc);
+    }
+
     // 结构模板
     if (w.outline && w.outline.length) {
       const o = el(`<div class="card"><div class="spread"><div class="card-title">🧱 Structure</div><button class="btn ghost sm" id="toO">Expand</button></div><div id="oBody" class="hidden mt12"></div></div>`);
@@ -107,7 +114,9 @@
 
   function gradePrompt(w, text) {
     const crit = w.task === 1 ? 'Task Achievement' : 'Task Response';
-    return `You are a strict but fair IELTS Writing examiner. Assess my Task ${w.task} answer using the official band descriptors: ${crit}, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy.\n\nQUESTION:\n${w.prompt}\n\nMY ANSWER:\n${text}\n\nPlease give:\n1) A band score (0-9, half-bands allowed) for EACH of the four criteria, plus an overall band.\n2) The 3 most impactful weaknesses, each with a specific quote from my text.\n3) Concrete, actionable fixes for each.\n4) A model rewrite of my answer at band 8.\nBe honest and specific; do not inflate the score.`;
+    // Task 1 的图 AI 看不见 → 把关键数据一并给它,否则没法核对数字对不对
+    const chart = w.chart_data ? `\n\nWHAT THE CHART SHOWS (you cannot see the image — check my figures against this):\n${w.chart_data}\n` : '';
+    return `You are a strict but fair IELTS Writing examiner. Assess my Task ${w.task} answer using the official band descriptors: ${crit}, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy.\n\nQUESTION:\n${w.prompt}${chart}\n\nMY ANSWER:\n${text}\n\nPlease give:\n1) A band score (0-9, half-bands allowed) for EACH of the four criteria, plus an overall band.\n2) The 3 most impactful weaknesses, each with a specific quote from my text.\n3) Concrete, actionable fixes for each.\n4) A model rewrite of my answer at band 8.\nBe honest and specific; do not inflate the score.`;
   }
   async function copyText(t) {
     try { await navigator.clipboard.writeText(t); return true; }

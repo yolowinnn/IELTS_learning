@@ -3,6 +3,589 @@
 window.IELTS_PACKS = [
  {
   "packVersion": 1,
+  "rev": 1,
+  "id": "lesson-20260919",
+  "date": "2026-09-19",
+  "title": "Class 2 · Writing + Speaking",
+  "source": "Class material · Lesson 2 (Writing + Speaking)",
+  "summary": "Lesson 2 covered both writing tasks and all three speaking parts. Here you can write the two essays from class with a timer and AI grading, run the food cue card with the AI examiner, and drill the words and sentence patterns the teacher gave you.",
+  "writing": [
+   {
+    "id": "w-l2-t2-science",
+    "task": 2,
+    "type": "Agree or disagree (to what extent)",
+    "title": "The most important aim of science",
+    "min_words": 250,
+    "source": "Class material · Lesson 2 (Writing + Speaking)",
+    "prompt": "The most important aim of science should be to improve people's lives. To what extent do you agree or disagree with this statement?",
+    "outline": [
+     "STEP 1 · Read the question properly. Three parts carry the marks: the most important aim (a superlative — this is the whole debate), of science (both applied AND fundamental research), improve people's lives. Most candidates lose points by only writing 'science improving life is good' and ignoring 'most important'.",
+     "STEP 2 · Choose a position. Partly agree is the safest here: improving lives is a major aim of science, but it should not be the single most important one. Say it explicitly: I partly agree with this view.",
+     "PARAGRAPH 1 · Introduction (2 sentences). Rewrite the question in your own words, then state your position. Do not copy the question word for word — that wording is not counted in your word total.",
+     "PARAGRAPH 2 · Supporting side. Point: applied science solves real human suffering — disease, food shortages. Explain, then give a concrete example: vaccine development; high-yield crops reducing hunger.",
+     "PARAGRAPH 3 · Concession and counter-argument. Point: much fundamental research has no visible benefit at first but paves the way for later breakthroughs, and understanding the universe is a legitimate goal in itself. Example: electromagnetic waves were useless-looking research that became mobile communication; particle physics now powers medical scanners.",
+     "PARAGRAPH 4 · Conclusion (2 sentences). Restate the partly-agree position and summarise the two reasons. Add no new ideas.",
+     "TIMING · 40 minutes, 260–290 words. Spend 5 minutes planning, 30 writing, 5 checking."
+    ],
+    "useful_phrases": [
+     {
+      "en": "It is often argued that the primary purpose of scientific research ought to be…",
+      "zh": "改写题目:人们常认为科学研究的首要目的应当是……"
+     },
+     {
+      "en": "It has been suggested that improving the quality of people's lives should be science's most significant objective.",
+      "zh": "改写版本2(老师给的)"
+     },
+     {
+      "en": "I partly agree with this view.",
+      "zh": "部分同意——本题最稳的立场"
+     },
+     {
+      "en": "While I accept that…, I do not believe that…",
+      "zh": "让步+反驳,一句话表明程度"
+     },
+     {
+      "en": "There is no question that…",
+      "zh": "引出支持方论点"
+     },
+     {
+      "en": "This is mainly because… / For example, …",
+      "zh": "论证句型"
+     },
+     {
+      "en": "However, judging all research by its immediate usefulness would be short-sighted.",
+      "zh": "转入让步段"
+     },
+     {
+      "en": "…is a legitimate objective in its own right.",
+      "zh": "……本身就是正当的目标"
+     },
+     {
+      "en": "In conclusion, improving people's lives is a vital goal, but it should not be the only measure of scientific value.",
+      "zh": "结尾回扣最高级"
+     }
+    ],
+    "model_answer": "It is often argued that the primary purpose of scientific research ought to be the betterment of ordinary people's lives. While I accept that raising living standards is one of science's central obligations, I do not believe it should be treated as its single most important aim.\n\nThere is no question that science earns much of its public support by solving practical human problems. Medical research is the clearest case: the rapid development of vaccines has spared millions of families from diseases that were once fatal, and agricultural science has produced high-yield, drought-resistant crops that have helped alleviate hunger across large parts of Asia and Africa. Work of this kind delivers tangible benefits to people who will never read a scientific paper, and it is reasonable for governments to prioritise it when public funding is limited.\n\nHowever, judging all research by its immediate usefulness would be short-sighted. A great deal of fundamental science has no obvious application when it is first carried out, yet later turns out to be indispensable. When nineteenth-century physicists investigated electromagnetic waves, nobody could have predicted mobile phones or wireless internet; similarly, particle physics now underpins the scanners used in hospitals every day. Curiosity-driven research also answers a different human need, the desire to understand the universe we live in, and that is a legitimate objective in its own right.\n\nIn conclusion, I partly agree with the statement. Improving people's lives is certainly a vital goal for science and applied research deserves generous funding. Nevertheless, science should not be reduced to a problem-solving service; discovery for its own sake must remain part of its purpose, because today's abstract theory is frequently tomorrow's practical tool.",
+    "band_tips": "This question is decided by one word: most. A band 6 answer proves that science improves life; a band 7.5 answer argues about whether that is its MOST important aim. Take a partial position and defend the boundary. Also: never write always / never / all people (IELTS penalises absolute claims), never translate Chinese sentences word for word, and always use four separate paragraphs.",
+    "checklist": [
+     "TA · Did I answer 'to what extent' with an explicit position, not just a description of science?",
+     "TA · Did I deal with the superlative 'the most important', not only 'important'?",
+     "TA · Is it 260–290 words in four paragraphs?",
+     "CC · Does every body paragraph open with a topic sentence, then explanation, then example?",
+     "LR · Did I avoid always / never / all people and avoid repeating 'science' in every sentence?",
+     "GRA · Did I mix simple and complex sentences, and check every verb tense and article?"
+    ]
+   },
+   {
+    "id": "w-l2-t1-urbanisation",
+    "task": 1,
+    "type": "Line graph with future projections",
+    "title": "Urban population in four Asian countries",
+    "min_words": 150,
+    "source": "Class material · Lesson 2 (Writing + Speaking)",
+    "prompt": "The graph below gives information about the percentage of the population in four Asian countries living in cities from 1970 to 2020, with predictions for 2030 and 2040. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+    "sheets": [
+     {
+      "src": "assets/writing-t1-chart.webp",
+      "label": "Task 1 · Percentage of the population living in cities"
+     }
+    ],
+    "outline": [
+     "STEP 1 · Read the axes before anything else. Y axis = percentage of total population (not number of people — never write 'the number of people'). X axis = 1970 to 2040 in ten-year steps. Four lines = the Philippines, Malaysia, Thailand, Indonesia.",
+     "STEP 2 · Mark the split. 1970–2020 is real data (past tense); 2030 and 2040 are predictions (is expected to / is projected to / is forecast to). Mixing these up is an automatic Task Achievement penalty.",
+     "PARAGRAPH 1 · Introduction. One sentence rewriting the question. Change 'the percentage of the population living in cities' to 'the urban share of the population' or 'how urbanised four Asian countries were'. Keep the four country names and the years.",
+     "PARAGRAPH 2 · Overview, no numbers. Three things are true of the whole graph: (a) all four countries become more urbanised over the period; (b) Malaysia is the highest throughout and Thailand the lowest; (c) Indonesia rises the most dramatically, from the bottom to second place, overtaking the Philippines. An overview is compulsory — without it you cannot pass band 6 on Task Achievement.",
+     "PARAGRAPH 3 · Malaysia, the extreme case. From about 30% in 1970 it climbs steeply and continuously, passing 60% in 2000 and 76% in 2020, and is expected to reach roughly 83% by 2040 — but note the curve flattens after 2020.",
+     "PARAGRAPH 4 · The other three, grouped by behaviour. The Philippines is the only line that falls: up to almost 50% in 1990, down to about 42% in 2010, then a slow recovery to a projected 56%. Indonesia starts lowest at 14%, grows steadily, draws level with the Philippines in 2010 and ends near 64%. Thailand barely moves between 1990 and 2020 (about 30–33%) and is only forecast to reach 50% at the very end.",
+     "WHAT TO LEAVE OUT · Do not list all 32 data points, do not give reasons for the trends, and do not say which country is doing well. Task 1 describes; it never explains or evaluates."
+    ],
+    "useful_phrases": [
+     {
+      "en": "The line graph shows the percentage of the population living in urban areas in four Asian countries between 1970 and 2020, with projections for 2030 and 2040.",
+      "zh": "开头句:改写题目,别照抄"
+     },
+     {
+      "en": "Overall, the urban share of the population rises in all four countries, but Malaysia is by far the most urbanised throughout.",
+      "zh": "Overview 句,不写具体数字"
+     },
+     {
+      "en": "rose steeply / climbed steadily / grew gradually",
+      "zh": "上升:陡升/稳步上升/缓慢上升"
+     },
+     {
+      "en": "dipped to around 42% / fell slightly",
+      "zh": "下降:小幅下滑"
+     },
+     {
+      "en": "levelled off / plateaued at about 30% / remained stable",
+      "zh": "持平"
+     },
+     {
+      "en": "is expected to reach / is projected to stand at / is forecast to climb to",
+      "zh": "2030、2040 是预测,必须用将来式"
+     },
+     {
+      "en": "Indonesia drew level with the Philippines in 2010 and then moved well ahead.",
+      "zh": "交叉点是高分细节"
+     },
+     {
+      "en": "By contrast, / Whereas Thailand changed little, Malaysia nearly tripled.",
+      "zh": "对比句型"
+     },
+     {
+      "en": "The figure for X stood at roughly 45%, compared with just 30% for Y.",
+      "zh": "引用数据的标准句式"
+     }
+    ],
+    "model_answer": "The line graph shows the percentage of the population living in urban areas in four Asian countries, namely the Philippines, Malaysia, Thailand and Indonesia, between 1970 and 2020, together with projections for 2030 and 2040.\n\nOverall, the urban share of the population rises in all four countries over the period, but Malaysia is by far the most urbanised throughout while Thailand remains the least. The most striking change is in Indonesia, which climbs from the lowest starting point to overtake the Philippines.\n\nIn 1970 the four countries were fairly close together, at between 14% and 32%. Malaysia then rose steeply and almost continuously, passing 60% in 2000 and 76% in 2020, and it is expected to reach roughly 83% by 2040, although its growth levels off after 2020.\n\nThe Philippines followed a very different path. Having risen to almost 50% by 1990, it dipped to around 42% in 2010 and has recovered only slowly since; it is projected to stand at 56% in 2040. Indonesia, by contrast, grew steadily from just 14%, drew level with the Philippines in 2010 and then moved well ahead, reaching a predicted 64%. Thailand changed little between 1990 and 2020, hovering around 30%, but is forecast to climb to 50% by the end of the period.",
+    "band_tips": "Three things decide a Task 1 band: (1) a separate Overview paragraph with the big picture and no numbers; (2) grouping — describe countries that behave alike together instead of one paragraph per line; (3) accurate tense. Here the tense split at 2020 and the Philippines' dip are the two details most candidates miss. Approximate language (around, roughly, just under) protects you when you cannot read the exact value.",
+    "checklist": [
+     "TA · Is there a separate overview paragraph, and does it contain no specific figures?",
+     "TA · Did I use future forms for 2030 and 2040 and past forms for 1970–2020?",
+     "TA · Did I mention the Philippines' fall and the Indonesia–Philippines crossover?",
+     "TA · Is it over 150 words, and did I avoid giving opinions or reasons?",
+     "CC · Did I group the countries rather than listing them one by one?",
+     "LR · Did I vary the verbs (rise / climb / grow / level off) instead of repeating 'increase'?"
+    ],
+    "chart_data": "Line graph. Y axis = percentage of total population living in cities (0-90%). X axis = 1970, 1980, 1990, 2000, 2010, 2020 (actual data), then 2030 and 2040 (predictions).\nApproximate values by year (1970 / 1980 / 1990 / 2000 / 2010 / 2020 / 2030 / 2040):\nPhilippines: 32 / 34 / 48.5 / 45.5 / 42.5 / 45.5 / 50.5 / 56\nMalaysia:    30 / 40.5 / 45.5 / 60.5 / 71 / 76 / 81 / 83\nThailand:    18.5 / 23 / 30 / 30.5 / 32.5 / 33.5 / 40.5 / 50\nIndonesia:   14 / 17 / 25 / 30.5 / 42.5 / 52.5 / 61 / 63.5\nMain features: Malaysia is the highest and steepest throughout and levels off after 2020; Thailand is the least urbanised and barely moves between 1990 and 2020; the Philippines is the only line that falls (a dip from about 48.5% in 1990 to 42.5% in 2010); Indonesia starts lowest, rises steadily and draws level with the Philippines around 2010 before moving well ahead."
+   }
+  ],
+  "speaking": [
+   {
+    "id": "s-l2-food",
+    "title": "Food or drink you learned to prepare",
+    "topic": "Food and cooking",
+    "source": "Class material · Lesson 2 (Writing + Speaking)",
+    "intro_questions": [
+     "Do you enjoy cooking at home?",
+     "What kind of food do you usually eat during the week?",
+     "Did you help your parents in the kitchen when you were a child?",
+     "Do you prefer eating at home or eating out? Why?"
+    ],
+    "cue_card": {
+     "prompt": "Describe some food or drink that you learned to prepare.",
+     "bullets": [
+      "what food or drink you learned to prepare",
+      "when and where you learned to prepare this",
+      "how you learned to prepare this",
+      "and explain how you felt about learning to prepare this food or drink"
+     ]
+    },
+    "part3_questions": [
+     "What kinds of things can children learn to cook?",
+     "Do you think it is important for children to learn to cook?",
+     "Do you think young people should learn to cook at home or at school?",
+     "How enjoyable do you think it would be to work as a professional chef?",
+     "What skills does a person need to be a great chef?",
+     "How much influence do celebrity or TV chefs have on what ordinary people cook?"
+    ],
+    "sample_answer": "OK, I'd like to talk about tomato and egg stir-fry, which is a really simple Chinese home-style dish that almost every family cooks.\n\nI learned how to make it last summer holiday in our family kitchen. I was staying at home for quite a long stretch that year, so I had plenty of free time.\n\nMy mum taught me. She stood beside me and took me through it step by step. First I had to beat the eggs and cut fresh tomatoes into pieces. Then I fried the eggs in a hot pan, took them out, and cooked the tomatoes with a little sugar. Finally I mixed everything together.\n\nAt the very beginning I was a bit nervous, mainly because I was afraid of the hot oil splashing out of the pan. However, once I had finished the whole dish successfully, I felt really proud of myself. It was such a satisfying experience that I now cook this quick meal for my parents from time to time.",
+    "useful_phrases": [
+     {
+      "en": "I'd like to talk about…, which is a simple Chinese home-style dish.",
+      "zh": "Part 2 开场,一句话点题"
+     },
+     {
+      "en": "She took me through it step by step.",
+      "zh": "她手把手教我"
+     },
+     {
+      "en": "First… Then… Finally…",
+      "zh": "步骤连接词,流利度分靠它"
+     },
+     {
+      "en": "At the very beginning I was a bit nervous, mainly because…",
+      "zh": "感受 + 原因"
+     },
+     {
+      "en": "It was such a satisfying experience that I now cook it from time to time.",
+      "zh": "结尾升华,用 such…that 拿语法分"
+     },
+     {
+      "en": "They should avoid dealing with very hot pans at first, for safety reasons.",
+      "zh": "Part 3 儿童做饭"
+     },
+     {
+      "en": "Both have their value — at home it is more relaxed, whereas at school it is more systematic.",
+      "zh": "Part 3 折中,不要非黑即白"
+     },
+     {
+      "en": "It can be rewarding, but it is also physically demanding — long hours and working at weekends.",
+      "zh": "Part 3 两面回答的骨架"
+     }
+    ]
+   },
+   {
+    "id": "s-l2-part1",
+    "title": "Part 1 · the four-step answer",
+    "topic": "Study, hometown and hobbies",
+    "source": "Class material · Lesson 2 (Writing + Speaking)",
+    "intro_questions": [
+     "Do you like reading?",
+     "What are you studying at the moment, and why did you choose it?",
+     "Where is your hometown, and what is it known for?",
+     "What do you usually do in your free time?",
+     "Have your hobbies changed since you were a child?"
+    ],
+    "part3_questions": [
+     "Practise the four steps out loud: answer directly, give one reason, add a detail, finish with how you feel.",
+     "Time yourself — a good Part 1 answer is 3 to 4 sentences, about 20 to 30 seconds. Not one line, not a speech."
+    ],
+    "sample_answer": "Yes, I really enjoy reading, it's probably my main way of switching off. Because it helps me relax after a long day at work, and it is the one activity that stops me scrolling on my phone. I usually read novels for half an hour before I go to sleep, and at the moment I'm working through a Japanese detective series. I'd say it makes my daily life feel a bit more meaningful, because I finish the day with something other than a screen.",
+    "useful_phrases": [
+     {
+      "en": "Yes, I really enjoy… (直接回答)",
+      "zh": "第1步:先给态度,不要绕"
+     },
+     {
+      "en": "Because it helps me… (解释)",
+      "zh": "第2步:一个理由"
+     },
+     {
+      "en": "I usually… every night / at the weekend. (细节)",
+      "zh": "第3步:具体细节或例子"
+     },
+     {
+      "en": "It makes my daily life more meaningful. (感受)",
+      "zh": "第4步:补一句感受"
+     },
+     {
+      "en": "It's probably my main way of switching off.",
+      "zh": "自然的口语说法,比 I like it 高一个档"
+     },
+     {
+      "en": "I'd say… / To be honest… / Actually…",
+      "zh": "缓冲词,避免卡壳"
+     }
+    ]
+   }
+  ],
+  "vocab": [
+   {
+    "id": "lv260919-01",
+    "word": "betterment",
+    "pos": "n.",
+    "ipa": "/ˈbetəmənt/",
+    "def_en": "the process of improving something, especially people's living conditions",
+    "def_zh": "改善;改良",
+    "example": "Most people expect science to work for the betterment of ordinary lives.",
+    "synonyms": "improvement, enhancement",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-01.mp3",
+    "audioEx": "assets/vocab/lv260919-01-ex.mp3"
+   },
+   {
+    "id": "lv260919-02",
+    "word": "objective",
+    "pos": "n.",
+    "ipa": "/əbˈdʒektɪv/",
+    "def_en": "a thing you are trying to achieve",
+    "def_zh": "目标",
+    "example": "Improving public health is a vital objective, but it is not science's only one.",
+    "synonyms": "aim, goal, target",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-02.mp3",
+    "audioEx": "assets/vocab/lv260919-02-ex.mp3"
+   },
+   {
+    "id": "lv260919-03",
+    "word": "fundamental research",
+    "pos": "n.",
+    "ipa": "/ˌfʌndəˈmentl rɪˈsɜːtʃ/",
+    "def_en": "scientific work done to increase knowledge, without any immediate practical use in mind",
+    "def_zh": "基础研究",
+    "example": "Fundamental research often looks useless at first, yet it paves the way for later breakthroughs.",
+    "synonyms": "basic research, curiosity-driven research",
+    "topic": "Science",
+    "audio": "assets/vocab/lv260919-03.mp3",
+    "audioEx": "assets/vocab/lv260919-03-ex.mp3"
+   },
+   {
+    "id": "lv260919-04",
+    "word": "prioritise",
+    "pos": "v.",
+    "ipa": "/praɪˈɒrətaɪz/",
+    "def_en": "to treat something as more important than other things",
+    "def_zh": "优先考虑",
+    "example": "When funding is limited, governments tend to prioritise medical research.",
+    "synonyms": "put first, give precedence to",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-04.mp3",
+    "audioEx": "assets/vocab/lv260919-04-ex.mp3"
+   },
+   {
+    "id": "lv260919-05",
+    "word": "concede",
+    "pos": "v.",
+    "ipa": "/kənˈsiːd/",
+    "def_en": "to admit that something is true although you do not want to",
+    "def_zh": "让步;承认",
+    "example": "A band 7 essay concedes the other side before rejecting it.",
+    "synonyms": "admit, acknowledge",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-05.mp3",
+    "audioEx": "assets/vocab/lv260919-05-ex.mp3"
+   },
+   {
+    "id": "lv260919-06",
+    "word": "outweigh",
+    "pos": "v.",
+    "ipa": "/ˌaʊtˈweɪ/",
+    "def_en": "to be greater or more important than something else",
+    "def_zh": "比……更重要",
+    "example": "In my view the long-term gains outweigh the short-term costs.",
+    "synonyms": "exceed, be greater than",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-06.mp3",
+    "audioEx": "assets/vocab/lv260919-06-ex.mp3"
+   },
+   {
+    "id": "lv260919-07",
+    "word": "tangible",
+    "pos": "adj.",
+    "ipa": "/ˈtændʒəbl/",
+    "def_en": "real and able to be clearly seen or felt",
+    "def_zh": "实实在在的",
+    "example": "Vaccines deliver tangible benefits to families who will never read a scientific paper.",
+    "synonyms": "concrete, real, visible",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-07.mp3",
+    "audioEx": "assets/vocab/lv260919-07-ex.mp3"
+   },
+   {
+    "id": "lv260919-08",
+    "word": "to some extent",
+    "pos": "phr.",
+    "ipa": "/tə sʌm ɪkˈstent/",
+    "def_en": "partly, but not completely",
+    "def_zh": "在某种程度上",
+    "example": "To some extent I agree, although I would not go as far as the statement does.",
+    "synonyms": "partly, up to a point",
+    "topic": "Writing Task 2",
+    "audio": "assets/vocab/lv260919-08.mp3",
+    "audioEx": "assets/vocab/lv260919-08-ex.mp3"
+   },
+   {
+    "id": "lv260919-09",
+    "word": "proportion",
+    "pos": "n.",
+    "ipa": "/prəˈpɔːʃn/",
+    "def_en": "a part or share of a whole, often given as a percentage",
+    "def_zh": "比例",
+    "example": "The proportion of Malaysians living in cities more than doubled between 1970 and 2020.",
+    "synonyms": "percentage, share",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-09.mp3",
+    "audioEx": "assets/vocab/lv260919-09-ex.mp3"
+   },
+   {
+    "id": "lv260919-10",
+    "word": "be projected to",
+    "pos": "phr.",
+    "ipa": "/bi prəˈdʒektɪd tuː/",
+    "def_en": "be expected, according to a calculation, to reach a certain figure",
+    "def_zh": "预计将……",
+    "example": "Thailand is projected to reach 50% by 2040.",
+    "synonyms": "be expected to, be forecast to",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-10.mp3",
+    "audioEx": "assets/vocab/lv260919-10-ex.mp3"
+   },
+   {
+    "id": "lv260919-11",
+    "word": "level off",
+    "pos": "phr. v.",
+    "ipa": "/ˈlevl ɒf/",
+    "def_en": "to stop rising or falling and stay at the same level",
+    "def_zh": "趋于平稳",
+    "example": "Malaysia's line levels off after 2020 instead of continuing to climb steeply.",
+    "synonyms": "plateau, stabilise, flatten out",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-11.mp3",
+    "audioEx": "assets/vocab/lv260919-11-ex.mp3"
+   },
+   {
+    "id": "lv260919-12",
+    "word": "plateau",
+    "pos": "v.",
+    "ipa": "/ˈplætəʊ/",
+    "def_en": "to stay at a steady level after a period of change",
+    "def_zh": "进入平台期",
+    "example": "Thailand plateaued at about 30% for three decades.",
+    "synonyms": "level off, remain stable",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-12.mp3",
+    "audioEx": "assets/vocab/lv260919-12-ex.mp3"
+   },
+   {
+    "id": "lv260919-13",
+    "word": "overtake",
+    "pos": "v.",
+    "ipa": "/ˌəʊvəˈteɪk/",
+    "def_en": "to pass and become greater than something that was previously ahead",
+    "def_zh": "反超",
+    "example": "Indonesia overtook the Philippines shortly after 2010.",
+    "synonyms": "surpass, pass, move ahead of",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-13.mp3",
+    "audioEx": "assets/vocab/lv260919-13-ex.mp3"
+   },
+   {
+    "id": "lv260919-14",
+    "word": "dip",
+    "pos": "v.",
+    "ipa": "/dɪp/",
+    "def_en": "to go down a little and then usually rise again",
+    "def_zh": "小幅下滑",
+    "example": "The figure for the Philippines dipped to around 42% in 2010 before recovering.",
+    "synonyms": "fall slightly, decline briefly",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-14.mp3",
+    "audioEx": "assets/vocab/lv260919-14-ex.mp3"
+   },
+   {
+    "id": "lv260919-15",
+    "word": "steadily",
+    "pos": "adv.",
+    "ipa": "/ˈstedɪli/",
+    "def_en": "gradually and at a regular rate",
+    "def_zh": "稳步地",
+    "example": "Indonesia grew steadily from 14% with no sudden jumps.",
+    "synonyms": "gradually, consistently",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-15.mp3",
+    "audioEx": "assets/vocab/lv260919-15-ex.mp3"
+   },
+   {
+    "id": "lv260919-16",
+    "word": "marginally",
+    "pos": "adv.",
+    "ipa": "/ˈmɑːdʒɪnəli/",
+    "def_en": "by only a very small amount",
+    "def_zh": "略微地",
+    "example": "In 1970 the Philippines was only marginally ahead of Malaysia.",
+    "synonyms": "slightly, a little",
+    "topic": "Writing Task 1",
+    "audio": "assets/vocab/lv260919-16.mp3",
+    "audioEx": "assets/vocab/lv260919-16-ex.mp3"
+   },
+   {
+    "id": "lv260919-17",
+    "word": "hygiene",
+    "pos": "n.",
+    "ipa": "/ˈhaɪdʒiːn/",
+    "def_en": "keeping yourself and your surroundings clean to prevent illness",
+    "def_zh": "卫生",
+    "example": "A great chef needs creativity, resilience and strict standards of hygiene.",
+    "synonyms": "cleanliness, sanitation",
+    "topic": "Speaking · food",
+    "audio": "assets/vocab/lv260919-17.mp3",
+    "audioEx": "assets/vocab/lv260919-17-ex.mp3"
+   }
+  ],
+  "notes": [
+   {
+    "t": "Where the writing marks are",
+    "d": "Task 1 is one third of the writing score and Task 2 is two thirds, so prepare Task 2 first. Task 1: 150+ words in 20 minutes. Task 2: 250+ words in 40 minutes."
+   },
+   {
+    "t": "The four criteria",
+    "d": "TA (answer the whole question, hit the word count, stay on topic) · CC (paragraphing, linking, logical flow) · LR (precise, varied vocabulary, no basic spelling errors) · GRA (simple and complex sentences mixed, accurate grammar)."
+   },
+   {
+    "t": "The superlative trap",
+    "d": "'The MOST important aim' is the debate. Proving that science improves life answers only half the question. Take a partial position and argue about the boundary."
+   },
+   {
+    "t": "Four things that cap your band",
+    "d": "Absolute claims (always / never / all people) · word-for-word translation from Chinese · one block of text with no paragraphs · being well under the word count."
+   },
+   {
+    "t": "Task 1 describes, never explains",
+    "d": "Report the data and compare. No opinions, no reasons for the trends, no saying which country is doing well. And an overview paragraph is compulsory."
+   },
+   {
+    "t": "Tense split in Task 1",
+    "d": "1970–2020 is data, so past tense. 2030 and 2040 are predictions, so is expected to / is projected to / is forecast to. Getting this wrong is an instant Task Achievement penalty."
+   },
+   {
+    "t": "Part 1 · the four-step answer",
+    "d": "Answer directly, give one reason, add a concrete detail, finish with how you feel. 'Yes, I like it' is a band 5 answer. Three to four sentences is enough."
+   },
+   {
+    "t": "Part 2 · use the whole minute",
+    "d": "Note four bullets: what / when-where / how / feelings. Choose something ordinary you can actually describe (tomato and egg stir-fry, not a French banquet)."
+   },
+   {
+    "t": "Part 3 · go abstract and two-sided",
+    "d": "Stop telling personal stories and move to society level. Give both sides of every question, then say which you lean towards. Never stop after yes or no."
+   }
+  ],
+  "synonyms": [
+   {
+    "q": "The most important aim of science",
+    "src": "the primary purpose of scientific research / science's most significant objective",
+    "note": "Task 2 · rewriting the title"
+   },
+   {
+    "q": "improve people's lives",
+    "src": "the betterment of human lives / raising living standards",
+    "note": "Task 2 · rewriting the title"
+   },
+   {
+    "q": "To what extent do you agree?",
+    "src": "I partly agree with this view / to some extent",
+    "note": "Task 2 · stating position"
+   },
+   {
+    "q": "the percentage of the population living in cities",
+    "src": "the urban share of the population / how urbanised a country is",
+    "note": "Task 1 · rewriting the title"
+   },
+   {
+    "q": "with predictions for 2030 and 2040",
+    "src": "is expected to / is projected to / is forecast to",
+    "note": "Task 1 · future tense"
+   },
+   {
+    "q": "increase",
+    "src": "rise / climb / grow / go up",
+    "note": "Task 1 · vary the verb"
+   },
+   {
+    "q": "decrease",
+    "src": "fall / drop / decline / dip",
+    "note": "Task 1 · vary the verb"
+   },
+   {
+    "q": "stay the same",
+    "src": "remain stable / level off / plateau / keep unchanged",
+    "note": "Task 1 · vary the verb"
+   },
+   {
+    "q": "A became bigger than B",
+    "src": "A overtook B / drew level with B and then moved ahead",
+    "note": "Task 1 · crossover points"
+   },
+   {
+    "q": "Yes, I like it.",
+    "src": "Yes, I really enjoy it — it's probably my main way of switching off.",
+    "note": "Part 1 · low band vs high band"
+   }
+  ],
+  "homework": [
+   "Task 2: write the science essay in 40 minutes, 260–290 words, four paragraphs. Then tap Grade with Gemini AI.",
+   "Task 2: before you write, rewrite the question title in two different ways without looking at the notes.",
+   "Task 1: write the urbanisation report in 20 minutes, at least 150 words, with a separate overview paragraph.",
+   "Task 1: check your own script for the two traps — future tense after 2020, and the dip in the Philippines line.",
+   "Part 2: record the food cue card. One minute of notes, two minutes of speaking, using what / when-where / how / feelings.",
+   "Part 3: answer all six discussion questions out loud, two sides each, at least three sentences per answer.",
+   "Study the 17 words from this class in the flashcards.",
+   "Reading follow-up: finish Cambridge 18 Test 1 Passages 2 and 3, 20 minutes each, then check FALSE versus NOT GIVEN."
+  ]
+ },
+ {
+  "packVersion": 1,
   "rev": 2,
   "id": "lesson-20260912",
   "date": "2026-09-12",

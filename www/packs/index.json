@@ -1,7 +1,20 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-12",
+  "updatedAt": "2026-09-22",
   "packs": [
+    {
+      "id": "lesson-20260919",
+      "date": "2026-09-19",
+      "title": "Class 2 · Writing + Speaking",
+      "rev": 1,
+      "source": "Class material · Lesson 2 (Writing + Speaking)",
+      "counts": {
+        "writing": 2,
+        "speaking": 2,
+        "vocab": 17
+      },
+      "bytes": 855921
+    },
     {
       "id": "lesson-20260912",
       "date": "2026-09-12",
