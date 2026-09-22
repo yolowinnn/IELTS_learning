@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/gemini",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/gemini.js:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/gemini",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/gemini.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/packs/:path*",
+      "mountPath": "/packs",
+      "method": "GET",
+      "module": [
+        "packs/[[path]].js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/packs/:path*",
+      "mountPath": "/packs",
+      "method": "HEAD",
+      "module": [
+        "packs/[[path]].js:onRequestHead"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}

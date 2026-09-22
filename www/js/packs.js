@@ -17,10 +17,18 @@
   function cache() { return Store.get(STORE_KEY, {}); }
   function saveCache(v) { return Store.set(STORE_KEY, v); }
 
-  // 站内运行时用同源(免 CORS);APK/file:// 用远程站点
+  // 站内运行时用同源(免 CORS);APK 用远程站点。
+  // ⚠️ 不能只看 location.protocol:Capacitor 的 WebView 是 https://localhost,协议也是 https,
+  // 会被当成"站内"→ 去 https://localhost/packs/index.json 取,必然失败,新课永远拉不到。
+  // 和 speaking.js 的 apiBase() 一样,先问 Capacitor 是不是原生环境。
+  function isNative() {
+    try { return !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); }
+    catch (e) { return false; }
+  }
   function remoteBase() {
     const override = Store.get(BASE_KEY, '');
     if (override) return override.replace(/\/+$/, '');
+    if (isNative()) return DEFAULT_REMOTE;
     if (/^https?:$/.test(location.protocol)) return location.origin;
     return DEFAULT_REMOTE;
   }
