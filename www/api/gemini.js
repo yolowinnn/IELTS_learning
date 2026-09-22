@@ -77,7 +77,9 @@ module.exports = async (req, res) => {
         let ra = 20; try { const d = (out.j.error && out.j.error.details) || []; const ri = d.find(x => String(x['@type'] || '').includes('RetryInfo')); if (ri && ri.retryDelay) { const s = parseFloat(ri.retryDelay); if (!isNaN(s)) ra = Math.ceil(s); } } catch (e) {}
         return res.status(429).json({ error: 'rate_limited', rate: true, retryAfter: ra, detail: '免费额度限速(约 20 次/分),请稍等 ' + ra + ' 秒再试' });
       }
-      return errResp(out);
+      // 非 429 的上游错误:回一个前端能显示的 detail(原来这里递归调用自己 → 栈溢出)
+      const detail = (out.j && out.j.error && out.j.error.message) || ('Gemini API ' + out.status);
+      return res.status(502).json({ error: 'gemini_failed', status: out.status, detail });
     };
 
     if (mode === 'tts') {
