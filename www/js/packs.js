@@ -58,6 +58,7 @@
     if (!o.source && pack.source) o.source = pack.source;
     if (o.audio) o.audio = absolute(ab, o.audio);
     if (o.audioEx) o.audioEx = absolute(ab, o.audioEx);
+    if (o.model_audio) o.model_audio = absolute(ab, o.model_audio);   // 写作范文朗读
     ['sheets', 'questionSheets', 'transcriptSheets'].forEach(k => {
       if (Array.isArray(o[k])) o[k] = o[k].map(s => (typeof s === 'string'
         ? { src: absolute(ab, s) }

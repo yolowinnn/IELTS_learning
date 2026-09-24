@@ -1,0 +1,13 @@
+# Cloudflare Pages 的响应头规则(Vercel 忽略这个文件,网页版同源本来就不需要)。
+#
+# 为什么需要:装好的 APK 里页面跑在 https://localhost,音频却在 ielts75.pages.dev。
+# 播放器为了"整段下完再播"是用 fetch 取的,fetch 受同源策略管,没有这个头就会被挡住,
+# 只能退回边下边播 —— 正是网络慢时会卡到一半的那种。加上之后原生 App 也能先下完再播。
+
+/packs/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=604800
+
+/audio/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=604800

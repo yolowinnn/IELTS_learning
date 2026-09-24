@@ -62,6 +62,14 @@
 
     // 范文(隐藏)
     const modelCard = el(`<div class="card hidden" id="modelCard"><div class="card-title mb8">📕 Model answer (Band 8+)</div><div class="passage">${w.model_answer ? w.model_answer.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join('') : '<p class="faint">No model answer for this exam-bank question — write your essay above and tap 🤖 Grade with Gemini AI for personalised band feedback.</p>'}</div>${w.band_tips ? `<div class="explain mt8"><b>How to score higher</b><br>${esc(w.band_tips)}</div>` : ''}</div>`);
+    // 范文朗读:跟读比默读有用得多。音频离线内置,点开范文时才出现,放在正文上方。
+    if (w.model_audio && window.Player) {
+      const body = modelCard.querySelector('.passage');
+      const pl = Player.file({ src: w.model_audio, tag: '🔊 read aloud' });
+      pl.classList.remove('card');               // 嵌在范文卡片里,不要再套一层边框
+      modelCard.insertBefore(el('<div class="card-title mb8">🔊 Listen &amp; shadow the model</div>'), body);
+      modelCard.insertBefore(pl, body);
+    }
     wrap.appendChild(modelCard);
 
     // 自查清单

@@ -3,6 +3,13 @@
   const DEFAULT_SRC = 'IELTS Academic Reading · Cambridge 20 (2025) standard · original practice';
   function find(id) { return (window.IELTS_DATA.reading || []).find(r => r.id === id) || (window.IELTS_DATA.reading || [])[0]; }
 
+  // 整篇朗读:课程包条目自带 audio;内置文章看 audio_index 里的 reading 表(离线内置的 MP3)。
+  function audioSrc(r) {
+    if (r.audio) return r.audio;
+    const idx = ((window.IELTS_DATA.audioIndex || {}).reading) || {};
+    return idx[r.id] ? 'audio/reading/' + r.id + '.mp3' : '';
+  }
+
   function render(view, id) {
     const r = find(id);
     if (!r) return empty(view, 'No reading content yet');
@@ -18,6 +25,8 @@
     const split = el('<div class="split-layout"></div>');
     const left = el('<div class="col-left"></div>');
     left.appendChild(el('<div class="col-head">📖 Passage</div>'));
+    const aSrc = audioSrc(r);
+    if (aSrc && window.Player) left.appendChild(Player.file({ src: aSrc, tag: '🔊 read aloud' }));
     if (r.sheets && r.sheets.length) {
       const box = el('<div class="card"></div>');
       box.appendChild(Sheets.render(r.sheets));

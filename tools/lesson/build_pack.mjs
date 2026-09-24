@@ -92,7 +92,7 @@ function validate(pack, packDir, known) {
       // 资源文件必须真的存在(托管到对象存储后本地没有 → 降级为提醒)
       const remote = assetsAreRemote(pack);
       const missing = (f) => !/^https?:/.test(f) && !fs.existsSync(path.join(packDir, f));
-      for (const f of [item.audio].filter(Boolean)) {
+      for (const f of [item.audio, item.model_audio].filter(Boolean)) {
         if (missing(f)) (remote ? W : E)(`${where}: audio not in the repo → ${f}${remote ? ' (assetBase 指向远端,请确认已上传)' : ''}`);
       }
       for (const key of ['sheets', 'questionSheets', 'transcriptSheets']) {

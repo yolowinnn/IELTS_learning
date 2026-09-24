@@ -7,12 +7,6 @@
   const DEFAULT_SRC = 'IELTS Academic Listening · Cambridge 20 (2025) standard · original practice';
   let playing = false;
 
-  function fmt(s) {
-    if (!isFinite(s)) return '0:00';
-    const m = Math.floor(s / 60), r = Math.floor(s % 60);
-    return m + ':' + String(r).padStart(2, '0');
-  }
-
   function render(view, id) {
     const l = find(id);
     if (!l) return empty(view);
@@ -29,7 +23,9 @@
     const split = el('<div class="split-layout"></div>');
     const left = el('<div class="col-left"></div>');
     left.appendChild(el('<div class="col-head">🎧 Listening</div>'));
-    left.appendChild(l.audio ? filePlayer(l) : ttsPlayer(l, wrap));
+    left.appendChild(l.audio
+      ? Player.file({ src: l.audio, markers: l.markers, tag: 'real exam audio' })
+      : ttsPlayer(l, wrap));
 
     // 原文:课程包给页图,原创内容给文字
     const hasScript = (l.transcriptSheets && l.transcriptSheets.length) || (l.lines && l.lines.length);
@@ -79,105 +75,8 @@
     });
   }
 
-  // ---- 真题录音播放器(单文件,可拖动进度、±10s、变速) ----
-  function filePlayer(l) {
-    const card = el(`
-      <div class="card player">
-        <audio preload="metadata" src="${esc(l.audio)}"></audio>
-        <div class="row" style="gap:12px;align-items:center">
-          <button class="btn play-fab" id="play">▶</button>
-          <div style="flex:1;min-width:0">
-            <input type="range" id="seek" class="seek" min="0" max="1000" value="0" />
-            <div class="spread faint" style="font-size:12px"><span id="cur">0:00</span><span id="dur">--:--</span></div>
-          </div>
-        </div>
-        <div class="row mt8" style="gap:8px;flex-wrap:wrap;align-items:center">
-          <button class="btn ghost sm" id="b10">↺ 10s</button>
-          <button class="btn ghost sm" id="f10">10s ↻</button>
-          <label class="faint">Speed
-            <select id="rate"><option value="0.75">0.75×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.25">1.25×</option></select>
-          </label>
-          <label class="faint">Repeat
-            <select id="loop"><option value="1">×1</option><option value="3">×3</option><option value="5">×5</option><option value="10">×10</option><option value="0">∞</option></select>
-          </label>
-          <span class="pill" id="loopN" style="display:none"></span>
-          <span class="pill accent">real exam audio</span>
-        </div>
-        <div id="markers" class="row mt8" style="gap:6px;flex-wrap:wrap"></div>
-      </div>`);
-    const a = card.querySelector('audio');
-    const playBtn = card.querySelector('#play');
-    const seek = card.querySelector('#seek');
-    const cur = card.querySelector('#cur'), dur = card.querySelector('#dur');
-    let dragging = false;
-
-    App.onLeave(() => { try { a.pause(); } catch (e) {} });
-    a.onloadedmetadata = () => { dur.textContent = fmt(a.duration); };
-    a.ontimeupdate = () => {
-      if (dragging || !a.duration) return;
-      seek.value = Math.round(a.currentTime / a.duration * 1000);
-      cur.textContent = fmt(a.currentTime);
-    };
-    // 循环播放:精听三遍法用得上(盲听 → 对脚本 → 跟读)。每遍之间留一小段间隔。
-    const loopSel = card.querySelector('#loop');
-    const loopBadge = card.querySelector('#loopN');
-    const GAP_MS = 1200;
-    let done = 0, gapTimer = null;
-    loopSel.value = String(Store.get('loopTimes', 1));
-    function target() { return parseInt(loopSel.value, 10); }
-    function paintLoop() {
-      const t = target();
-      if (t === 1) { loopBadge.style.display = 'none'; return; }
-      loopBadge.style.display = '';
-      loopBadge.textContent = t === 0 ? `loop ${done + 1} / ∞` : `loop ${Math.min(done + 1, t)} / ${t}`;
-    }
-    function clearGap() { if (gapTimer) { clearTimeout(gapTimer); gapTimer = null; } }
-    loopSel.onchange = () => { Store.set('loopTimes', target()); done = 0; clearGap(); paintLoop(); };
-    paintLoop();
-    App.onLeave(clearGap);
-
-    a.onended = () => {
-      done++;
-      const t = target();
-      if (t === 0 || done < t) {        // 还要再放一遍
-        paintLoop();
-        playBtn.textContent = '⏸';
-        clearGap();
-        gapTimer = setTimeout(() => {
-          gapTimer = null;
-          a.currentTime = 0;
-          a.play().catch(() => { playBtn.textContent = '▶'; });
-        }, GAP_MS);
-        return;
-      }
-      playBtn.textContent = '▶';        // 遍数跑满,回到起点等下一轮
-      done = 0;
-      paintLoop();
-    };
-    a.onerror = () => { card.appendChild(el('<div class="explain">⚠️ Audio not available offline yet — connect once to download it.</div>')); };
-    playBtn.onclick = () => {
-      if (gapTimer) { clearGap(); playBtn.textContent = '▶'; return; }   // 间隔期再点 = 停止循环
-      if (a.paused) {
-        AudioFX.stop();
-        if (a.ended || a.currentTime === 0) { done = 0; paintLoop(); }
-        a.play().then(() => playBtn.textContent = '⏸').catch(() => Toast('Tap again to start audio'));
-      } else { a.pause(); playBtn.textContent = '▶'; }
-    };
-    seek.oninput = () => { dragging = true; if (a.duration) cur.textContent = fmt(seek.value / 1000 * a.duration); };
-    seek.onchange = () => { if (a.duration) a.currentTime = seek.value / 1000 * a.duration; dragging = false; };
-    card.querySelector('#b10').onclick = () => { a.currentTime = Math.max(0, a.currentTime - 10); };
-    card.querySelector('#f10').onclick = () => { a.currentTime = Math.min(a.duration || 0, a.currentTime + 10); };
-    card.querySelector('#rate').onchange = (e) => { a.playbackRate = parseFloat(e.target.value); };
-
-    // 章节跳转(数据里给了 markers 就显示)
-    const mk = card.querySelector('#markers');
-    (l.markers || []).forEach(m => {
-      const b = el(`<button class="btn ghost sm">${esc(m.label)}</button>`);
-      b.onclick = () => { a.currentTime = m.t; if (a.paused) playBtn.click(); };
-      mk.appendChild(b);
-    });
-    return card;
-  }
+  // 真题录音播放器已抽到 js/player.js(Player.file),阅读朗读 / 写作范文共用同一个:
+  // 整段下完才播,网速慢也不会播到一半断掉。
 
   // ---- 原创内容:TTS 逐句朗读 ----
   function ttsPlayer(l, wrap) {

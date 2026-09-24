@@ -563,3 +563,8 @@ body.cover-mode #view { padding: 0; max-width: none; }
 select.match-sel { width: 100%; font-size: 15px; padding: 12px 14px; background: #fff; }
 select.match-sel.correct { border-color: var(--good); background: #ecfdf5; }
 select.match-sel.wrong { border-color: var(--bad); background: #fff1f2; }
+
+/* 播放器的缓冲进度条:细一条灰色,和上面的播放进度(品牌色)区分开。
+   网络慢时用户能看见"下到哪了",不至于以为卡死。 */
+.player .bar[data-p="bufbar"] { background: var(--surface-3); }
+.player .bar[data-p="bufbar"] > i { background: var(--tx-faint); opacity: .5; transition: width .25s linear; }

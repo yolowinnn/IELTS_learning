@@ -3,7 +3,7 @@
 window.IELTS_PACKS = [
  {
   "packVersion": 1,
-  "rev": 1,
+  "rev": 2,
   "id": "lesson-20260919",
   "date": "2026-09-19",
   "title": "Class 2 · Writing + Speaking",
@@ -74,7 +74,8 @@ window.IELTS_PACKS = [
      "CC · Does every body paragraph open with a topic sentence, then explanation, then example?",
      "LR · Did I avoid always / never / all people and avoid repeating 'science' in every sentence?",
      "GRA · Did I mix simple and complex sentences, and check every verb tense and article?"
-    ]
+    ],
+    "model_audio": "assets/writing-w-l2-t2-science-model.mp3"
    },
    {
     "id": "w-l2-t1-urbanisation",
@@ -147,7 +148,8 @@ window.IELTS_PACKS = [
      "CC · Did I group the countries rather than listing them one by one?",
      "LR · Did I vary the verbs (rise / climb / grow / level off) instead of repeating 'increase'?"
     ],
-    "chart_data": "Line graph. Y axis = percentage of total population living in cities (0-90%). X axis = 1970, 1980, 1990, 2000, 2010, 2020 (actual data), then 2030 and 2040 (predictions).\nApproximate values by year (1970 / 1980 / 1990 / 2000 / 2010 / 2020 / 2030 / 2040):\nPhilippines: 32 / 34 / 48.5 / 45.5 / 42.5 / 45.5 / 50.5 / 56\nMalaysia:    30 / 40.5 / 45.5 / 60.5 / 71 / 76 / 81 / 83\nThailand:    18.5 / 23 / 30 / 30.5 / 32.5 / 33.5 / 40.5 / 50\nIndonesia:   14 / 17 / 25 / 30.5 / 42.5 / 52.5 / 61 / 63.5\nMain features: Malaysia is the highest and steepest throughout and levels off after 2020; Thailand is the least urbanised and barely moves between 1990 and 2020; the Philippines is the only line that falls (a dip from about 48.5% in 1990 to 42.5% in 2010); Indonesia starts lowest, rises steadily and draws level with the Philippines around 2010 before moving well ahead."
+    "chart_data": "Line graph. Y axis = percentage of total population living in cities (0-90%). X axis = 1970, 1980, 1990, 2000, 2010, 2020 (actual data), then 2030 and 2040 (predictions).\nApproximate values by year (1970 / 1980 / 1990 / 2000 / 2010 / 2020 / 2030 / 2040):\nPhilippines: 32 / 34 / 48.5 / 45.5 / 42.5 / 45.5 / 50.5 / 56\nMalaysia:    30 / 40.5 / 45.5 / 60.5 / 71 / 76 / 81 / 83\nThailand:    18.5 / 23 / 30 / 30.5 / 32.5 / 33.5 / 40.5 / 50\nIndonesia:   14 / 17 / 25 / 30.5 / 42.5 / 52.5 / 61 / 63.5\nMain features: Malaysia is the highest and steepest throughout and levels off after 2020; Thailand is the least urbanised and barely moves between 1990 and 2020; the Philippines is the only line that falls (a dip from about 48.5% in 1990 to 42.5% in 2010); Indonesia starts lowest, rises steadily and draws level with the Philippines around 2010 before moving well ahead.",
+    "model_audio": "assets/writing-w-l2-t1-urbanisation-model.mp3"
    }
   ],
   "speaking": [
